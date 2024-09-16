@@ -1,0 +1,14 @@
+.dropdown-label{
+    font-size: 20px;
+    font-weight: 400;
+    margin: 4px;
+}
+.dropdown{
+    height: 5vh;
+    width: 15vw;
+    border-style: none;
+    border: 2px solid #9c9c9c;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    font-size: 20px;
+}
