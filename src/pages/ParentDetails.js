@@ -12,29 +12,29 @@ function ParentDetails() {
     const applicationNo = useSelector((state) => state.applicationNo.value)
 
     const formData = {
-        Father_Name: '',
-        Mother_Name: '',
-        Gaurdian_Name: '',
-        Father_Occupation: '',
-        Father_Income: '',
-        Father_Organisaion_Company: '',
-        Father_Designation: '',
-        Mother_Occupation: '',
-        Mother_Income: '',
-        Mother_Organisaion_Company: '',
-        Mother_Designation: '',
+        father_name: '',
+        mother_name: '',
+        guardian_name: '',
+        occupation: '',
+        parent_income: '',
+        work_area: '',
+        designation: '',
+        occupation_mother: '',
+        parent_income_mother: '',
+        work_area_mother: '',
+        designation_mother: '',
     }
     const options = {
-        'Father_Occupation': {},
-        'Father_Designation': {},
-        'Mother_Occupation': {},
-        'Mother_Designation': {},
+        'occupation': {},
+        'designation': {},
+        'occupation_mother': {},
+        'designation_mother': {},
     }
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/personal_details/${applicationNo}`)
+                const response = await axios.get(`http://localhost:8000/parent_details/${applicationNo}`)
                 formData = response.body[0]
             } catch (error) {
                 console.log("Error fetching details from stundent_register table")
@@ -61,7 +61,7 @@ function ParentDetails() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.put(`http://localhost:8000/personal_details/${applicationNo}`, data)
+            const response = await axios.put(`http://localhost:8000/parent_details/${applicationNo}`, data)
             console.log(response)
         } catch (error) {
             console.log("Failed to update fields in table");
@@ -74,68 +74,68 @@ function ParentDetails() {
             <Form handleNext={handleSubmit(onSubmit)} heading="Parent Details" >
                 <InputField
                     label="Father Name"
-                    registerProps={register("Father_Name")}
+                    registerProps={register("father_name")}
                     type="text"
                 />
                 
                 <InputField
                     label="Mother Name"
-                    registerProps={register("Mother_Name")}
+                    registerProps={register("mother_name")}
                     type="text"
                 />
                 
                 <InputField
                     label="Gaurdian Name"
-                    registerProps={register("Gaurdian_Name")}
+                    registerProps={register("gaurdian_name")}
                     type="text"
                 />
                 
                 <DropDown
                     label="Father Occupation"
-                    options={options['Father_Occupation']}
-                    registerProps={register("Father_Occupation")}
+                    options={options['occupation']}
+                    registerProps={register("occupation")}
                 />
 
                 <InputField
                     label="Father Income"
-                    registerProps={register("Father_Income")}
-                    type="text"
+                    registerProps={register("parent_income")}
+                    type="number"
                 />
 
                 <InputField
                     label="Organisation/Company"
-                    registerProps={register("Father_Organisaion_Company")}
+                    registerProps={register("work_area")}
                     type="text"
                 />
 
                 <DropDown
                     label="Designation"
-                    options={options['Father_Designation']}
-                    registerProps={register("Father_Designation")}
+                    options={options['designation']}
+                    registerProps={register("designation")}
                 />
                 
                 <DropDown
                     label="Mother Occupation"
-                    options={options['Mother_Occupation']}
-                    registerProps={register("Mother_Occupation")}
+                    options={options['occupation_mother']}
+                    registerProps={register("occupation_mother")}
                 />
 
                 <InputField
                     label="Mother's Income"
-                    registerProps={register("Mother_Income")}
-                    type="text"
+                    registerProps={register("parent_income_mother")}
+                    type="number"
                 />
                 
                 <InputField
                     label="Organisation/Company"
-                    registerProps={register("Mother_Organisaion_Company")}
+                    registerProps={register("work_area_mother")}
                     type="text"
                 />
                 
                 <DropDown
                     label="Designation"
-                    options={options['Mother_Designation']}
-                    registerProps={register("Mother_Designation")}
+                    options={options['designation_mother']}
+                    registerProps={register("designation_mother")}
                 />
 
             </Form>
