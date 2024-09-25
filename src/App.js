@@ -14,7 +14,7 @@ function App() {
 				<div className='pagination'>
 					<NavLink to='/personal_details'><div>1</div></NavLink>
 					<NavLink to='/parent_details'><div>2</div></NavLink>
-					<NavLink to='/form'><div>3</div></NavLink>
+					<NavLink to='/address_details'><div>3</div></NavLink>
 				</div>
 			</div>
 		</div>
