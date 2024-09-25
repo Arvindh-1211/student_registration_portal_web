@@ -9,9 +9,7 @@ function InputField(props) {
                     className='inputfield'
                     type={props.type}
                     {...props.registerProps}
-                    // onChange={props.onChange}
-                    // value={props.value}
-                    disabled={props.disabled}
+                    readOnly={props.readOnly}
                 />
             </div>
             <div className='inputfield-error'>{props.error}</div>

@@ -6,7 +6,9 @@ function DropDown(props) {
             <div className='dropdown-label'>{props.label}</div>
             <select className='dropdown' {...props.registerProps}>
                 {Object.keys(props.options).map((key) => (
-                    <option key={key} value={key}>{props.options[key]}</option>
+                    <option key={key} value={key} selected={props.value === key}>
+                        {props.options[key]}
+                    </option>
                 ))}
             </select>
         </div>

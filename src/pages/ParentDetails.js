@@ -70,7 +70,6 @@ function ParentDetails() {
 
     return (
         <div>
-            <Header />
             <Form handleNext={handleSubmit(onSubmit)} heading="Parent Details" >
                 <InputField
                     label="Father Name"

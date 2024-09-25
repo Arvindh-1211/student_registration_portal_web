@@ -9,8 +9,6 @@ function Form({ children, handleNext, handleBack, heading }) {
                     {children}
                 </div>
                 <div className='button-container'>
-                    {/* <Button value="Back" onClick={handleBack} />
-                    <Button value="Next" onSubmit={handleSubmit} /> */}
                     <div>
                         {handleBack &&
                             <input className='button' type='button' value="Previous" onClick={handleBack} />
