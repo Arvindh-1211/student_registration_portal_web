@@ -1,6 +1,8 @@
 import apiInstance from "./apiService";
+import { useSelector } from 'react-redux'
 
-const fetchData = async (applicationNo, queryParams) => {
+const applicationNo = useSelector((state) => state.applicationNo.value)
+const fetchData = async (queryParams) => {
     try {
         const response = await apiInstance.get(`/student_reg/${applicationNo}?`, {
             params: {
@@ -13,8 +15,8 @@ const fetchData = async (applicationNo, queryParams) => {
     }
 }
 
-const updateData = (applicationNo, data) => {
-    try{
+const updateData = (data) => {
+    try {
         apiInstance.put(`student_reg/${applicationNo}`, data)
     } catch (error) {
         console.log("Cannot update details in student_register table")

@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
 
 import services from "../services/services";
 
@@ -14,7 +13,6 @@ import Row from "../Components/Row";
 
 function AddressDetails() {
     const navigate = useNavigate();
-    const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isAddressSame, setIsAddressSame] = useState(false)
 
     let formData = {
@@ -44,7 +42,7 @@ function AddressDetails() {
 
     useEffect(() => {
         const queryParams = Object.keys(formData).join(',')
-        formData = services.fetchData(applicationNo, queryParams)
+        formData = services.fetchData(queryParams)
 
         const optionsArray = Object.keys(options)
         optionsArray.forEach(async (option) => {
@@ -57,19 +55,19 @@ function AddressDetails() {
 
     useEffect(() => {
         if (isAddressSame) {
-          setValue('perm_add_street', getValues('comm_add_street'));
-          setValue('perm_add_town', getValues('comm_add_town'));
-          setValue('perm_add_city', getValues('comm_add_city'));
-          setValue('perm_add_district', getValues('comm_add_district'));
-          setValue('perm_add_state', getValues('comm_add_state'));
-          setValue('perm_add_country', getValues('comm_add_country'));
-          setValue('perm_add_pincode', getValues('comm_add_pincode'));
+            setValue('perm_add_street', getValues('comm_add_street'));
+            setValue('perm_add_town', getValues('comm_add_town'));
+            setValue('perm_add_city', getValues('comm_add_city'));
+            setValue('perm_add_district', getValues('comm_add_district'));
+            setValue('perm_add_state', getValues('comm_add_state'));
+            setValue('perm_add_country', getValues('comm_add_country'));
+            setValue('perm_add_pincode', getValues('comm_add_pincode'));
         }
-      }, [isAddressSame, getValues, setValue]);
+    }, [isAddressSame, getValues, setValue]);
 
 
     const onSubmit = async (data) => {
-        services.updateData(applicationNo, data)
+        services.updateData(data)
         navigate('/contact_details')
     }
 
@@ -147,7 +145,7 @@ function AddressDetails() {
                         label="City"
                         options={options['city']}
                         registerProps={register("perm_add_city")}
-                        // value={permAddress.city}
+                    // value={permAddress.city}
                     />
                 </Row>
 
@@ -156,19 +154,19 @@ function AddressDetails() {
                         label="District"
                         options={options['district']}
                         registerProps={register("perm_add_district")}
-                        // value={permAddress.district}
+                    // value={permAddress.district}
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("perm_add_state")}
-                        // value={permAddress.state}
+                    // value={permAddress.state}
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("perm_add_country")}
-                        // value={permAddress.country}
+                    // value={permAddress.country}
                     />
                 </Row>
 

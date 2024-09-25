@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
 
 import services from "../services/services";
 
@@ -13,7 +12,6 @@ import Row from "../Components/Row";
 
 function PersonalDetails() {
     const navigate = useNavigate();
-    const applicationNo = useSelector((state) => state.applicationNo.value)
 
     let formData = {
         title: '',
@@ -40,7 +38,7 @@ function PersonalDetails() {
 
     useEffect(() => {
         const queryParams = Object.keys(formData).join(',')
-        formData = services.fetchData(applicationNo, queryParams)
+        formData = services.fetchData(queryParams)
 
         const optionsArray = Object.keys(options)
         optionsArray.forEach(async (option) => {
@@ -53,7 +51,7 @@ function PersonalDetails() {
 
 
     const onSubmit = async (data) => {
-        services.updateData(applicationNo, data)
+        services.updateData(data)
         navigate('/parent_details')
     }
 
