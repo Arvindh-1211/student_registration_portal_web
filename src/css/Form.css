@@ -1,6 +1,11 @@
+.form-container{
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
 .form{
     color: #48246e;
-    margin: 5vh 15vw;
+    width: 70vw;
     padding: 7px;
     background-color: #fff;
     border-radius: 14px;
@@ -24,7 +29,7 @@
     justify-content: space-evenly;
 }
 .form-fields > * {
-    margin: 5px 10px 15px 10px;
+    margin: 5px 0 15px 0;
 }
 
 .button-container{

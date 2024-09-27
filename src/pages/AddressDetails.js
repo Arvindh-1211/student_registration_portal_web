@@ -75,7 +75,7 @@ function AddressDetails() {
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Address Details" >
+            <Form handleNext={handleSubmit(onSubmit)} heading="Address Details" handleBack={() => {navigate('/parent_details')}} >
                 <div className="form-sub-header">Communication Address</div>
                 <Row>
                     <InputField

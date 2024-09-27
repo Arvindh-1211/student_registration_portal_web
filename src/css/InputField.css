@@ -4,8 +4,8 @@
     margin: 4px;
 }
 .inputfield{
-    height: 5vh;
-    width: 15vw;
+    height: 36px;
+    min-width: 15vw;
     border-style: none;
     border: 2px solid #9c9c9c;
     border-radius: 5px;
