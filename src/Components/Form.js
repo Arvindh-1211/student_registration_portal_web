@@ -15,7 +15,7 @@ function Form({ children, handleNext, handleBack, heading }) {
                         }
                     </div>
                     <div>
-                        <input className='button' type='submit' value="Next" onSubmit={handleNext} />
+                        <input className='button' type='submit' value="Save & Next" onSubmit={handleNext} />
                     </div>
                 </div>
             </form>

@@ -6,6 +6,7 @@
 .inputfield{
     height: 36px;
     min-width: 15vw;
+    max-width: 15vw;
     border-style: none;
     border: 2px solid #9c9c9c;
     border-radius: 5px;

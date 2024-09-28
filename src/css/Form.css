@@ -6,7 +6,7 @@
 .form{
     color: #48246e;
     width: 70vw;
-    padding: 7px;
+    padding: 10px;
     background-color: #fff;
     border-radius: 14px;
 }
@@ -24,14 +24,20 @@
     font-size: 24px;
 }
 .form-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    grid-gap: 30px;
+    padding-left: 80px;
 }
 .form-fields > * {
     margin: 5px 0 15px 0;
 }
-
+.form-adjust1{
+    margin-left: 145px;
+}
+.form-adjust2{
+    margin-top: 20px;
+}
 .button-container{
     display: flex;
     justify-content: space-between;
@@ -39,9 +45,9 @@
 }
 .button{
     height: 5vh;
-    width: 7vw;
+    width: 8vw;
     background-color: #48246e;
-    color: #d3cbdc;
+    color: #ffffff;
     text-align: center;
     font-size: 18px;
     border-style: none;

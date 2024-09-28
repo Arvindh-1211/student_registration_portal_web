@@ -1,3 +1,4 @@
+// Form-4
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -119,6 +120,11 @@ function AddressDetails() {
                         registerProps={register("comm_add_pincode")}
                         type='number'
                     />
+                    {/* <DropDown
+                        label="Area Location"
+                        options={{ "Rural": "Rural", "Urban": "Urban" }}
+                        registerProps={register("area_location")}
+                    /> */}
                 </Row>
 
                 <CheckBox
@@ -180,8 +186,6 @@ function AddressDetails() {
                         // value={permAddress.pincode}
                         readOnly={isAddressSame}
                     />
-                </Row>
-                <Row>
                     <DropDown
                         label="Area Location"
                         options={{ "Rural": "Rural", "Urban": "Urban" }}

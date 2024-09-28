@@ -1,3 +1,4 @@
+// Form-1
 import { useForm } from "react-hook-form";
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +10,7 @@ import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
 import Row from "../Components/Row";
+
 
 function PersonalDetails() {
     const navigate = useNavigate();
@@ -47,7 +49,6 @@ function PersonalDetails() {
         })
     }, [])
 
-
     const { register, handleSubmit } = useForm({ defaultValues: formData });
 
 
@@ -78,6 +79,11 @@ function PersonalDetails() {
                 </Row>
 
                 <Row>
+                    <DropDown
+                        label="Gender"
+                        options={{ "Male": "Male", "Female": "Female" }}
+                        registerProps={register("gender")}
+                    />
                     <InputField
                         label="Date of Birth"
                         registerProps={register("dob")}
@@ -88,23 +94,18 @@ function PersonalDetails() {
                         registerProps={register("age")}
                         type="number"
                     />
-                    <DropDown
-                        label="Gender"
-                        options={{ "Male": "Male", "Female": "Female" }}
-                        registerProps={register("gender")}
-                    />
                 </Row>
 
                 <Row>
-                    <InputField
-                        label="Mother Tongue"
-                        registerProps={register("mother_tongue")}
-                        type="text"
-                    />
                     <DropDown
                         label="Blood Group"
                         options={options['blood_group']}
                         registerProps={register("blood_group")}
+                    />
+                    <InputField
+                        label="Mother Tongue"
+                        registerProps={register("mother_tongue")}
+                        type="text"
                     />
                     <InputField
                         label="Aadhar Number"
@@ -118,22 +119,24 @@ function PersonalDetails() {
                         label="Community"
                         options={options['community']}
                         registerProps={register("community")}
-                    />
+                        />
                     <DropDown
                         label="Caste"
                         options={options['caste']}
                         registerProps={register("caste")}
-                    />
+                        />
                     <DropDown
                         label="Religion"
                         options={options['religion']}
                         registerProps={register("religion")}
-                    />
+                        />
+                </Row>
+                <Row>
                     <DropDown
                         label="Nationality"
                         options={options['nationality']}
                         registerProps={register("nationality")}
-                    />
+                        />
                 </Row>
             </Form>
         </div>
