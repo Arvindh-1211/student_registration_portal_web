@@ -58,15 +58,15 @@ function AddressDetails() {
 
     useEffect(() => {
         if (isAddressSame) {
-          setValue('perm_add_street', getValues('comm_add_street'));
-          setValue('perm_add_town', getValues('comm_add_town'));
-          setValue('perm_add_city', getValues('comm_add_city'));
-          setValue('perm_add_district', getValues('comm_add_district'));
-          setValue('perm_add_state', getValues('comm_add_state'));
-          setValue('perm_add_country', getValues('comm_add_country'));
-          setValue('perm_add_pincode', getValues('comm_add_pincode'));
+            setValue('perm_add_street', getValues('comm_add_street'));
+            setValue('perm_add_town', getValues('comm_add_town'));
+            setValue('perm_add_city', getValues('comm_add_city'));
+            setValue('perm_add_district', getValues('comm_add_district'));
+            setValue('perm_add_state', getValues('comm_add_state'));
+            setValue('perm_add_country', getValues('comm_add_country'));
+            setValue('perm_add_pincode', getValues('comm_add_pincode'));
         }
-      }, [isAddressSame, getValues, setValue]);
+    }, [isAddressSame, getValues, setValue]);
 
 
     const onSubmit = async (data) => {
@@ -76,7 +76,7 @@ function AddressDetails() {
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Address Details" handleBack={() => {navigate('/parent_details')}} >
+            <Form handleNext={handleSubmit(onSubmit)} heading="Address Details" handleBack={() => { navigate('/parent_details') }} >
                 <div className="form-sub-header">Communication Address</div>
                 <Row>
                     <InputField
@@ -127,13 +127,15 @@ function AddressDetails() {
                     /> */}
                 </Row>
 
-                <CheckBox
-                    label='Same as Communication Address'
-                    onClick={() => {
-                        setIsAddressSame(!isAddressSame)
-                    }} />
-
                 <div className="form-sub-header">Permanent Address</div>
+                <Row>
+                    <CheckBox
+                        label='Same as Communication Address'
+                        onClick={() => {
+                            setIsAddressSame(!isAddressSame)
+                        }} />
+                </Row>
+
                 <Row>
                     <InputField
                         label='Street'
@@ -153,7 +155,7 @@ function AddressDetails() {
                         label="City"
                         options={options['city']}
                         registerProps={register("perm_add_city")}
-                        // value={permAddress.city}
+                    // value={permAddress.city}
                     />
                 </Row>
 
@@ -162,19 +164,19 @@ function AddressDetails() {
                         label="District"
                         options={options['district']}
                         registerProps={register("perm_add_district")}
-                        // value={permAddress.district}
+                    // value={permAddress.district}
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("perm_add_state")}
-                        // value={permAddress.state}
+                    // value={permAddress.state}
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("perm_add_country")}
-                        // value={permAddress.country}
+                    // value={permAddress.country}
                     />
                 </Row>
 

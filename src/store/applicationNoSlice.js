@@ -1,12 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-    value: 1,
-}
-
 const applicationNoSlice = createSlice({
     name: 'applicationNo',
-    initialState,
+    initialState: {
+        value: 1040
+    },
     reducers: {
         setApplicationNo : (state, action) => {
             state.value = action.payload

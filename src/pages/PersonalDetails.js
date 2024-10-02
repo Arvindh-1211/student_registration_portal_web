@@ -1,6 +1,6 @@
 // Form-1
 import { useForm } from "react-hook-form";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 
@@ -16,8 +16,8 @@ function PersonalDetails() {
     const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
 
-    let formData = {
-        title: '',
+    const [formData, setFormData] = useState({
+        legend: '',
         student_name: '',
         initial: '',
         dob: '',
@@ -26,35 +26,56 @@ function PersonalDetails() {
         mother_tongue: '',
         blood_group: '',
         aadhar_no: '',
-        community: '',
-        caste: '',
-        religion: '',
-        nationality: ''
-    }
-    const options = {
-        'blood_group': {},
-        'community': {},
-        'caste': {},
-        'religion': {},
-        'nationality': {},
-    }
+        community_id: '',
+        caste_id: '',
+        religion_id: '',
+        nationality_id: ''
+    })
+    const [options, setOptions] = useState({
+        blood_group: {},
+        community: {},
+        caste: {},
+        religion: {},
+        nationality: {}
+    });
+
+    const { register, getValues, setValue, handleSubmit, reset } = useForm({ defaultValues: formData });
 
     useEffect(() => {
-        const queryParams = Object.keys(formData).join(',')
-        formData = services.fetchData(applicationNo, queryParams)
+        const getDefaultValues = async () => {
+            const queryParams = Object.keys(formData).join(',')
+            const fetchedData = await services.fetchData(applicationNo, queryParams)
+            console.log(fetchedData)
+            setFormData(fetchedData)
+            reset(fetchedData)
+            if (getValues('dob')) {
+                let dob = new Date(getValues('dob')).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
+                setValue('dob', dob)
+            }
+        }
 
-        const optionsArray = Object.keys(options)
-        optionsArray.forEach(async (option) => {
-            options[option] = services.fetchOption(option)
-        })
+        const getOptions = async () => {
+            const optionsArray = Object.keys(options);
+            const fetchedOptions = await Promise.all(
+                optionsArray.map((option) => services.fetchOption(option))
+            );
+
+            const newOptions = {};
+            optionsArray.forEach((option, index) => {
+                newOptions[option] = fetchedOptions[index];
+            });
+
+            setOptions(newOptions);
+        };
+        getOptions()
+        getDefaultValues()
     }, [])
-
-    const { register, handleSubmit } = useForm({ defaultValues: formData });
 
 
     const onSubmit = async (data) => {
         services.updateData(applicationNo, data)
         navigate('/parent_details')
+        console.log(data)
     }
 
     return (
@@ -64,7 +85,7 @@ function PersonalDetails() {
                     <DropDown
                         label="Title"
                         options={{ "Mr.": "Mr", "Mrs.": "Mrs" }}
-                        registerProps={register("title")}
+                        registerProps={register("legend")}
                     />
                     <InputField
                         label="Student Name"
@@ -118,25 +139,25 @@ function PersonalDetails() {
                     <DropDown
                         label="Community"
                         options={options['community']}
-                        registerProps={register("community")}
-                        />
+                        registerProps={register("community_id")}
+                    />
                     <DropDown
                         label="Caste"
                         options={options['caste']}
-                        registerProps={register("caste")}
-                        />
+                        registerProps={register("caste_id")}
+                    />
                     <DropDown
                         label="Religion"
                         options={options['religion']}
-                        registerProps={register("religion")}
-                        />
+                        registerProps={register("religion_id")}
+                    />
                 </Row>
                 <Row>
                     <DropDown
                         label="Nationality"
                         options={options['nationality']}
-                        registerProps={register("nationality")}
-                        />
+                        registerProps={register("nationality_id")}
+                    />
                 </Row>
             </Form>
         </div>

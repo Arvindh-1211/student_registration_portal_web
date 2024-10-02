@@ -2,12 +2,12 @@ import apiInstance from "./apiService";
 
 const fetchData = async (applicationNo, queryParams) => {
     try {
-        const response = await apiInstance.get(`/student_reg/${applicationNo}?`, {
+        const response = await apiInstance.get(`/student_reg/${applicationNo}`, {
             params: {
                 fields: queryParams
             }
         })
-        return response.data[0]
+        return response.data
     } catch (error) {
         console.log("Error fetching details from stundent_register table")
     }
@@ -24,7 +24,7 @@ const updateData = (applicationNo, data) => {
 const fetchOption = async (option) => {
     try {
         const response = await apiInstance.get(`/master/${option}`)
-        return response.data[0]
+        return response.data
     } catch (error) {
         console.log(`Cannont fetch options for ${option} from master table`)
     }

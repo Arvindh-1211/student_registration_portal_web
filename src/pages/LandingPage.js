@@ -1,8 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
-import Button from '../Components/Button'
-
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setApplicationNo } from '../store/applicationNoSlice';
@@ -23,7 +21,7 @@ function LandingPage() {
 
 	return (
 		<div>
-			<Button value="New" onSubmit={handleNew} />
+			<input className='button' type='submit' value="New" onSubmit={handleNew} />
 		</div>
 	)
 }

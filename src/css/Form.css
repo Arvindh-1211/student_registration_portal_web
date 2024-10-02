@@ -1,16 +1,19 @@
-.form-container{
+.form-container {
     flex-grow: 1;
     display: flex;
     justify-content: center;
 }
-.form{
+
+.form {
     color: #48246e;
+    min-width: 740px;
     width: 70vw;
-    padding: 10px;
+    padding: 30px;
     background-color: #fff;
     border-radius: 14px;
 }
-.form-header{
+
+.form-header {
     display: flex;
     justify-content: center;
     font-size: 30px;
@@ -18,42 +21,44 @@
     color: #fff;
     margin: 10px 20px;
 }
-.form-sub-header{
+
+.form-sub-header {
     display: flex;
     justify-content: center;
     font-size: 24px;
 }
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .form-row {
     display: grid;
-    grid-template-columns: 2fr 2fr 2fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 30px;
-    padding-left: 80px;
-}
-.form-fields > * {
+    text-align: center;
     margin: 5px 0 15px 0;
 }
-.form-adjust1{
-    margin-left: 145px;
-}
-.form-adjust2{
-    margin-top: 20px;
-}
-.button-container{
+
+.button-container {
     display: flex;
     justify-content: space-between;
-    margin: 10px;
 }
-.button{
-    height: 5vh;
-    width: 8vw;
-    background-color: #48246e;
+
+.button {
+    height: 40px;
+    width: 100px;
     color: #ffffff;
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
+    background-color: #48246e;
     border-style: none;
     border-radius: 10px;
     padding: 4px;
 }
-.button:hover{
+
+.button:hover {
     cursor: pointer;
 }

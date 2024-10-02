@@ -1,5 +1,3 @@
-import '../css/CheckBox.css'
-
 function CheckBox(props) {
     return (
         <div>
