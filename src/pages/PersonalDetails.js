@@ -45,7 +45,6 @@ function PersonalDetails() {
         const getDefaultValues = async () => {
             const queryParams = Object.keys(formData).join(',')
             const fetchedData = await services.fetchData(applicationNo, queryParams)
-            console.log(fetchedData)
             setFormData(fetchedData)
             reset(fetchedData)
             if (getValues('dob')) {
@@ -67,15 +66,19 @@ function PersonalDetails() {
 
             setOptions(newOptions);
         };
-        getOptions()
-        getDefaultValues()
+
+        const init = async () => {
+            await getOptions();
+            await getDefaultValues();
+        };
+
+        init();
     }, [])
 
 
     const onSubmit = async (data) => {
         services.updateData(applicationNo, data)
         navigate('/parent_details')
-        console.log(data)
     }
 
     return (
