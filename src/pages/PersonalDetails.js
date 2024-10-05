@@ -31,6 +31,7 @@ function PersonalDetails() {
         religion_id: '',
         nationality_id: ''
     })
+
     const [options, setOptions] = useState({
         blood_group: {},
         community: {},
@@ -73,7 +74,6 @@ function PersonalDetails() {
         };
 
         init();
-        console.log(applicationNo)
     }, [])
 
 

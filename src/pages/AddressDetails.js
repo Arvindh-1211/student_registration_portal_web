@@ -18,7 +18,7 @@ function AddressDetails() {
     const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isAddressSame, setIsAddressSame] = useState(false)
 
-    let formData = {
+    const [formData, setFormData] = useState({
         comm_add_street: '',
         comm_add_town: '',
         comm_add_city: '',
@@ -34,27 +34,48 @@ function AddressDetails() {
         perm_add_country: '',
         perm_add_pincode: '',
         area_location: '',
-    }
+    })
 
-    const options = {
+    const [options, setOptions] = useState({
         'city': {},
         'district': {},
         'state': {},
         'country': {},
-    }
+    })
+
+    const { register, getValues, setValue, handleSubmit, reset } = useForm({ defaultValues: formData });
 
     useEffect(() => {
-        const queryParams = Object.keys(formData).join(',')
-        formData = services.fetchData(applicationNo, queryParams)
+        const getDefaultValues = async () => {
+            const queryParams = Object.keys(formData).join(',')
+            const fetchedData = await services.fetchData(applicationNo, queryParams)
+            setFormData(fetchedData)
+            reset(fetchedData)
+        }
 
-        const optionsArray = Object.keys(options)
-        optionsArray.forEach(async (option) => {
-            options[option] = services.fetchFromMaster(option)
-        })
+        const getOptions = async () => {
+            const optionsArray = Object.keys(options);
+            const fetchedOptions = await Promise.all(
+                optionsArray.map((option) => services.fetchFromMaster(option))
+            );
+
+            const newOptions = {};
+            optionsArray.forEach((option, index) => {
+                newOptions[option] = fetchedOptions[index];
+            });
+
+            setOptions(newOptions);
+        };
+
+        const init = async () => {
+            await getOptions();
+            await getDefaultValues();
+        };
+
+        init();
     }, [])
 
 
-    const { register, getValues, setValue, handleSubmit } = useForm({ defaultValues: formData });
 
     useEffect(() => {
         if (isAddressSame) {
@@ -141,21 +162,18 @@ function AddressDetails() {
                         label='Street'
                         registerProps={register("perm_add_street")}
                         type='text'
-                        // value={permAddress.street}
                         readOnly={isAddressSame}
                     />
                     <InputField
                         label='Town'
                         registerProps={register("perm_add_town")}
                         type='text'
-                        // value={permAddress.town}
                         readOnly={isAddressSame}
                     />
                     <DropDown
                         label="City"
                         options={options['city']}
                         registerProps={register("perm_add_city")}
-                    // value={permAddress.city}
                     />
                 </Row>
 
@@ -164,19 +182,16 @@ function AddressDetails() {
                         label="District"
                         options={options['district']}
                         registerProps={register("perm_add_district")}
-                    // value={permAddress.district}
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("perm_add_state")}
-                    // value={permAddress.state}
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("perm_add_country")}
-                    // value={permAddress.country}
                     />
                 </Row>
 
@@ -185,7 +200,6 @@ function AddressDetails() {
                         label='Pincode'
                         registerProps={register("perm_add_pincode")}
                         type='number'
-                        // value={permAddress.pincode}
                         readOnly={isAddressSame}
                     />
                     <DropDown
