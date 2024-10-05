@@ -1,4 +1,4 @@
-import LandingPage from "../pages/LandingPage";
+import BranchDetails from "../pages/BranchDetails";
 import PersonalDetails from "../pages/PersonalDetails";
 import ParentDetails from "../pages/ParentDetails";
 import AddressDetails from "../pages/AddressDetails";
@@ -6,8 +6,8 @@ import ContactDetails from "../pages/ContactDetails";
 
 const routes = [
     {
-        path: '/new',
-        element: <LandingPage />
+        path: '/',
+        element: <BranchDetails />
     },
     {
         path: '/personal_details',

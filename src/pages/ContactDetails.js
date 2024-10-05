@@ -36,7 +36,7 @@ function ContactDetails() {
 
         const optionsArray = Object.keys(options)
         optionsArray.forEach(async (option) => {
-            options[option] = services.fetchOption(option)
+            options[option] = services.fetchFromMaster(option)
         })
     }, [])
 

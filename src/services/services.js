@@ -1,5 +1,14 @@
 import apiInstance from "./apiService";
 
+const createNewApplication = async (data) => {
+    try{
+        const response = await apiInstance.post(`student_reg/new`, data)
+        return response.data
+    } catch (error) {
+        console.log("Cannot create a new application in student_register table")
+    }
+}
+
 const fetchData = async (applicationNo, queryParams) => {
     try {
         const response = await apiInstance.get(`/student_reg/${applicationNo}`, {
@@ -21,19 +30,20 @@ const updateData = (applicationNo, data) => {
     }
 }
 
-const fetchOption = async (option) => {
+const fetchFromMaster = async (option) => {
     try {
         const response = await apiInstance.get(`/master/${option}`)
         return response.data
     } catch (error) {
-        console.log(`Cannont fetch options for ${option} from master table`)
+        console.log(`Cannont fetch ${option} from master table`)
     }
 }
 
 const services = {
+    createNewApplication,
     fetchData,
     updateData,
-    fetchOption,
+    fetchFromMaster,
 };
 
 export default services;

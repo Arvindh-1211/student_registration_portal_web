@@ -56,7 +56,7 @@ function PersonalDetails() {
         const getOptions = async () => {
             const optionsArray = Object.keys(options);
             const fetchedOptions = await Promise.all(
-                optionsArray.map((option) => services.fetchOption(option))
+                optionsArray.map((option) => services.fetchFromMaster(option))
             );
 
             const newOptions = {};
