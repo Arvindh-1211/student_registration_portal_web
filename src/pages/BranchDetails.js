@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux';
 
 import services from '../services/services'
 import { setApplicationNo } from '../store/applicationNoSlice'
@@ -26,6 +27,7 @@ function BranchCard(props) {
 
 function BranchDetails() {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const [courses, setCourses] = useState()
     const [branchDet, setBranchDet] = useState()
     const application_no = useSelector((state) => state.applicationNo.value)
@@ -58,7 +60,7 @@ function BranchDetails() {
 
     const handleSubmit = async () => {
         const response = await services.createNewApplication(branchDet)
-        setApplicationNo(response.application_no)
+        dispatch(setApplicationNo(response.application_no))
         navigate('/personal_details')
     }
 

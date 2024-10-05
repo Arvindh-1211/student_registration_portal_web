@@ -73,6 +73,7 @@ function PersonalDetails() {
         };
 
         init();
+        console.log(applicationNo)
     }, [])
 
 
