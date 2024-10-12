@@ -3,6 +3,7 @@ import PersonalDetails from "../pages/PersonalDetails";
 import ParentDetails from "../pages/ParentDetails";
 import AddressDetails from "../pages/AddressDetails";
 import ContactDetails from "../pages/ContactDetails";
+import MarkDetails from "../pages/MarkDetails";
 
 const routes = [
     {
@@ -24,6 +25,10 @@ const routes = [
     {
         path: '/contact_details',
         element: <ContactDetails />
+    },
+    {
+        path: '/mark_details',
+        element: <MarkDetails />
     },
 ]
 

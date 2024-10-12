@@ -10,6 +10,7 @@ function Pagination() {
                 <NavLink to='/parent_details'><div>2</div></NavLink>
                 <NavLink to='/address_details'><div>3</div></NavLink>
                 <NavLink to='/contact_details'><div>4</div></NavLink>
+                <NavLink to='/mark_details'><div>7</div></NavLink>
             </div>
         </div>
     )

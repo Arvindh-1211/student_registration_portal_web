@@ -8,7 +8,6 @@ import services from "../services/services";
 
 import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
-import CheckBox from '../Components/CheckBox'
 import Form from '../Components/Form';
 import Row from "../Components/Row";
 
@@ -17,31 +16,50 @@ function ContactDetails() {
     const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
 
-    let formData = {
+    const [formData, setFormData] = useState({
         stu_mobile_no: '',
         stu_email_id: '',
         parent_mobile_no: '',
         parent_email_id: '',
         nominee_name: '',
         nominee_age: '',
-    }
+    })
 
-    const options = {
+    const [options, setOptions] = useState({
         'nominee_relation': {},
-    }
+    })
+
+    const { register, handleSubmit, reset } = useForm({ defaultValues: formData });
 
     useEffect(() => {
-        const queryParams = Object.keys(formData).join(',')
-        formData = services.fetchData(applicationNo, queryParams)
+        const getDefaultValues = async () => {
+            const queryParams = Object.keys(formData).join(',')
+            const fetchedData = await services.fetchData(applicationNo, queryParams)
+            setFormData(fetchedData)
+            reset(fetchedData)
+        }
 
-        const optionsArray = Object.keys(options)
-        optionsArray.forEach(async (option) => {
-            options[option] = services.fetchFromMaster(option)
-        })
+        const getOptions = async () => {
+            const optionsArray = Object.keys(options);
+            const fetchedOptions = await Promise.all(
+                optionsArray.map((option) => services.fetchFromMaster(option))
+            );
+
+            const newOptions = {};
+            optionsArray.forEach((option, index) => {
+                newOptions[option] = fetchedOptions[index];
+            });
+
+            setOptions(newOptions);
+        };
+
+        const init = async () => {
+            await getOptions();
+            await getDefaultValues();
+        };
+
+        init();
     }, [])
-
-
-    const { register, handleSubmit } = useForm({ defaultValues: formData });
 
     const onSubmit = async (data) => {
         services.updateData(applicationNo, data)

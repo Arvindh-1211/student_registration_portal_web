@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import services from "../services/services";
 
 import { useForm } from "react-hook-form";
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Row from "../Components/Row";
 
@@ -14,7 +14,7 @@ function ParentDetails() {
     const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
 
-    let formData = {
+    const [formData, setFormData] = useState({
         father_name: '',
         mother_name: '',
         guardian_name: '',
@@ -26,25 +26,45 @@ function ParentDetails() {
         parent_income_mother: '',
         work_area_mother: '',
         designation_mother: '',
-    }
-    const options = {
+    })
+    const [options, setOptions] = useState({
         'occupation': {},
         'designation': {},
         'occupation_mother': {},
         'designation_mother': {},
-    }
+    })
+
+    const { register, handleSubmit, reset } = useForm({ defaultValues: formData });
 
     useEffect(() => {
-        const queryParams = Object.keys(formData).join(',')
-        formData = services.fetchData(applicationNo, queryParams)
+        const getDefaultValues = async () => {
+            const queryParams = Object.keys(formData).join(',')
+            const fetchedData = await services.fetchData(applicationNo, queryParams)
+            setFormData(fetchedData)
+            reset(fetchedData)
+        }
 
-        const optionsArray = Object.keys(options)
-        optionsArray.forEach(async (option) => {
-            options[option] = services.fetchFromMaster(option)
-        })
+        const getOptions = async () => {
+            const optionsArray = Object.keys(options);
+            const fetchedOptions = await Promise.all(
+                optionsArray.map((option) => services.fetchFromMaster(option))
+            );
+
+            const newOptions = {};
+            optionsArray.forEach((option, index) => {
+                newOptions[option] = fetchedOptions[index];
+            });
+
+            setOptions(newOptions);
+        };
+
+        const init = async () => {
+            await getOptions();
+            await getDefaultValues();
+        };
+
+        init();
     }, [])
-
-    const { register, handleSubmit } = useForm({ defaultValues: formData });
 
 
     const onSubmit = async (data) => {
