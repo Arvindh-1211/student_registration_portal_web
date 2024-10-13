@@ -62,3 +62,8 @@
 .button:hover {
     cursor: pointer;
 }
+
+.form-fields>hr{
+    border: 1px solid #52464660;
+    width: 63%;
+}

@@ -6,6 +6,7 @@ import ContactDetails from "../pages/ContactDetails";
 import TNEADetails from "../pages/TNEADetails";
 import ScholarshipDetails from "../pages/ScholarshipDetails";
 import AdditionalDetails from "../pages/AdditionalDetails";
+import MarkDetails from "../pages/MarkDetails";
 
 const routes = [
     {
@@ -39,6 +40,10 @@ const routes = [
     {
         path: '/additional_details',
         element: <AdditionalDetails />
+    },
+    {
+        path: '/mark_details',
+        element: <MarkDetails />
     },
 ]
 
