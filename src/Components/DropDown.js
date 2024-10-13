@@ -7,7 +7,7 @@ function DropDown(props) {
             <select className='dropdown' {...props.registerProps}>
                 {props.options &&
                     Object.keys(props.options).map((key) => (
-                        <option key={key} value={key}>
+                        <option key={key} value={props.value === "value" ? props.options[key] : key}>
                             {props.options[key]}
                         </option>
                     ))

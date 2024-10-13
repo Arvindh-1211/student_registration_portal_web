@@ -39,11 +39,21 @@ const fetchFromMaster = async (option) => {
     }
 }
 
+const getValueFromMaster = async (option, id) => {
+    try{
+        const response = await apiInstance.get(`/master/${option}/${id}`)
+        return response.data
+    } catch (error) {
+        console.log(`Error fetching value for ${option} from master table`)
+    }
+}
+
 const services = {
     createNewApplication,
     fetchData,
     updateData,
     fetchFromMaster,
+    getValueFromMaster,
 };
 
 export default services;

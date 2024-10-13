@@ -8,6 +8,7 @@ function InputField(props) {
                 <input
                     className='inputfield'
                     type={props.type}
+                    placeholder={props.placeholder}
                     {...props.registerProps}
                     readOnly={props.readOnly}
                 />

@@ -114,6 +114,7 @@ function AddressDetails() {
                         label="City"
                         options={options['city']}
                         registerProps={register("comm_add_city")}
+                        value = "value"
                     />
                 </Row>
 
@@ -122,16 +123,19 @@ function AddressDetails() {
                         label="District"
                         options={options['district']}
                         registerProps={register("comm_add_district")}
+                        value = "value"
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("comm_add_state")}
+                        value = "value"
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("comm_add_country")}
+                        value = "value"
                     />
                 </Row>
 
@@ -141,11 +145,11 @@ function AddressDetails() {
                         registerProps={register("comm_add_pincode")}
                         type='number'
                     />
-                    {/* <DropDown
+                    <DropDown
                         label="Area Location"
                         options={{ "Rural": "Rural", "Urban": "Urban" }}
                         registerProps={register("area_location")}
-                    /> */}
+                    />
                 </Row>
 
                 <div className="form-sub-header">Permanent Address</div>
@@ -174,6 +178,7 @@ function AddressDetails() {
                         label="City"
                         options={options['city']}
                         registerProps={register("perm_add_city")}
+                        value = "value"
                     />
                 </Row>
 
@@ -182,16 +187,19 @@ function AddressDetails() {
                         label="District"
                         options={options['district']}
                         registerProps={register("perm_add_district")}
+                        value = "value"
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("perm_add_state")}
+                        value = "value"
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("perm_add_country")}
+                        value = "value"
                     />
                 </Row>
 
@@ -202,11 +210,11 @@ function AddressDetails() {
                         type='number'
                         readOnly={isAddressSame}
                     />
-                    <DropDown
+                    {/* <DropDown
                         label="Area Location"
                         options={{ "Rural": "Rural", "Urban": "Urban" }}
                         registerProps={register("area_location")}
-                    />
+                    /> */}
                 </Row>
             </Form>
         </div>

@@ -29,10 +29,11 @@ function PersonalDetails() {
         community_id: '',
         caste_id: '',
         religion_id: '',
-        nationality_id: ''
+        nationality_id: '',
     })
 
     const [options, setOptions] = useState({
+        mother_tongue: {},
         blood_group: {},
         community: {},
         caste: {},
@@ -127,10 +128,11 @@ function PersonalDetails() {
                         options={options['blood_group']}
                         registerProps={register("blood_group")}
                     />
-                    <InputField
+                    <DropDown
                         label="Mother Tongue"
+                        options={options['mother_tongue']}
                         registerProps={register("mother_tongue")}
-                        type="text"
+                        value='value'
                     />
                     <InputField
                         label="Aadhar Number"
