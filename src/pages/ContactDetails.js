@@ -23,6 +23,7 @@ function ContactDetails() {
         parent_email_id: '',
         nominee_name: '',
         nominee_age: '',
+        nominee_relation: '',
     })
 
     const [options, setOptions] = useState({

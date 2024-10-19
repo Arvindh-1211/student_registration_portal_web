@@ -30,8 +30,6 @@ function ParentDetails() {
     const [options, setOptions] = useState({
         'occupation': {},
         'designation': {},
-        'occupation_mother': {},
-        'designation_mother': {},
     })
 
     const { register, handleSubmit, reset } = useForm({ defaultValues: formData });
@@ -115,7 +113,7 @@ function ParentDetails() {
 
                     <DropDown
                         label="Mother's Occupation"
-                        options={options['occupation_mother']}
+                        options={options['occupation']}
                         registerProps={register("occupation_mother")}
                     />
 
@@ -134,7 +132,7 @@ function ParentDetails() {
                     />
                     <DropDown
                         label="Designation"
-                        options={options['designation_mother']}
+                        options={options['designation']}
                         registerProps={register("designation_mother")}
                     />
 

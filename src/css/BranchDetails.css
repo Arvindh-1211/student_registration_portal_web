@@ -1,0 +1,70 @@
+.branchCard{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 259px;
+    max-width: 18vw;
+    width: 100%;
+    min-height: 106px;
+    height: 7vw;
+    background-color: #6b626277;
+    border-radius: 14px;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    transition: transform .5s ease;
+    box-shadow: 0;
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    height: 0;
+    opacity: 0;
+    transition: height .4s ease, opacity .4s ease;
+}
+
+.button-container> input{
+    margin: 2px;
+}
+
+.branchCard:hover{
+    transition: box-shadow 1s ease;
+    box-shadow: 0px 1px 10px 0 #2626268a;
+    transition: transform .5s ease;
+    transform: scale(1.05);
+    text-align: center;
+}
+
+.branchCard:hover .button-container{
+    height: 100%;
+    opacity: 1;
+    transition: height 1s ease, opacity 1s ease;
+}
+
+.course-list{
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+}
+
+.course-card{
+    color: #48246e;
+    min-width: 1111px;
+    width: 70vw;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 14px;
+}
+
+.branch-degree{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.BranchDetails{
+    display: flex;
+    justify-content: center;
+}

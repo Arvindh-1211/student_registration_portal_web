@@ -110,6 +110,12 @@ function MarkDetails() {
         entrance_secured: '',
         entrance_max: '',
         entrance_percenteage: '',
+
+        school_board:'',
+        sch_qual_id:'',
+        sch_yr_pass:'',
+        sch_study_state:'',
+        study_medium:'',
     })
 
     const [options, setOptions] = useState({
