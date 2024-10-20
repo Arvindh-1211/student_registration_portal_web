@@ -9,7 +9,7 @@ import Form from '../Components/Form';
 import Row from "../Components/Row";
 
 function FinalReview() {
-	const applicationNo = useSelector((state) => state.applicationNo.value)
+	const [ applicationNo] = useSelector((state) => state.applicationNo.value)
 
 	const [formData, setFormData] = useState({
 		legend: '',

@@ -8,16 +8,17 @@
     width: 100%;
     min-height: 106px;
     height: 7vw;
-    background-color: #6b626277;
+    background-color: #f0f1f3;
     border-radius: 14px;
     margin: 20px;
     padding: 20px;
     text-align: center;
     transition: transform .5s ease;
     box-shadow: 0;
+    overflow: hidden;
 }
 
-.button-container{
+.branchCard > .button-container{
     display: flex;
     justify-content: space-between;
     height: 0;
@@ -26,7 +27,9 @@
 }
 
 .button-container> input{
-    margin: 2px;
+    margin: 25px 10px 0 10px;
+    height: 35px;
+    font-size: 16px;
 }
 
 .branchCard:hover{
@@ -51,7 +54,7 @@
 }
 
 .course-card{
-    color: #48246e;
+    color: #67379b;
     min-width: 1111px;
     width: 70vw;
     padding: 30px;

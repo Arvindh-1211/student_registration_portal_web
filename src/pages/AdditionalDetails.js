@@ -50,8 +50,8 @@ function AdditionalDetails() {
     }, [])
 
     const onSubmit = async (data) => {
-        // services.updateData(applicationNo, data)
-        // navigate('/final_review')
+        services.updateData(applicationNo, data)
+        navigate('/final_review')
         console.log(data)
     }
 

@@ -129,7 +129,7 @@ function BranchDetails() {
     return (
         <div className='BranchDetails'>
             <div className='course-card'>
-                <div className="form-header">Departments</div>
+                <div className="form-header">DEPARTMENTS</div>
                 <div className='course-list'>
                     {courses &&
                         Object.keys(courses).map((key) => {

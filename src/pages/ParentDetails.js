@@ -141,7 +141,7 @@ function ParentDetails() {
                 <Row>
                     <InputField
                         label="Guardian Name"
-                        registerProps={register("gaurdian_name")}
+                        registerProps={register("guardian_name")}
                         type="text"
                     />
                 </Row>

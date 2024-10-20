@@ -7,6 +7,7 @@ import TNEADetails from "../pages/TNEADetails";
 import ScholarshipDetails from "../pages/ScholarshipDetails";
 import AdditionalDetails from "../pages/AdditionalDetails";
 import MarkDetails from "../pages/MarkDetails";
+import FinalReview from "../pages/FinalReview";
 
 const routes = [
     {
@@ -44,6 +45,10 @@ const routes = [
     {
         path: '/mark_details',
         element: <MarkDetails />
+    },
+    {
+        path: '/final_review',
+        element: <FinalReview />
     },
 ]
 
