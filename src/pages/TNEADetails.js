@@ -2,9 +2,11 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import services from "../services/services";
+import schema from "../utils/validation";
 
 import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
@@ -32,7 +34,7 @@ function TNEADetails() {
         quota: {}
     });
 
-    const { register, getValues, setValue, handleSubmit, reset } = useForm({ defaultValues: formData });
+    const { register, getValues, setValue, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.TNEADetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -91,6 +93,7 @@ function TNEADetails() {
                         label="TNEA Application No."
                         registerProps={register("tnea_app_no")}
                         type="number"
+                        error={errors.tnea_app_no && errors.tnea_app_no.message}
                     />
                 </Row>
                 <Row>
@@ -98,16 +101,19 @@ function TNEADetails() {
                         label="TNEA Admission No."
                         registerProps={register("tnea_adm_no")}
                         type="number"
+                        error={errors.tnea_adm_no && errors.tnea_adm_no.message}
                     />
                     <InputField
                         label="General Rank"
                         registerProps={register("general_rank")}
                         type="number"
+                        error={errors.general_rank && errors.general_rank.message}
                     />
                     <InputField
                         label="Community Rank"
                         registerProps={register("comm_rank")}
                         type="number"
+                        error={errors.comm_rank && errors.comm_rank.message}
                     />
                 </Row>
                 <div className="form-sub-header">TNEA Payment Details</div>
@@ -115,17 +121,20 @@ function TNEADetails() {
                     <InputField
                         label="Receipt No."
                         registerProps={register("tnea_pay_rec_no")}
-                        type="number"
+                        type="text"
+                        error={errors.tnea_pay_rec_no && errors.tnea_pay_rec_no.message}
                     />
                     <InputField
                         label="Receipt Date"
                         registerProps={register("tnea_pay_rec_date")}
                         type="date"
+                        error={errors.tnea_pay_rec_date && errors.tnea_pay_rec_date.message}
                     />
                     <InputField
                         label="Receipt Amount"
                         registerProps={register("tnea_pay_rec_amt")}
                         type="number"
+                        error={errors.tnea_pay_rec_amt && errors.tnea_pay_rec_amt.message}
                     />
                 </Row>
                 <Row>
@@ -134,6 +143,7 @@ function TNEADetails() {
                         placeholder="Bank Name, Place"
                         registerProps={register("tnea_pay_bank")}
                         type="text"
+                        error={errors.tnea_pay_bank && errors.tnea_pay_bank.message}
                     />
                 </Row>
             </Form>

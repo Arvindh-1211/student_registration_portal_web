@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import services from "../services/services";
+import schema from "../utils/validation";
 
 import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
@@ -43,7 +45,7 @@ function AddressDetails() {
         'country': {},
     })
 
-    const { register, getValues, setValue, handleSubmit, reset } = useForm({ defaultValues: formData });
+    const { register, getValues, setValue, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.AddressDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -104,11 +106,14 @@ function AddressDetails() {
                         label='Street'
                         registerProps={register("comm_add_street")}
                         type='text'
+                        error={errors.comm_add_street && errors.comm_add_street.message}
+
                     />
                     <InputField
                         label='Town'
                         registerProps={register("comm_add_town")}
                         type='text'
+                        error={errors.comm_add_town && errors.comm_add_town.message}
                     />
                     <DropDown
                         label="City"
@@ -144,6 +149,7 @@ function AddressDetails() {
                         label='Pincode'
                         registerProps={register("comm_add_pincode")}
                         type='number'
+                        error={errors.comm_add_pincode && errors.comm_add_pincode.message}
                     />
                     <DropDown
                         label="Area Location"
@@ -167,12 +173,15 @@ function AddressDetails() {
                         registerProps={register("perm_add_street")}
                         type='text'
                         readOnly={isAddressSame}
+                        error={errors.perm_add_street && errors.perm_add_street.message}
+
                     />
                     <InputField
                         label='Town'
                         registerProps={register("perm_add_town")}
                         type='text'
                         readOnly={isAddressSame}
+                        error={errors.perm_add_town && errors.perm_add_town.message}
                     />
                     <DropDown
                         label="City"
@@ -209,6 +218,7 @@ function AddressDetails() {
                         registerProps={register("perm_add_pincode")}
                         type='number'
                         readOnly={isAddressSame}
+                        error={errors.perm_add_pincode && errors.perm_add_pincode.message}
                     />
                     {/* <DropDown
                         label="Area Location"

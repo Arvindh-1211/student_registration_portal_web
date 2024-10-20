@@ -1,7 +1,7 @@
 import apiInstance from "./apiService";
 
 const createNewApplication = async (data) => {
-    try{
+    try {
         const response = await apiInstance.post(`student_reg/new`, data)
         return response.data
     } catch (error) {
@@ -23,7 +23,8 @@ const fetchData = async (applicationNo, queryParams) => {
 }
 
 const updateData = (applicationNo, data) => {
-    try{
+    try {
+        // console.log(data)
         apiInstance.put(`student_reg/${applicationNo}`, data)
     } catch (error) {
         console.log("Cannot update details in student_register table")
@@ -40,9 +41,9 @@ const fetchFromMaster = async (option) => {
 }
 
 const getValueFromMaster = async (option, id) => {
-    try{
+    try {
         const response = await apiInstance.get(`/master/${option}/${id}`)
-        return response.data
+        return response.data.value
     } catch (error) {
         console.log(`Error fetching value for ${option} from master table`)
     }

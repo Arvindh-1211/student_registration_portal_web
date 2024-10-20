@@ -30,12 +30,13 @@ function BranchDetails() {
     const dispatch = useDispatch()
     const [courses, setCourses] = useState()
     const [branchDet, setBranchDet] = useState()
-    const application_no = useSelector((state) => state.applicationNo.value)
+    // const application_no = useSelector((state) => state.applicationNo.value)
 
     useEffect(() => {
         const fetchCourses = async () => {
             const result = await services.fetchFromMaster('branch')
             setCourses(result)
+            // console.log(result)
         }
         fetchCourses()
     }, [])

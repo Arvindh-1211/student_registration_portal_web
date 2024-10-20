@@ -1,10 +1,12 @@
 // Form-5
-import { set, useForm, watch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import services from "../services/services";
+import schema from "../utils/validation";
 
 import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
@@ -116,17 +118,22 @@ function MarkDetails() {
         'school_board': {},
         'sch_qual_id': {},
         'sch_yr_pass': {},
-        'sch_study_state': {},
+        'state': {},
         'study_medium': {},
     })
 
-    const { handleSubmit, reset } = useForm({ defaultValues: formData });
+    const { handleSubmit, reset, register, watch, getValues, setValue, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.MarkDetails) });
+
     useEffect(() => {
         const getDefaultValues = async () => {
             const queryParams = Object.keys(formData).join(',')
             const fetchedData = await services.fetchData(applicationNo, queryParams)
             setFormData(fetchedData)
             reset(fetchedData)
+            if (getValues('school_tc_date')) {
+                let school_tc_date = new Date(getValues('school_tc_date')).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
+                setValue('school_tc_date', school_tc_date)
+            }
         }
 
         const getOptions = async () => {
@@ -151,8 +158,6 @@ function MarkDetails() {
         init();
     }, [])
 
-
-    const { register, watch, setValue, getValues } = useForm();
 
     const calculatePercentage = (securedMarks, maxMarks, setFieldName) => {
         if (securedMarks && maxMarks) {
@@ -277,6 +282,7 @@ function MarkDetails() {
                         label='School Name'
                         registerProps={register("school_name")}
                         type='text'
+                        error={errors.school_name && errors.school_name.message}
                     />
                     <DropDown
                         label="School Board"
@@ -287,6 +293,7 @@ function MarkDetails() {
                         label='School class'
                         registerProps={register("school_class")}
                         type='text'
+                        error={errors.school_class && errors.school_class.message}
                     />
                 </Row>
                 <Row>
@@ -294,11 +301,13 @@ function MarkDetails() {
                         label='TC Number'
                         registerProps={register("school_tc_no")}
                         type='number'
+                        error={errors.school_tc_no && errors.school_tc_no.message}
                     />
                     <InputField
                         label='TC Date'
                         registerProps={register("school_tc_date")}
                         type='date'
+                        error={errors.school_tc_date && errors.school_tc_date.message}
                     />
                     <DropDown
                         label="Qualification"
@@ -314,8 +323,9 @@ function MarkDetails() {
                     />
                     <DropDown
                         label="Study state"
-                        options={options['sch_study_state']}
+                        options={options['state']}
                         registerProps={register("sch_study_state")}
+                        value="value"
                     />
                     <DropDown
                         label="Medium of Instruction"
@@ -328,6 +338,7 @@ function MarkDetails() {
                         label='Number of Attempts'
                         registerProps={register("sch_attempt")}
                         type='number'
+                        error={errors.sch_attempt && errors.sch_attempt.message}
                     />
                 </Row>
 
@@ -338,16 +349,19 @@ function MarkDetails() {
                         label='Register Number 1'
                         registerProps={register("sch_reg1")}
                         type='number'
+                        error={errors.sch_reg1 && errors.sch_reg1.message}
                     />
                     <InputField
                         label='Certificate Name'
                         registerProps={register("sch_cer1")}
                         type='text'
+                        error={errors.sch_cer1 && errors.sch_cer1.message}
                     />
                     <InputField
                         label='Total Marks'
                         registerProps={register("sch_tot_mark1")}
                         type='number'
+                        error={errors.sch_tot_mark1 && errors.sch_tot_mark1.message}
                     />
                 </Row>
                 <Row>
@@ -355,16 +369,19 @@ function MarkDetails() {
                         label='Register Number 2'
                         registerProps={register("sch_reg2")}
                         type='number'
+                        error={errors.sch_reg2 && errors.sch_reg2.message}
                     />
                     <InputField
                         label='Certificate Name'
                         registerProps={register("sch_cer2")}
                         type='text'
+                        error={errors.sch_cer2 && errors.sch_cer2.message}
                     />
                     <InputField
                         label='Total Marks'
                         registerProps={register("sch_tot_mark2")}
                         type='number'
+                        error={errors.sch_tot_mark2 && errors.sch_tot_mark2.message}
                     />
                 </Row>
 
@@ -375,17 +392,20 @@ function MarkDetails() {
                         label='Physics Marks Secured'
                         registerProps={register("physics_secured")}
                         type='number'
+                        error={errors.physics_secured && errors.physics_secured.message}
                     />
                     <InputField
                         label='Physics Maximum Marks'
                         registerProps={register("physics_max")}
                         type='number'
+                        error={errors.physics_max && errors.physics_max.message}
                     />
                     <InputField
                         label='Physics Percentage'
                         registerProps={register("physics_percentage")}
                         type='number'
                         readOnly={true}
+                        error={errors.physics_percentage && errors.physics_percentage.message}
                     />
                 </Row>
                 <Row>
@@ -393,17 +413,20 @@ function MarkDetails() {
                         label='Chemistry Marks Secured'
                         registerProps={register("chemistry_secured")}
                         type='number'
+                        error={errors.chemistry_secured && errors.chemistry_secured.message}
                     />
                     <InputField
                         label='Chemistry Maximum Marks'
                         registerProps={register("chemistry_max")}
                         type='number'
+                        error={errors.chemistry_max && errors.chemistry_max.message}
                     />
                     <InputField
                         label='Chemistry Percentage'
                         registerProps={register("chemistry_percentage")}
                         type='number'
                         readOnly={true}
+                        error={errors.chemistry_percentage && errors.chemistry_percentage.message}
                     />
                 </Row>
                 <Row>
@@ -411,17 +434,20 @@ function MarkDetails() {
                         label='Maths Marks Secured'
                         registerProps={register("maths_secured")}
                         type='number'
+                        error={errors.maths_secured && errors.maths_secured.message}
                     />
                     <InputField
                         label='Maths Maximum Marks'
                         registerProps={register("maths_max")}
                         type='number'
+                        error={errors.maths_max && errors.maths_max.message}
                     />
                     <InputField
                         label='Maths Percentage'
                         registerProps={register("maths_percentage")}
                         type='number'
                         readOnly={true}
+                        error={errors.maths_percentage && errors.maths_percentage.message}
                     />
                 </Row>
                 <Row>
@@ -429,17 +455,20 @@ function MarkDetails() {
                         label='Biology Marks Secured'
                         registerProps={register("biology_secured")}
                         type='number'
+                        error={errors.biology_secured && errors.biology_secured.message}
                     />
                     <InputField
                         label='Biology Maximum Marks'
                         registerProps={register("biology_max")}
                         type='number'
+                        error={errors.biology_max && errors.biology_max.message}
                     />
                     <InputField
                         label='Biology Percentage'
                         registerProps={register("biology_percentage")}
                         type='number'
                         readOnly={true}
+                        error={errors.biology_percentage && errors.biology_percentage.message}
                     />
                 </Row>
                 <Row>
@@ -447,17 +476,20 @@ function MarkDetails() {
                         label='CS Marks Secured'
                         registerProps={register("cs_secured")}
                         type='number'
+                        error={errors.cs_secured && errors.cs_secured.message}
                     />
                     <InputField
                         label='CS Maximum Marks'
                         registerProps={register("cs_max")}
                         type='number'
+                        error={errors.cs_max && errors.cs_max.message}
                     />
                     <InputField
                         label='CS Percentage'
                         registerProps={register("cs_percentage")}
                         type='number'
                         readOnly={true}
+                        error={errors.cs_percentage && errors.cs_percentage.message}
                     />
                 </Row>
                 <Row>
@@ -466,18 +498,21 @@ function MarkDetails() {
                         registerProps={register("pcm_sec")}
                         type='number'
                         readOnly={true}
+                        error={errors.pcm_sec && errors.pcm_sec.message}
                     />
                     <InputField
                         label='Total Maximum Marks'
                         registerProps={register("pcm_max")}
                         type='number'
                         readOnly={true}
+                        error={errors.pcm_max && errors.pcm_max.message}
                     />
                     <InputField
                         label='Total Percentage'
                         registerProps={register("pcm_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.pcm_per && errors.pcm_per.message}
                     />
                 </Row>
                 <Row>
@@ -486,18 +521,21 @@ function MarkDetails() {
                         registerProps={register("phy_che")}
                         type='number'
                         readOnly={true}
+                        error={errors.phy_che && errors.phy_che.message}
                     />
                     <InputField
                         label='Maths Percentage'
                         registerProps={register("maths")}
                         type='number'
                         readOnly={true}
+                        error={errors.maths && errors.maths.message}
                     />
                     <InputField
                         label='Cutoff'
                         registerProps={register("cut_off")}
                         type='number'
                         readOnly={true}
+                        error={errors.cut_off && errors.cut_off.message}
                     />
                 </Row>
 
@@ -508,17 +546,20 @@ function MarkDetails() {
                         label='I sem Marks Secured'
                         registerProps={register("diploma_first_sec")}
                         type='number'
+                        error={errors.diploma_first_sec && errors.diploma_first_sec.message}
                     />
                     <InputField
                         label='I sem Maximum Marks'
                         registerProps={register("diploma_first_max")}
                         type='number'
+                        error={errors.diploma_first_sec && errors.diploma_first_sec.message}
                     />
                     <InputField
                         label='I sem percentage'
                         registerProps={register("diploma_first_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_first_per && errors.diploma_first_per.message}
                     />
                 </Row>
                 <Row>
@@ -526,17 +567,20 @@ function MarkDetails() {
                         label='II sem Marks Secured'
                         registerProps={register("diploma_second_sec")}
                         type='number'
+                        error={errors.diploma_second_sec && errors.diploma_second_sec.message}
                     />
                     <InputField
                         label='II sem Maximum Marks'
                         registerProps={register("diploma_second_max")}
                         type='number'
+                        error={errors.diploma_second_max && errors.diploma_second_max.message}
                     />
                     <InputField
                         label='II sem percentage'
                         registerProps={register("diploma_second_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_second_per && errors.diploma_second_per.message}
                     />
                 </Row>
                 <Row>
@@ -544,17 +588,20 @@ function MarkDetails() {
                         label='III sem Marks Secured'
                         registerProps={register("diploma_third_sec")}
                         type='number'
+                        error={errors.diploma_third_sec && errors.diploma_third_sec.message}
                     />
                     <InputField
                         label='III sem Maximum Marks'
                         registerProps={register("diploma_third_max")}
                         type='number'
+                        error={errors.diploma_third_max && errors.diploma_third_max.message}
                     />
                     <InputField
                         label='III sem percentage'
                         registerProps={register("diploma_third_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_third_per && errors.diploma_third_per.message}
                     />
                 </Row>
                 <Row>
@@ -562,17 +609,20 @@ function MarkDetails() {
                         label='IV sem Marks Secured'
                         registerProps={register("diploma_fourth_sec")}
                         type='number'
+                        error={errors.diploma_fourth_sec && errors.diploma_fourth_sec.message}
                     />
                     <InputField
                         label='IV sem Maximum Marks'
                         registerProps={register("diploma_fourth_max")}
                         type='number'
+                        error={errors.diploma_fourth_max && errors.diploma_fourth_max.message}
                     />
                     <InputField
                         label='IV sem percentage'
                         registerProps={register("diploma_fourth_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_fourth_per && errors.diploma_fourth_per.message}
                     />
                 </Row>
                 <Row>
@@ -580,17 +630,20 @@ function MarkDetails() {
                         label='V sem Marks Secured'
                         registerProps={register("diploma_fifth_sec")}
                         type='number'
+                        error={errors.diploma_fifth_sec && errors.diploma_fifth_sec.message}
                     />
                     <InputField
                         label='V sem Maximum Marks'
                         registerProps={register("diploma_fifth_max")}
                         type='number'
+                        error={errors.diploma_fifth_max && errors.diploma_fifth_max.message}
                     />
                     <InputField
                         label='V sem percentage'
                         registerProps={register("diploma_fifth_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_fifth_per && errors.diploma_fifth_per.message}
                     />
                 </Row>
                 <Row>
@@ -598,17 +651,20 @@ function MarkDetails() {
                         label='VI sem Marks Secured'
                         registerProps={register("diploma_sixth_sec")}
                         type='number'
+                        error={errors.diploma_sixth_sec && errors.diploma_sixth_sec.message}
                     />
                     <InputField
                         label='VI sem Maximum Marks'
                         registerProps={register("diploma_sixth_max")}
                         type='number'
+                        error={errors.diploma_sixth_max && errors.diploma_sixth_max.message}
                     />
                     <InputField
                         label='VI sem percentage'
                         registerProps={register("diploma_sixth_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_sixth_per && errors.diploma_sixth_per.message}
                     />
                 </Row>
                 <Row>
@@ -616,17 +672,20 @@ function MarkDetails() {
                         label='VII sem Marks Secured'
                         registerProps={register("diploma_seventh_sec")}
                         type='number'
+                        error={errors.diploma_seventh_sec && errors.diploma_seventh_sec.message}
                     />
                     <InputField
                         label='VII sem Maximum Marks'
                         registerProps={register("diploma_seventh_max")}
                         type='number'
+                        error={errors.diploma_seventh_max && errors.diploma_seventh_max.message}
                     />
                     <InputField
                         label='VII sem percentage'
                         registerProps={register("diploma_seventh_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_seventh_per && errors.diploma_seventh_per.message}
                     />
                 </Row>
                 <Row>
@@ -634,17 +693,20 @@ function MarkDetails() {
                         label='VIII sem Marks Secured'
                         registerProps={register("diploma_eighth_sec")}
                         type='number'
+                        error={errors.diploma_eighth_sec && errors.diploma_eighth_sec.message}
                     />
                     <InputField
                         label='VIII sem Maximum Marks'
                         registerProps={register("diploma_eighth_max")}
                         type='number'
+                        error={errors.diploma_eighth_max && errors.diploma_eighth_max.message}
                     />
                     <InputField
                         label='VIII sem percentage'
                         registerProps={register("diploma_eighth_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_eighth_per && errors.diploma_eighth_per.message}
                     />
                 </Row>
                 <Row>
@@ -652,17 +714,20 @@ function MarkDetails() {
                         label='IX sem Marks Secured'
                         registerProps={register("diploma_ninenth_sec")}
                         type='number'
+                        error={errors.diploma_ninenth_sec && errors.diploma_ninenth_sec.message}
                     />
                     <InputField
                         label='IX sem Maximum Marks'
                         registerProps={register("diploma_ninenth_max")}
                         type='number'
+                        error={errors.diploma_ninenth_max && errors.diploma_ninenth_max.message}
                     />
                     <InputField
                         label='IX sem percentage'
                         registerProps={register("diploma_ninenth_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_ninenth_per && errors.diploma_ninenth_per.message}
                     />
                 </Row>
                 <Row>
@@ -670,6 +735,7 @@ function MarkDetails() {
                         label='X sem Marks Secured'
                         registerProps={register("diploma_tenth_sec")}
                         type='number'
+                        error={errors.diploma_tenth_sec && errors.diploma_tenth_sec.message}
                     />
                     <InputField
                         label='X sem Maximum Marks'
@@ -681,6 +747,7 @@ function MarkDetails() {
                         registerProps={register("diploma_tenth_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.diploma_tenth_per && errors.diploma_tenth_per.message}
                     />
                 </Row>
                 <Row>
@@ -688,17 +755,20 @@ function MarkDetails() {
                         label='UG sem Marks Secured'
                         registerProps={register("ug_mark_sec")}
                         type='number'
+                        error={errors.ug_mark_sec && errors.ug_mark_sec.message}
                     />
                     <InputField
                         label='UG sem Maximum Marks'
                         registerProps={register("ug_mark_max")}
                         type='number'
+                        error={errors.ug_mark_max && errors.ug_mark_max.message}
                     />
                     <InputField
                         label='UG sem percentage'
                         registerProps={register("ug_mark_per")}
                         type='number'
                         readOnly={true}
+                        error={errors.ug_mark_per && errors.ug_mark_per.message}
                     />
                 </Row>
                 <Row>
@@ -707,18 +777,21 @@ function MarkDetails() {
                         registerProps={register("I_II")}
                         type='number'
                         readOnly={true}
+                        error={errors.I_II && errors.I_II.message}
                     />
                     <InputField
                         label='III + IV Percentage'
                         registerProps={register("III_IV")}
                         type='number'
                         readOnly={true}
+                        error={errors.III_IV && errors.III_IV.message}
                     />
                     <InputField
                         label='V + VI Percentage'
                         registerProps={register("V_VI")}
                         type='number'
                         readOnly={true}
+                        error={errors.V_VI && errors.V_VI.message}
                     />
                 </Row>
                 <Row>
@@ -727,12 +800,14 @@ function MarkDetails() {
                         registerProps={register("VII_VIII")}
                         type='number'
                         readOnly={true}
+                        error={errors.VII_VIII && errors.VII_VIII.message}
                     />
                     <InputField
                         label='IX + X Percentage'
                         registerProps={register("IX_X")}
                         type='number'
                         readOnly={true}
+                        error={errors.IX_X && errors.IX_X.message}
                     />
                 </Row>
                 <Row>
@@ -740,17 +815,20 @@ function MarkDetails() {
                         label='Entrance Marks Secured'
                         registerProps={register("entrance_secured")}
                         type='number'
+                        error={errors.entrance_secured && errors.entrance_secured.message}
                     />
                     <InputField
                         label='Entrance Maximum Marks'
                         registerProps={register("entrance_max")}
                         type='number'
+                        error={errors.entrance_max && errors.entrance_max.message}
                     />
                     <InputField
                         label='Entrance percentage'
                         registerProps={register("entrance_percenteage")}
                         type='number'
                         readOnly={true}
+                        error={errors.entrance_percenteage && errors.entrance_percenteage.message}
                     />
                 </Row>
             </Form>

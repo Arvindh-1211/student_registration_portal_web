@@ -2,11 +2,13 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import services from "../services/services";
+import schema from "../utils/validation";
 
-import InputField from '../Components/InputField'
+import InputField from '../Components/InputField';
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
 import Row from "../Components/Row";
@@ -41,7 +43,7 @@ function PersonalDetails() {
         nationality: {}
     });
 
-    const { register, getValues, setValue, handleSubmit, reset } = useForm({ defaultValues: formData });
+    const { register, getValues, setValue, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.PersonalDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -79,8 +81,8 @@ function PersonalDetails() {
 
 
     const onSubmit = async (data) => {
-        services.updateData(applicationNo, data)
-        navigate('/parent_details')
+        await services.updateData(applicationNo, data)
+        await navigate('/parent_details')
     }
 
     return (
@@ -96,11 +98,13 @@ function PersonalDetails() {
                         label="Student Name"
                         registerProps={register("student_name")}
                         type="text"
+                        error={errors.student_name && errors.student_name.message}
                     />
                     <InputField
                         label="Initial"
                         registerProps={register("initial")}
                         type="text"
+                        error={errors.initial && errors.initial.message}
                     />
                 </Row>
 
@@ -114,11 +118,13 @@ function PersonalDetails() {
                         label="Date of Birth"
                         registerProps={register("dob")}
                         type="date"
+                        error={errors.dob && errors.dob.message}
                     />
                     <InputField
                         label="Age"
                         registerProps={register("age")}
                         type="number"
+                        error={errors.age && errors.age.message}
                     />
                 </Row>
 
@@ -138,6 +144,7 @@ function PersonalDetails() {
                         label="Aadhar Number"
                         registerProps={register("aadhar_no")}
                         type="number"
+                        error={errors.aadhar_no && errors.aadhar_no.message}
                     />
                 </Row>
 
