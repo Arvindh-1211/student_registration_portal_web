@@ -1,18 +1,29 @@
-import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 
 import services from "../services/services";
 
-import Form from '../Components/Form';
-import Row from "../Components/Row";
+import { useNavigate } from 'react-router-dom';
+import "../css/FinalReview.css"
+
+
+function Detail({ label, value }) {
+    return (
+        <div className='detail'>
+            <span className='detail-label'>
+                <div>{label}</div><div>:</div>
+            </span>
+            {value}
+        </div>
+    )
+
+}
 
 function FinalReview() {
-	const [ applicationNo] = useSelector((state) => state.applicationNo.value)
+    const applicationNo = useSelector((state) => state.applicationNo.value)
 
-	const [formData, setFormData] = useState({
-		legend: '',
+    const [formData, setFormData] = useState({
+        legend: '',
         student_name: '',
         initial: '',
         dob: '',
@@ -26,7 +37,7 @@ function FinalReview() {
         religion_id: '',
         nationality_id: '',
 
-		father_name: '',
+        father_name: '',
         mother_name: '',
         guardian_name: '',
         occupation: '',
@@ -54,7 +65,7 @@ function FinalReview() {
         sem_of_study: '',
         section: '',
 
-		comm_add_street: '',
+        comm_add_street: '',
         comm_add_town: '',
         comm_add_city: '',
         comm_add_district: '',
@@ -69,24 +80,25 @@ function FinalReview() {
         perm_add_country: '',
         perm_add_pincode: '',
         area_location: '',
-        
-		stu_mobile_no: '',
+
+        stu_mobile_no: '',
         stu_email_id: '',
         parent_mobile_no: '',
         parent_email_id: '',
         nominee_name: '',
         nominee_age: '',
-		seat_cat: '',
+        seat_cat: '',
         quota_id: '',
         tnea_app_no: '',
         tnea_adm_no: '',
         general_rank: '',
         comm_rank: '',
+
         tnea_pay_rec_no: '',
         tnea_pay_rec_date: '',
         tnea_pay_rec_amt: '',
         tnea_pay_bank: '',
-		adm_sch_name1: '',
+        adm_sch_name1: '',
         adm_sch_amt1: '',
         adm_sch_name2: '',
         adm_sch_amt2: '',
@@ -163,120 +175,125 @@ function FinalReview() {
         entrance_secured: '',
         entrance_max: '',
         entrance_percenteage: '',
-	})
+    })
 
-	useEffect(() => {
-		const getDefaultValues = async () => {
+    useEffect(() => {
+        const getDefaultValues = async () => {
             const queryParams = Object.keys(formData).join(',')
             const fetchedData = await services.fetchData(applicationNo, queryParams)
             setFormData(fetchedData)
-            reset(fetchedData)
             if (formData.dob) {
                 let dob = new Date(formData.dob).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
                 setFormData((prevFormData) => ({ ...prevFormData, dob: dob }))
             }
-			if (formData.tnea_pay_rec_date) {
-				let tnea_pay_rec_date = new Date(formData.tnea_pay_rec_date).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
-				setFormData((prevFormData) => ({ ...prevFormData, tnea_pay_rec_date: tnea_pay_rec_date }))
-			}
+            if (formData.tnea_pay_rec_date) {
+                let tnea_pay_rec_date = new Date(formData.tnea_pay_rec_date).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
+                setFormData((prevFormData) => ({ ...prevFormData, tnea_pay_rec_date: tnea_pay_rec_date }))
+            }
             if (formData.school_tc_date) {
                 let school_tc_date = new Date(formData.school_tc_date).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
                 setFormData((prevFormData) => ({ ...prevFormData, school_tc_date: school_tc_date }))
             }
         }
 
-		const getValue = async () => {
-			if(formData.blood_group){
-				const blood_group = await services.getValueFromMaster('blood_group', formData.blood_group)
-				setFormData((prevFormData) => ({ ...prevFormData, blood_group: blood_group.value }))
-			}
-			if(formData.community_id){
-				const community = await services.getValueFromMaster('community', formData.community_id)
-				setFormData((prevFormData) => ({ ...prevFormData, community_id: community.value }))
-			}
-			if(formData.caste_id){
-				const caste = await services.getValueFromMaster('caste', formData.caste_id)
-				setFormData((prevFormData) => ({ ...prevFormData, caste_id: caste.value }))
-			}
-			if(formData.religion_id){
-				const religion = await services.getValueFromMaster('religion', formData.religion_id)
-				setFormData((prevFormData) => ({ ...prevFormData, religion_id: religion.value }))
-			}
-			if(formData.nationality_id){
-				const nationality = await services.getValueFromMaster('nationality', formData.nationality_id)
-				setFormData((prevFormData) => ({ ...prevFormData, nationality_id: nationality.value }))
-			}
-			if(formData.occupation){
-				const occupation = await services.getValueFromMaster('occupation', formData.occupation)
-				setFormData((prevFormData) => ({ ...prevFormData, occupation: occupation.value }))
-			}
-			if(formData.designation){
-				const designation = await services.getValueFromMaster('designation', formData.designation)
-				setFormData((prevFormData) => ({ ...prevFormData, designation: designation.value }))
-			}
-			if(formData.occupation_mother){
-				const occupation_mother = await services.getValueFromMaster('occupation_mother', formData.occupation_mother)
-				setFormData((prevFormData) => ({ ...prevFormData, occupation_mother: occupation_mother.value }))
-			}
-			if(formData.designation_mother){
-				const designation_mother = await services.getValueFromMaster('designation_mother', formData.designation_mother)
-				setFormData((prevFormData) => ({ ...prevFormData, designation_mother: designation_mother.value }))
-			}
-			if(formData.batch_id){
-				const batch_id = await services.getValueFromMaster('batch_id', formData.batch_id)
-				setFormData((prevFormData) => ({ ...prevFormData, batch_id: batch_id.value }))
-			}
-			if(formData.acad_yr_id){
-				const acad_yr_id = await services.getValueFromMaster('acad_yr_id', formData.acad_yr_id)
-				setFormData((prevFormData) => ({ ...prevFormData, acad_yr_id: acad_yr_id.value }))
-			}
-			if(formData.branch_id){
-				const branch_id = await services.getValueFromMaster('branch_id', formData.branch_id)
-				setFormData((prevFormData) => ({ ...prevFormData, branch_id: branch_id.value }))
-			}
-			if(formData.course_id){
-				const course_id = await services.getValueFromMaster('course_id', formData.course_id)
-				setFormData((prevFormData) => ({ ...prevFormData, course_id: course_id.value }))
-			}
-			if(formData.dept_id){
-				const dept_id = await services.getValueFromMaster('dept_id', formData.dept_id)
-				setFormData((prevFormData) => ({ ...prevFormData, dept_id: dept_id.value }))
-			}
-			if(formData.regulation_id){
-				const regulation_id = await services.getValueFromMaster('regulation_id', formData.regulation_id)
-				setFormData((prevFormData) => ({ ...prevFormData, regulation_id: regulation_id.value }))
-			}
-			if(formData.university_id){
-				const university_id = await services.getValueFromMaster('university_id', formData.university_id)
-				setFormData((prevFormData) => ({ ...prevFormData, university_id: university_id.value }))
-			}
-			if(formData.student_cat_id){
-				const student_cat_id = await services.getValueFromMaster('student_cat_id', formData.student_cat_id)
-				setFormData((prevFormData) => ({ ...prevFormData, student_cat_id: student_cat_id.value }))
-			}
-			if(formData.quota_id){
-				const quota_id = await services.getValueFromMaster('quota_id', formData.quota_id)
-				setFormData((prevFormData) => ({ ...prevFormData, quota_id: quota_id.value }))
-			}
-			if(formData.sch_qual_id){
-				const sch_qual_id = await services.getValueFromMaster('sch_qual_id', formData.sch_qual_id)
-				setFormData((prevFormData) => ({ ...prevFormData, sch_qual_id: sch_qual_id.value }))
-			}
-		}
+        const getValue = async () => {
+            if (formData.blood_group) {
+                const blood_group = await services.getValueFromMaster('blood_group', formData.blood_group)
+                setFormData((prevFormData) => ({ ...prevFormData, blood_group: blood_group.value }))
+            }
+            if (formData.community_id) {
+                const community = await services.getValueFromMaster('community', formData.community_id)
+                setFormData((prevFormData) => ({ ...prevFormData, community_id: community.value }))
+            }
+            if (formData.caste_id) {
+                const caste = await services.getValueFromMaster('caste', formData.caste_id)
+                setFormData((prevFormData) => ({ ...prevFormData, caste_id: caste.value }))
+            }
+            if (formData.religion_id) {
+                const religion = await services.getValueFromMaster('religion', formData.religion_id)
+                setFormData((prevFormData) => ({ ...prevFormData, religion_id: religion.value }))
+            }
+            if (formData.nationality_id) {
+                const nationality = await services.getValueFromMaster('nationality', formData.nationality_id)
+                setFormData((prevFormData) => ({ ...prevFormData, nationality_id: nationality.value }))
+            }
+            if (formData.occupation) {
+                const occupation = await services.getValueFromMaster('occupation', formData.occupation)
+                setFormData((prevFormData) => ({ ...prevFormData, occupation: occupation.value }))
+            }
+            if (formData.designation) {
+                const designation = await services.getValueFromMaster('designation', formData.designation)
+                setFormData((prevFormData) => ({ ...prevFormData, designation: designation.value }))
+            }
+            if (formData.occupation_mother) {
+                const occupation_mother = await services.getValueFromMaster('occupation_mother', formData.occupation_mother)
+                setFormData((prevFormData) => ({ ...prevFormData, occupation_mother: occupation_mother.value }))
+            }
+            if (formData.designation_mother) {
+                const designation_mother = await services.getValueFromMaster('designation_mother', formData.designation_mother)
+                setFormData((prevFormData) => ({ ...prevFormData, designation_mother: designation_mother.value }))
+            }
+            if (formData.batch_id) {
+                const batch_id = await services.getValueFromMaster('batch_id', formData.batch_id)
+                setFormData((prevFormData) => ({ ...prevFormData, batch_id: batch_id.value }))
+            }
+            if (formData.acad_yr_id) {
+                const acad_yr_id = await services.getValueFromMaster('acad_yr_id', formData.acad_yr_id)
+                setFormData((prevFormData) => ({ ...prevFormData, acad_yr_id: acad_yr_id.value }))
+            }
+            if (formData.branch_id) {
+                const branch_id = await services.getValueFromMaster('branch_id', formData.branch_id)
+                setFormData((prevFormData) => ({ ...prevFormData, branch_id: branch_id.value }))
+            }
+            if (formData.course_id) {
+                const course_id = await services.getValueFromMaster('course_id', formData.course_id)
+                setFormData((prevFormData) => ({ ...prevFormData, course_id: course_id.value }))
+            }
+            if (formData.dept_id) {
+                const dept_id = await services.getValueFromMaster('dept_id', formData.dept_id)
+                setFormData((prevFormData) => ({ ...prevFormData, dept_id: dept_id.value }))
+            }
+            if (formData.regulation_id) {
+                const regulation_id = await services.getValueFromMaster('regulation_id', formData.regulation_id)
+                setFormData((prevFormData) => ({ ...prevFormData, regulation_id: regulation_id.value }))
+            }
+            if (formData.university_id) {
+                const university_id = await services.getValueFromMaster('university_id', formData.university_id)
+                setFormData((prevFormData) => ({ ...prevFormData, university_id: university_id.value }))
+            }
+            if (formData.student_cat_id) {
+                const student_cat_id = await services.getValueFromMaster('student_cat_id', formData.student_cat_id)
+                setFormData((prevFormData) => ({ ...prevFormData, student_cat_id: student_cat_id.value }))
+            }
+            if (formData.quota_id) {
+                const quota_id = await services.getValueFromMaster('quota_id', formData.quota_id)
+                setFormData((prevFormData) => ({ ...prevFormData, quota_id: quota_id.value }))
+            }
+            if (formData.sch_qual_id) {
+                const sch_qual_id = await services.getValueFromMaster('sch_qual_id', formData.sch_qual_id)
+                setFormData((prevFormData) => ({ ...prevFormData, sch_qual_id: sch_qual_id.value }))
+            }
+        }
 
-		const init = async () => {
+        const init = async () => {
             await getDefaultValues();
-			await getValue()
+            await getValue()
+            console.log(formData)
         };
 
         init();
-	}, [])
+    }, [])
+    console.log(formData)
 
-	return (
-		<div>
-
-		</div>
-	)
+    return (
+        <div className='form-container'>
+            <div className='form'>
+                <div className="form-sub-header">PERSONAL DETAILS:</div>
+                <Detail label="Name" value="dsdfghj" />
+                <div className="summary-sub-header">PARENT DETAILS:</div>
+            </div>
+        </div>
+    )
 }
 
 export default FinalReview

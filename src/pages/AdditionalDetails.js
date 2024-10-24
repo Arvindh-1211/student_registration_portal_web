@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import services from "../services/services";
+import schema from "../utils/validation";
 
 import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
@@ -30,7 +32,7 @@ function AdditionalDetails() {
         'boarding_point': {},
     })
 
-    const { register, handleSubmit } = useForm({ defaultValues: formData });
+    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema) });
 
     useEffect(() => {
         const getOptions = async () => {
@@ -52,7 +54,6 @@ function AdditionalDetails() {
     const onSubmit = async (data) => {
         services.updateData(applicationNo, data)
         navigate('/final_review')
-        console.log(data)
     }
 
     return (
@@ -64,11 +65,13 @@ function AdditionalDetails() {
                         label="Father Qualification"
                         registerProps={register("father_qual")}
                         type="text"
+                        error={errors.father_qual && errors.father_qual.message}
                     />
                     <InputField
                         label="Mother Qualification"
                         registerProps={register("mother_qual")}
                         type="text"
+                        error={errors.mother_qual && errors.mother_qual.message}
                     />
                     <DropDown
                         label="School Type"
@@ -92,6 +95,7 @@ function AdditionalDetails() {
                         label="Sports Interested"
                         registerProps={register("sports_int")}
                         type="text"
+                        error={errors.sports_int && errors.sports_int.message}
                     />
                 </Row>
                 <Row>
@@ -99,6 +103,7 @@ function AdditionalDetails() {
                         label="First Graduate Application No."
                         registerProps={register("first_gr_appno")}
                         type="text"
+                        error={errors.first_gr_appno && errors.first_gr_appno.message}
                     />
                     <DropDown
                         label="How did you choose this college?"

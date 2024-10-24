@@ -1,13 +1,16 @@
 // Form-2
+import { useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import services from "../services/services";
+import schema from "../utils/validation";
+
 import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
-import { useNavigate } from 'react-router-dom';
-import services from "../services/services";
-
-import { useForm } from "react-hook-form";
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import Row from "../Components/Row";
 
 function ParentDetails() {
@@ -32,7 +35,7 @@ function ParentDetails() {
         'designation': {},
     })
 
-    const { register, handleSubmit, reset } = useForm({ defaultValues: formData });
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ParentDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -78,6 +81,8 @@ function ParentDetails() {
                         label="Father's Name"
                         registerProps={register("father_name")}
                         type="text"
+                        error={errors.father_name && errors.father_name.message}
+
                     />
                     <DropDown
                         label="Father's Occupation"
@@ -88,6 +93,7 @@ function ParentDetails() {
                         label="Father's Income"
                         registerProps={register("parent_income")}
                         type="number"
+                        error={errors.parent_income && errors.parent_income.message}
                     />
                 </Row>
 
@@ -96,6 +102,7 @@ function ParentDetails() {
                         label="Organisation/Company"
                         registerProps={register("work_area")}
                         type="text"
+                        error={errors.work_area && errors.work_area.message}
                     />
                     <DropDown
                         label="Designation"
@@ -109,6 +116,7 @@ function ParentDetails() {
                         label="Mother's Name"
                         registerProps={register("mother_name")}
                         type="text"
+                        error={errors.mother_name && errors.mother_name.message}
                     />
 
                     <DropDown
@@ -121,6 +129,7 @@ function ParentDetails() {
                         label="Mother's Income"
                         registerProps={register("parent_income_mother")}
                         type="number"
+                        error={errors.parent_income_mother && errors.parent_income_mother.message}
                     />
                 </Row>
 

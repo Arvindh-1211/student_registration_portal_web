@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import services from "../services/services";
+import schema from "../utils/validation";
 
 import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
@@ -22,7 +24,7 @@ function ScholarshipDetails() {
         adm_sch_amt2: '',
     })
 
-    const { register, getValues, setValue, handleSubmit, reset } = useForm({ defaultValues: formData });
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ScholarshipDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -53,6 +55,7 @@ function ScholarshipDetails() {
                         label="Amount-1"
                         registerProps={register("adm_sch_amt1")}
                         type="number"
+                        error={errors.adm_sch_amt1 && errors.adm_sch_amt1.message}
                     />
                 </Row>
                 <Row>
@@ -65,6 +68,7 @@ function ScholarshipDetails() {
                         label="Amount-2"
                         registerProps={register("adm_sch_amt2")}
                         type="number"
+                        error={errors.adm_sch_amt2 && errors.adm_sch_amt2.message}
                     />
                 </Row>
             </Form>

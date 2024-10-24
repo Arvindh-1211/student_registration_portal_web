@@ -1,19 +1,22 @@
 import '../css/DropDown.css'
 
-function DropDown(props) {
+function DropDown({label, options, registerProps, value, error, sorted=true}) {
+
+    const sorted_options = sorted ? Object.values(options).sort() : options;
+
     return (
         <div>
-            <div className='dropdown-label'>{props.label}</div>
-            <select className='dropdown' {...props.registerProps}>
-                {props.options &&
-                    Object.keys(props.options).map((key) => (
-                        <option key={key} value={props.value === "value" ? props.options[key] : key}>
-                            {props.options[key]}
+            <div className='dropdown-label'>{label}</div>
+            <select className='dropdown' {...registerProps}>
+                {sorted_options &&
+                    Object.keys(sorted_options).map((key) => (
+                        <option key={key} value={value === "value" ? sorted_options[key] : key}>
+                            {sorted_options[key]}
                         </option>
                     ))
                 }
             </select>
-            <div className='dropdown-error'>{props.error}</div>
+            <div className='dropdown-error'>{error}</div>
         </div>
     )
 }
