@@ -1,0 +1,18 @@
+.detail-label{
+    display: flex;
+    justify-content: space-between;
+    min-width: 20vw;
+}
+
+.detail-card{
+    color: #48246e;
+    min-width: 740px;
+    width: 70vw;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 14px;
+}
+
+.detail{
+    display: flex;
+}

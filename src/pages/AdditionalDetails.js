@@ -52,9 +52,8 @@ function AdditionalDetails() {
     }, [])
 
     const onSubmit = async (data) => {
-        // services.updateData(applicationNo, data)
-        // navigate('/final_review')
-        console.log(data)
+        services.updateData(applicationNo, data)
+        navigate('/final_review')
     }
 
     return (

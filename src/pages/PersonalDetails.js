@@ -91,7 +91,7 @@ function PersonalDetails() {
                 <Row>
                     <DropDown
                         label="Title"
-                        options={{ "Mr.": "Mr", "Mrs.": "Mrs" }}
+                        options={{ "Mr.": "Mr", "Ms.": "Ms" }}
                         registerProps={register("legend")}
                     />
                     <InputField
@@ -113,6 +113,7 @@ function PersonalDetails() {
                         label="Gender"
                         options={{ "Male": "Male", "Female": "Female" }}
                         registerProps={register("gender")}
+                        sorted={false}
                     />
                     <InputField
                         label="Date of Birth"
@@ -165,6 +166,7 @@ function PersonalDetails() {
                         registerProps={register("religion_id")}
                     />
                 </Row>
+                
                 <Row>
                     <DropDown
                         label="Nationality"

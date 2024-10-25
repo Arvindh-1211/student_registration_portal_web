@@ -1,49 +1,59 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux';
+import "../css/BranchDetails.css";
 
-import services from '../services/services'
-import { setApplicationNo } from '../store/applicationNoSlice'
+import services from '../services/services';
+import { setApplicationNo } from '../store/applicationNoSlice';
 
 function BranchCard(props) {
     return (
         <div className='branchCard'>
-            <div>{props.degree}</div>
+            <div className='branch-degree'>{props.degree}</div>
             <div>{props.branch}</div>
             {(props.degree === "B.E." || props.degree === "B.Tech.") ? (
-                <div>
+                <div className='button-container'>
                     <input className='button' type='button' value="Regular" onClick={props.regular} />
                     <input className='button' type='button' value="Lateral" onClick={props.lateral} />
                 </div>
             ) : (
-                <div>
+                <div className='button-container'>
                     <input className='button' type='button' value="Apply Now!" onClick={props.regular} />
                 </div>
             )}
         </div>
-    )
+    );
 }
 
 function BranchDetails() {
     const navigate = useNavigate();
-    const dispatch = useDispatch()
-    const [courses, setCourses] = useState()
-    const [branchDet, setBranchDet] = useState()
-    // const application_no = useSelector((state) => state.applicationNo.value)
+    const dispatch = useDispatch();
+    const [courses, setCourses] = useState([]); // Initialize as an empty array
+    const [branchDet, setBranchDet] = useState();
 
     useEffect(() => {
         const fetchCourses = async () => {
-            const result = await services.fetchFromMaster('branch')
-            setCourses(result)
-            // console.log(result)
-        }
-        fetchCourses()
-    }, [])
+            const result = await services.fetchFromMaster('branch');
+            if (result && typeof result === 'object') {
+                const coursesArray = Object.values(result).map(course => ({
+                    course_id: course.course_id,
+                    branch_name: course.branch_name,
+                    branch_id: course.branch_id
+                }));
+
+                const sortedBranches = coursesArray.sort((a, b) => a.branch_name.localeCompare(b.branch_name))
+                const sortedCourses = sortedBranches.sort((a, b) => a.course_id - b.course_id)
+
+                setCourses(sortedCourses);
+            }
+        };
+
+        fetchCourses();
+    }, []);
 
     useEffect(() => {
         if (branchDet) {
-            handleSubmit()
+            handleSubmit();
         }
     }, [branchDet]);
 
@@ -57,35 +67,36 @@ function BranchDetails() {
         14: "M.Sc.",
         15: "B.Sc.",
         16: "Ph.D.",
-    }
+    };
 
     const handleSubmit = async () => {
-        const response = await services.createNewApplication(branchDet)
-        dispatch(setApplicationNo(response.application_no))
-        navigate('/personal_details')
-    }
+        const response = await services.createNewApplication(branchDet);
+        dispatch(setApplicationNo(response.application_no));
+        navigate('/personal_details');
+    };
 
     return (
-        <div className='course-list'>
-            {courses &&
-                Object.keys(courses).map((key) => {
-                    return (
+        <div className='BranchDetails'>
+            <div className='course-card'>
+                <div className="form-header">DEPARTMENTS</div>
+                <div className='course-list'>
+                    {courses.map((course) => (
                         <BranchCard
-                            key={key}
-                            degree={degree[`${courses[key]['course_id']}`]}
-                            branch={courses[key]['branch_name']}
+                            key={course.course_id}
+                            degree={degree[course.course_id]}
+                            branch={course.branch_name}
                             regular={() => {
-                                setBranchDet({ branch_id: key, student_cat_id: 11 })
+                                setBranchDet({ branch_id: course.branch_id, student_cat_id: 11 });
                             }}
                             lateral={() => {
-                                setBranchDet({ branch_id: key, student_cat_id: 12 })
+                                setBranchDet({ branch_id: course.branch_id, student_cat_id: 12 });
                             }}
                         />
-                    )
-                })
-            }
+                    ))}
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 
-export default BranchDetails
+export default BranchDetails;

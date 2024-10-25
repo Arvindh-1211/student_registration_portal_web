@@ -12,6 +12,7 @@ import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
 import Row from "../Components/Row";
+import { NumberSchema } from "yup";
 
 
 function MarkDetails() {
@@ -19,99 +20,105 @@ function MarkDetails() {
     const applicationNo = useSelector((state) => state.applicationNo.value)
 
     const [formData, setFormData] = useState({
-        school_name: '',
-        school_tc_no: '',
-        school_tc_date: '',
-        sch_attempt: '',
+        school_name: null,
+        school_tc_no: null,
+        school_tc_date: null,
+        sch_attempt: null,
 
-        sch_reg1: '',
-        sch_cer1: '',
-        sch_tot_mark1: '',
-        sch_reg2: '',
-        sch_cer2: '',
-        sch_tot_mark2: '',
+        sch_reg1: null,
+        sch_cer1: null,
+        sch_tot_mark1: null,
+        sch_reg2: null,
+        sch_cer2: null,
+        sch_tot_mark2: null,
 
-        physics_secured: '',
-        physics_max: '',
-        physics_percentage: '',
+        physics_secured: null,
+        physics_max: null,
+        physics_percentage: null,
 
-        chemistry_secured: '',
-        chemistry_max: '',
-        chemistry_percentage: '',
+        chemistry_secured: null,
+        chemistry_max: null,
+        chemistry_percentage: null,
 
-        maths_secured: '',
-        maths_max: '',
-        maths_percentage: '',
+        maths_secured: null,
+        maths_max: null,
+        maths_percentage: null,
 
-        biology_secured: '',
-        biology_max: '',
-        biology_percentage: '',
+        biology_secured: null,
+        biology_max: null,
+        biology_percentage: null,
 
-        cs_secured: '',
-        cs_max: '',
-        cs_percentage: '',
+        cs_secured: null,
+        cs_max: null,
+        cs_percentage: null,
 
-        pcm_sec: '',
-        pcm_max: '',
-        pcm_per: '',
+        pcm_sec: null,
+        pcm_max: null,
+        pcm_per: null,
 
-        phy_che: '',
-        maths: '',
-        cut_off: '',
+        phy_che: null,
+        maths: null,
+        cut_off: null,
 
-        diploma_first_sec: '',
-        diploma_first_max: '',
-        diploma_first_per: '',
+        diploma_first_sec: null,
+        diploma_first_max: null,
+        diploma_first_per: null,
 
-        diploma_second_sec: '',
-        diploma_second_max: '',
-        diploma_second_per: '',
+        diploma_second_sec: null,
+        diploma_second_max: null,
+        diploma_second_per: null,
 
-        diploma_third_sec: '',
-        diploma_third_max: '',
-        diploma_third_per: '',
+        diploma_third_sec: null,
+        diploma_third_max: null,
+        diploma_third_per: null,
 
-        diploma_fourth_sec: '',
-        diploma_fourth_max: '',
-        diploma_fourth_per: '',
+        diploma_fourth_sec: null,
+        diploma_fourth_max: null,
+        diploma_fourth_per: null,
 
-        diploma_fifth_sec: '',
-        diploma_fifth_max: '',
-        diploma_fifth_per: '',
+        diploma_fifth_sec: null,
+        diploma_fifth_max: null,
+        diploma_fifth_per: null,
 
-        diploma_sixth_sec: '',
-        diploma_sixth_max: '',
-        diploma_sixth_per: '',
+        diploma_sixth_sec: null,
+        diploma_sixth_max: null,
+        diploma_sixth_per: null,
 
-        diploma_seventh_sec: '',
-        diploma_seventh_max: '',
-        diploma_seventh_per: '',
+        diploma_seventh_sec: null,
+        diploma_seventh_max: null,
+        diploma_seventh_per: null,
 
-        diploma_eighth_sec: '',
-        diploma_eighth_max: '',
-        diploma_eighth_per: '',
+        diploma_eighth_sec: null,
+        diploma_eighth_max: null,
+        diploma_eighth_per: null,
 
-        diploma_ninenth_sec: '',
-        diploma_ninenth_max: '',
-        diploma_ninenth_per: '',
+        diploma_ninenth_sec: null,
+        diploma_ninenth_max: null,
+        diploma_ninenth_per: null,
 
-        diploma_tenth_sec: '',
-        diploma_tenth_max: '',
-        diploma_tenth_per: '',
+        diploma_tenth_sec: null,
+        diploma_tenth_max: null,
+        diploma_tenth_per: null,
 
-        ug_mark_sec: '',
-        ug_mark_max: '',
-        ug_mark_per: '',
+        ug_mark_sec: null,
+        ug_mark_max: null,
+        ug_mark_per: null,
 
-        I_II: '',
-        III_IV: '',
-        V_VI: '',
-        VII_VIII: '',
-        IX_X: '',
+        I_II: null,
+        III_IV: null,
+        V_VI: null,
+        VII_VIII: null,
+        IX_X: null,
 
-        entrance_secured: '',
-        entrance_max: '',
-        entrance_percenteage: '',
+        entrance_secured: null,
+        entrance_max: null,
+        entrance_percenteage: null,
+
+        school_board:null,
+        sch_qual_id:null,
+        sch_yr_pass:null,
+        sch_study_state:null,
+        study_medium:null,
     })
 
     const [options, setOptions] = useState({
@@ -238,35 +245,35 @@ function MarkDetails() {
     calculatePercentage(ugMarkSec, ugMarkMax, 'ug_mark_per');
     calculatePercentage(entranceSecured, entranceMax, 'entrance_percenteage');
 
-    const pcmSec = parseFloat(physicsSecured) + parseFloat(chemistrySecured) + parseFloat(mathsSecured);
-    const pcmMax = parseFloat(physicsMax) + parseFloat(chemistryMax) + parseFloat(mathsMax);
+    const pcmSec = physicsSecured + chemistrySecured + mathsSecured === 0? null : physicsSecured + chemistrySecured + mathsSecured;
+    const pcmMax = physicsMax + chemistryMax + mathsMax === 0? null : physicsMax + chemistryMax + mathsMax;
     setValue('pcm_sec', pcmSec);
     setValue('pcm_max', pcmMax);
     calculatePercentage(pcmSec, pcmMax, 'pcm_per');
 
-    const phyChe = parseFloat(physicsSecured) + parseFloat(chemistrySecured);
+    const phyChe = physicsSecured + chemistrySecured === 0? null : physicsSecured + chemistrySecured
     setValue('phy_che', phyChe);
     const phyChePer = phyPer + chePer;
-    setValue('phy_che', (phyChePer / 2).toFixed(2));
+    setValue('phy_che', phyChe === null? null : (phyChePer/2).toFixed(2));
     setValue('maths', mathPer);
 
-    const cutOff = parseFloat(phyChe) / 2 + parseFloat(mathsSecured);
+    const cutOff = phyChe / 2 + mathsSecured === 0? null : phyChe / 2 + mathsSecured;
     setValue('cut_off', cutOff);
 
-    const I_II_per = I_per + II_per;
-    setValue('I_II', (I_II_per / 2).toFixed(2));
+    const I_II_per = I_per == null || II_per == null? null : (I_per + II_per / 2).toFixed(2);
+    setValue('I_II', I_II_per);
 
-    const III_IV_per = III_per + IV_per;
-    setValue('III_IV', (III_IV_per / 2).toFixed(2));
+    const III_IV_per = III_per == null || IV_per == null? null : (III_per + IV_per / 2).toFixed(2);
+    setValue('III_IV', III_IV_per);
 
-    const V_VI_per = V_per + VI_per;
-    setValue('V_VI', (V_VI_per / 2).toFixed(2));
+    const V_VI_per = V_per == null || VI_per == null? null : (V_per + VI_per / 2).toFixed(2);
+    setValue('V_VI', V_VI_per);
 
-    const VII_VIII_per = VII_per + VIII_per;
-    setValue('VII_VIII', (VII_VIII_per / 2).toFixed(2));
+    const VII_VIII_per = VII_per == null || VIII_per == null? null : (VII_per + VIII_per / 2).toFixed(2);
+    setValue('VII_VIII', VII_VIII_per);
 
-    const IX_X_per = IX_per + X_per;
-    setValue('IX_X', (IX_X_per / 2).toFixed(2));
+    const IX_X_per = IX_per ==null || X_per == null? null : (IX_per + X_per / 2).toFixed(2);
+    setValue('IX_X', IX_X_per);
 
 
     const onSubmit = async (data) => {
@@ -320,6 +327,7 @@ function MarkDetails() {
                         label="School Year of Passing"
                         options={options['sch_yr_pass']}
                         registerProps={register("sch_yr_pass")}
+                        sorted = {false}
                     />
                     <DropDown
                         label="Study state"
