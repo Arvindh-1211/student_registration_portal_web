@@ -95,7 +95,6 @@ function FinalReview() {
             const queryParams = Object.keys(formData).join(',')
             const fetchedData = await services.fetchData(applicationNo, queryParams)
             setFormData(fetchedData)
-            reset(fetchedData)
             if (formData.dob) {
                 let dob = new Date(formData.dob).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
                 setFormData((prevFormData) => ({ ...prevFormData, dob: dob }))
