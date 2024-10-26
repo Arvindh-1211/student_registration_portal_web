@@ -43,7 +43,7 @@ function TNEADetails() {
             setFormData(fetchedData)
             reset(fetchedData)
             if (getValues('tnea_pay_rec_date')) {
-                let tnea_pay_rec_date = new Date(getValues('dob')).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
+                let tnea_pay_rec_date = new Date(getValues('tnea_pay_rec_date')).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
                 setValue('tnea_pay_rec_date', tnea_pay_rec_date)
             }
         }
@@ -77,7 +77,7 @@ function TNEADetails() {
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="TNEA Details" handleBack={() => { navigate('/contact_details') }} >
+            <Form handleNext={handleSubmit(onSubmit)} heading="TNEA Details" handleBack={() => { navigate(-1) }} >
                 <Row>
                     <DropDown
                         label="Seat Category"

@@ -49,7 +49,6 @@ function PersonalDetails() {
         const getDefaultValues = async () => {
             const queryParams = Object.keys(formData).join(',')
             const fetchedData = await services.fetchData(applicationNo, queryParams)
-            setFormData(fetchedData)
             reset(fetchedData)
             if (getValues('dob')) {
                 let dob = new Date(getValues('dob')).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
@@ -62,12 +61,10 @@ function PersonalDetails() {
             const fetchedOptions = await Promise.all(
                 optionsArray.map((option) => services.fetchFromMaster(option))
             );
-
             const newOptions = {};
             optionsArray.forEach((option, index) => {
                 newOptions[option] = fetchedOptions[index];
-            });
-
+            })
             setOptions(newOptions);
         };
 
@@ -166,7 +163,7 @@ function PersonalDetails() {
                         registerProps={register("religion_id")}
                     />
                 </Row>
-                
+
                 <Row>
                     <DropDown
                         label="Nationality"

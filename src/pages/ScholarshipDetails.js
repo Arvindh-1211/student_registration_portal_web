@@ -44,7 +44,7 @@ function ScholarshipDetails() {
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Scholarship Details" handleBack={() => { navigate('/tnea_details') }} >
+            <Form handleNext={handleSubmit(onSubmit)} heading="Scholarship Details" handleBack={() => { navigate(-1) }} >
                 <Row>
                     <DropDown
                         label="Scholarship-1"

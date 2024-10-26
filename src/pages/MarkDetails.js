@@ -283,7 +283,7 @@ function MarkDetails() {
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Mark Details" handleBack={() => { navigate('/contact_details') }} >
+            <Form handleNext={handleSubmit(onSubmit)} heading="Mark Details" handleBack={() => { navigate(-1) }} >
                 <Row>
                     <InputField
                         label='School Name'

@@ -2,7 +2,7 @@ import '../css/DropDown.css'
 
 function DropDown({label, options, registerProps, value, error, sorted=true}) {
 
-    const sorted_options = sorted ? Object.values(options).sort() : options;
+    const sorted_options = sorted && options ? Object.values(options).sort() : options;
 
     return (
         <div>

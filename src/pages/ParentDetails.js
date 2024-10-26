@@ -75,7 +75,7 @@ function ParentDetails() {
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Parent Details" handleBack={() => { navigate('/personal_details') }}>
+            <Form handleNext={handleSubmit(onSubmit)} heading="Parent Details" handleBack={() => { navigate(-1) }}>
                 <Row>
                     <InputField
                         label="Father's Name"

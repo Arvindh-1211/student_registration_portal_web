@@ -37,8 +37,8 @@ function BranchDetails() {
             if (result && typeof result === 'object') {
                 const coursesArray = Object.values(result).map(course => ({
                     course_id: course.course_id,
+                    branch_id: course.branch_id,
                     branch_name: course.branch_name,
-                    branch_id: course.branch_id
                 }));
 
                 const sortedBranches = coursesArray.sort((a, b) => a.branch_name.localeCompare(b.branch_name))
@@ -80,9 +80,9 @@ function BranchDetails() {
             <div className='course-card'>
                 <div className="form-header">DEPARTMENTS</div>
                 <div className='course-list'>
-                    {courses.map((course) => (
+                    {courses.map((course, index) => (
                         <BranchCard
-                            key={course.course_id}
+                            key={index}
                             degree={degree[course.course_id]}
                             branch={course.branch_name}
                             regular={() => {

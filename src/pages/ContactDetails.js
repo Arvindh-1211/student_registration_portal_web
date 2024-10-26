@@ -70,7 +70,7 @@ function ContactDetails() {
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Contact & Insurance Details" handleBack={() => { navigate('/parent_details') }} >
+            <Form handleNext={handleSubmit(onSubmit)} heading="Contact & Insurance Details" handleBack={() => { navigate(-1) }} >
                 <div className="form-sub-header">Contact Details</div>
                 <Row>
                     <InputField

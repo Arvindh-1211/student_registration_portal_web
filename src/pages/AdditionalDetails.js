@@ -58,7 +58,7 @@ function AdditionalDetails() {
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Additional Details" handleBack={() => { navigate('/mark_details') }} >
+            <Form handleNext={handleSubmit(onSubmit)} heading="Additional Details" handleBack={() => { navigate(-1) }} >
                 <Row>
 
                     <InputField

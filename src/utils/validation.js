@@ -26,7 +26,8 @@ const ParentDetails = Yup.object().shape({
         .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces"),
 
     parent_income: Yup.number()
-        .min(0, "Income should be positive"),
+        .min(0, "Income should be positive")
+        .nullable(true),
 
     work_area: Yup.string(),
 
@@ -34,7 +35,8 @@ const ParentDetails = Yup.object().shape({
         .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces"),
 
     parent_income_mother: Yup.number()
-        .min(0, "Income should be positive"),
+        .min(0, "Income should be positive")
+        .nullable(true),
 
     work_area_mother: Yup.string(),
 
@@ -433,11 +435,11 @@ const TNEADetails = Yup.object().shape({
 })
 
 const ScholarshipDetails = Yup.object().shape({
-    adm_sch_amt1: Yup.string()
-        .matches(/^[A-Za-z0-9 -]+$/, "Invalid Format"),
+    adm_sch_amt1: Yup.number()
+    .nullable(true),
 
-    adm_sch_amt2: Yup.string()
-        .matches(/^[A-Za-z0-9 -]+$/, "Invalid Format"),
+    adm_sch_amt2: Yup.number()
+    .nullable(true),
 })
 
 const AdditionalDetails = Yup.object().shape({
