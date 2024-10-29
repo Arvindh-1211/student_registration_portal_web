@@ -12,12 +12,15 @@ import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
 import Row from "../Components/Row";
-import { NumberSchema } from "yup";
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 
 function MarkDetails() {
     const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const [formData, setFormData] = useState({
         school_name: null,
@@ -114,11 +117,11 @@ function MarkDetails() {
         entrance_max: null,
         entrance_percenteage: null,
 
-        school_board:null,
-        sch_qual_id:null,
-        sch_yr_pass:null,
-        sch_study_state:null,
-        study_medium:null,
+        school_board: null,
+        sch_qual_id: null,
+        sch_yr_pass: null,
+        sch_study_state: null,
+        study_medium: null,
     })
 
     const [options, setOptions] = useState({
@@ -144,22 +147,26 @@ function MarkDetails() {
         }
 
         const getOptions = async () => {
+            setError(null)
             const optionsArray = Object.keys(options);
             const fetchedOptions = await Promise.all(
                 optionsArray.map((option) => services.fetchFromMaster(option))
             );
-
+            if (!fetchedOptions[0]) {
+                setError("Error fetching options!")
+            }
             const newOptions = {};
             optionsArray.forEach((option, index) => {
                 newOptions[option] = fetchedOptions[index];
-            });
-
+            })
             setOptions(newOptions);
         };
 
         const init = async () => {
+            setIsLoading(true)
             await getOptions();
             await getDefaultValues();
+            setIsLoading(false)
         };
 
         init();
@@ -176,7 +183,7 @@ function MarkDetails() {
         }
     };
 
-    const physicsSecured = watch('physics_secured');
+    const physicsSecured = parseInt(watch('physics_secured'));
     const physicsMax = watch('physics_max');
 
     const chemistrySecured = watch('chemistry_secured');
@@ -245,45 +252,56 @@ function MarkDetails() {
     calculatePercentage(ugMarkSec, ugMarkMax, 'ug_mark_per');
     calculatePercentage(entranceSecured, entranceMax, 'entrance_percenteage');
 
-    const pcmSec = physicsSecured + chemistrySecured + mathsSecured === 0? null : physicsSecured + chemistrySecured + mathsSecured;
-    const pcmMax = physicsMax + chemistryMax + mathsMax === 0? null : physicsMax + chemistryMax + mathsMax;
+    const pcmSec = physicsSecured + chemistrySecured + mathsSecured === 0 ? null : physicsSecured + chemistrySecured + mathsSecured;
+    const pcmMax = physicsMax + chemistryMax + mathsMax === 0 ? null : physicsMax + chemistryMax + mathsMax;
     setValue('pcm_sec', pcmSec);
     setValue('pcm_max', pcmMax);
     calculatePercentage(pcmSec, pcmMax, 'pcm_per');
 
-    const phyChe = physicsSecured + chemistrySecured === 0? null : physicsSecured + chemistrySecured
+    const phyChe = physicsSecured + chemistrySecured === 0 ? null : physicsSecured + chemistrySecured
     setValue('phy_che', phyChe);
     const phyChePer = phyPer + chePer;
-    setValue('phy_che', phyChe === null? null : (phyChePer/2).toFixed(2));
+    setValue('phy_che', phyChe === null ? null : (phyChePer / 2).toFixed(2));
     setValue('maths', mathPer);
 
-    const cutOff = phyChe / 2 + mathsSecured === 0? null : phyChe / 2 + mathsSecured;
+    const cutOff = phyChe / 2 + mathsSecured === 0 ? null : phyChe / 2 + mathsSecured;
     setValue('cut_off', cutOff);
 
-    const I_II_per = I_per == null || II_per == null? null : (I_per + II_per / 2).toFixed(2);
+    const I_II_per = I_per == null || II_per == null ? null : (I_per + II_per / 2).toFixed(2);
     setValue('I_II', I_II_per);
 
-    const III_IV_per = III_per == null || IV_per == null? null : (III_per + IV_per / 2).toFixed(2);
+    const III_IV_per = III_per == null || IV_per == null ? null : (III_per + IV_per / 2).toFixed(2);
     setValue('III_IV', III_IV_per);
 
-    const V_VI_per = V_per == null || VI_per == null? null : (V_per + VI_per / 2).toFixed(2);
+    const V_VI_per = V_per == null || VI_per == null ? null : (V_per + VI_per / 2).toFixed(2);
     setValue('V_VI', V_VI_per);
 
-    const VII_VIII_per = VII_per == null || VIII_per == null? null : (VII_per + VIII_per / 2).toFixed(2);
+    const VII_VIII_per = VII_per == null || VIII_per == null ? null : (VII_per + VIII_per / 2).toFixed(2);
     setValue('VII_VIII', VII_VIII_per);
 
-    const IX_X_per = IX_per ==null || X_per == null? null : (IX_per + X_per / 2).toFixed(2);
+    const IX_X_per = IX_per == null || X_per == null ? null : (IX_per + X_per / 2).toFixed(2);
     setValue('IX_X', IX_X_per);
 
 
     const onSubmit = async (data) => {
-        services.updateData(applicationNo, data)
-        navigate('/additional_details')
+        setIsLoading(true)
+        setError(null)
+        const response = await services.updateData(applicationNo, data)
+
+        if (response) {
+            navigate('/additional_details')
+        } else {
+            setError("Error submitting form!")
+
+        }
+        setIsLoading(false)
     }
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Mark Details" handleBack={() => { navigate(-1) }} >
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
+            <Form handleNext={handleSubmit(onSubmit)} heading="Mark Details" handleBack={() => { navigate('/scholarship_details') }} >
                 <Row>
                     <InputField
                         label='School Name'
@@ -327,7 +345,7 @@ function MarkDetails() {
                         label="School Year of Passing"
                         options={options['sch_yr_pass']}
                         registerProps={register("sch_yr_pass")}
-                        sorted = {false}
+                        sorted={false}
                     />
                     <DropDown
                         label="Study state"

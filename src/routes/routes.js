@@ -8,6 +8,7 @@ import ScholarshipDetails from "../pages/ScholarshipDetails";
 import AdditionalDetails from "../pages/AdditionalDetails";
 import MarkDetails from "../pages/MarkDetails";
 import FinalReview from "../pages/FinalReview";
+import Error from "../Components/Error";
 
 const routes = [
     {
@@ -39,12 +40,12 @@ const routes = [
         element: <ScholarshipDetails />
     },
     {
-        path: '/additional_details',
-        element: <AdditionalDetails />
-    },
-    {
         path: '/mark_details',
         element: <MarkDetails />
+    },
+    {
+        path: '/additional_details',
+        element: <AdditionalDetails />
     },
     {
         path: '/final_review',

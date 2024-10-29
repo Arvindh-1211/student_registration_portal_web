@@ -22,10 +22,10 @@ const fetchData = async (applicationNo, queryParams) => {
     }
 }
 
-const updateData = (applicationNo, data) => {
+const updateData = async (applicationNo, data) => {
     try {
-        // console.log(data)
-        apiInstance.put(`student_reg/${applicationNo}`, data)
+        const response = await apiInstance.put(`student_reg/${applicationNo}`, data)
+        return response
     } catch (error) {
         console.log("Cannot update details in student_register table")
     }
@@ -49,12 +49,22 @@ const getValueFromMaster = async (option, id) => {
     }
 }
 
+const insertStudentAdditionalDet = async (data) => {
+    try {
+        const response = await apiInstance.post(`student_add_det`, data)
+        return response
+    } catch (error) {
+        console.log("Cannot create a new application in student_register table")
+    }
+}
+
 const services = {
     createNewApplication,
     fetchData,
     updateData,
     fetchFromMaster,
     getValueFromMaster,
+    insertStudentAdditionalDet,
 };
 
 export default services;

@@ -1,11 +1,12 @@
 import '../css/Header.css'
+import bitlogo from '../assets/bitlogo.png'
 
 import React from 'react'
 
 function Header() {
   return (
     <div>
-      <img className='bit-logo' src='BIT-Logo.png' alt='Bannari Amman Institute of Technology' />
+      <img className='bit-logo' src={bitlogo} alt='Bannari Amman Institute of Technology' />
       <hr></hr>
     </div>
   )

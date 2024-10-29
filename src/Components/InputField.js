@@ -11,6 +11,7 @@ function InputField(props) {
                     placeholder={props.placeholder}
                     {...props.registerProps}
                     readOnly={props.readOnly}
+                    step='0.01'
                 />
             </div>
             <div className='inputfield-error'>{props.error}</div>
