@@ -169,7 +169,11 @@ function MarkDetails() {
             setIsLoading(false)
         };
 
-        init();
+        if(applicationNo){
+            init();
+        } else {
+            navigate('/')
+        }
     }, [])
 
 

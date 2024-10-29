@@ -83,7 +83,11 @@ function PersonalDetails() {
             setIsLoading(false)
         };
 
-        init();
+        if(applicationNo){
+            init();
+        } else {
+            navigate('/')
+        }
     }, [])
 
 

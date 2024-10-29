@@ -56,9 +56,12 @@ function AdditionalDetails() {
             setOptions(newOptions);
             setIsLoading(false)
         }
-
         setIsLoading(false)
-        getOptions()
+        if (applicationNo) {
+            getOptions()
+        } else {
+            navigate('/')
+        }
     }, [])
 
     const onSubmit = async (data) => {

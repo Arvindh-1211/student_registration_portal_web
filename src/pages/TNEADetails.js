@@ -75,7 +75,11 @@ function TNEADetails() {
             setIsLoading(false)
         };
 
-        init();
+        if (applicationNo) {
+            init();
+        } else {
+            navigate('/')
+        }
     }, [])
 
     const onSubmit = async (data) => {

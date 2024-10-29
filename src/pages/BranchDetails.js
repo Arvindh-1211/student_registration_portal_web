@@ -7,6 +7,7 @@ import services from '../services/services';
 import { setApplicationNo } from '../store/applicationNoSlice';
 import Loading from "../Components/Loading";
 import Error from "../Components/Error";
+
 function BranchCard(props) {
     return (
         <div className='branchCard'>

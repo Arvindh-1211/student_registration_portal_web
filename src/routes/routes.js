@@ -8,7 +8,6 @@ import ScholarshipDetails from "../pages/ScholarshipDetails";
 import AdditionalDetails from "../pages/AdditionalDetails";
 import MarkDetails from "../pages/MarkDetails";
 import FinalReview from "../pages/FinalReview";
-import Error from "../Components/Error";
 
 const routes = [
     {

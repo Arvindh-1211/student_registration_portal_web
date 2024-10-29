@@ -41,7 +41,11 @@ function ScholarshipDetails() {
         }
 
         setIsLoading(false)
-        getDefaultValues();
+        if(applicationNo){
+            getDefaultValues();
+        } else {
+            navigate('/')
+        }
     }, [])
 
     const onSubmit = async (data) => {
