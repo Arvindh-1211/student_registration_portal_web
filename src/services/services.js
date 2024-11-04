@@ -18,7 +18,7 @@ const fetchData = async (applicationNo, queryParams) => {
         })
         return response.data
     } catch (error) {
-        console.log("Error fetching details from stundent_register table")
+        console.log("Error fetching details from student_register table")
     }
 }
 
