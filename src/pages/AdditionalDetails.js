@@ -12,10 +12,14 @@ import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
 import Row from "../Components/Row";
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 function AdditionalDetails() {
     const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const [formData, setFormData] = useState({
         father_qual: '',
@@ -32,33 +36,53 @@ function AdditionalDetails() {
         'boarding_point': {},
     })
 
-    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema) });
+    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.AdditionalDetails) });
 
     useEffect(() => {
         const getOptions = async () => {
+            setIsLoading(true)
+            setError(null)
             const optionsArray = Object.keys(options);
             const fetchedOptions = await Promise.all(
                 optionsArray.map((option) => services.fetchFromMaster(option))
             );
-
+            if (!fetchedOptions[0]) {
+                setError("Error fetching options!")
+            }
             const newOptions = {};
             optionsArray.forEach((option, index) => {
                 newOptions[option] = fetchedOptions[index];
-            });
-
+            })
             setOptions(newOptions);
+            setIsLoading(false)
         }
-        getOptions()
+        setIsLoading(false)
+        if (applicationNo) {
+            getOptions()
+        } else {
+            navigate('/')
+        }
     }, [])
 
     const onSubmit = async (data) => {
-        services.updateData(applicationNo, data)
-        navigate('/final_review')
+        setIsLoading(true)
+        setError(null)
+        data = { ...data, appl_no: applicationNo }
+        const response = await services.insertStudentAdditionalDet(data)
+        if (response.status === 200) {
+            navigate('/final_review')
+        } else {
+            setError("Error submitting form!")
+        }
+        setIsLoading(false)
+
     }
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Additional Details" handleBack={() => { navigate(-1) }} >
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
+            <Form handleNext={handleSubmit(onSubmit)} heading="Additional Details" handleBack={() => { navigate('/mark_details') }} >
                 <Row>
 
                     <InputField
@@ -89,7 +113,7 @@ function AdditionalDetails() {
                         label="Boarding Point"
                         options={options['boarding_point']}
                         registerProps={register("boarding_point")}
-                        value = "value"
+                        value="value"
                     />
                     <InputField
                         label="Sports Interested"

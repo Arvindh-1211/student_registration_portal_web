@@ -23,7 +23,8 @@ const PersonalDetails = Yup.object().shape({
 
 const ParentDetails = Yup.object().shape({
     father_name: Yup.string()
-        .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces"),
+        .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces")
+        .nullable(true),
 
     parent_income: Yup.number()
         .min(0, "Income should be positive")
@@ -32,7 +33,8 @@ const ParentDetails = Yup.object().shape({
     work_area: Yup.string(),
 
     mother_name: Yup.string()
-        .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces"),
+        .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces")
+        .nullable(true),
 
     parent_income_mother: Yup.number()
         .min(0, "Income should be positive")
@@ -58,13 +60,16 @@ const ContactDetails = Yup.object().shape({
         .required("Parent phone number is required"),
 
     parent_email_id: Yup.string()
-        .email("Invalid email"),
+        .email("Invalid email")
+        .nullable(true),
 
     nominee_name: Yup.string()
-        .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces"),
+        .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces")
+        .required("Nominee name is required"),
 
     nominee_age: Yup.string()
-        .length(2, "Age must be between 10 and 99"),
+        .length(2, "Age must be between 10 and 99")
+        .required("Nominee age is required"),
 })
 
 const AddressDetails = Yup.object().shape({
@@ -424,22 +429,26 @@ const TNEADetails = Yup.object().shape({
         .nullable(true),
 
     tnea_pay_rec_no: Yup.string()
-        .matches(/^[A-Za-z0-9 -]+$/, "Invalid Format"),
+        .matches(/^[A-Za-z0-9 -]+$/, "Invalid Format")
+        .nullable(true),
 
-    tnea_pay_rec_date: Yup.string(),
+    tnea_pay_rec_date: Yup.string()
+        .nullable(true),
 
     tnea_pay_rec_amt: Yup.string()
-        .matches(/^[0-9 .]+$/, "Invalid amount"),
+        .matches(/^[0-9 .]+$/, "Invalid amount")
+        .nullable(true),
 
-    tnea_pay_bank: Yup.string(),
+    tnea_pay_bank: Yup.string()
+        .nullable(true),
 })
 
 const ScholarshipDetails = Yup.object().shape({
     adm_sch_amt1: Yup.number()
-    .nullable(true),
+        .nullable(true),
 
     adm_sch_amt2: Yup.number()
-    .nullable(true),
+        .nullable(true),
 })
 
 const AdditionalDetails = Yup.object().shape({
@@ -450,7 +459,8 @@ const AdditionalDetails = Yup.object().shape({
     sports_int: Yup.string(),
 
     first_gr_appno: Yup.string()
-        .matches(/^[A-Za-z0-9 -]+$/, "Invalid Format"),
+        .matches(/^[A-Za-z0-9]*$/, "Invalid Format")
+        .nullable(true),
 });
 
 const schema = {

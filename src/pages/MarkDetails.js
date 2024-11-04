@@ -12,12 +12,15 @@ import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
 import Row from "../Components/Row";
-import { NumberSchema } from "yup";
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 
 function MarkDetails() {
     const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const [formData, setFormData] = useState({
         school_name: null,
@@ -114,11 +117,11 @@ function MarkDetails() {
         entrance_max: null,
         entrance_percenteage: null,
 
-        school_board:null,
-        sch_qual_id:null,
-        sch_yr_pass:null,
-        sch_study_state:null,
-        study_medium:null,
+        school_board: null,
+        sch_qual_id: null,
+        sch_yr_pass: null,
+        sch_study_state: null,
+        study_medium: null,
     })
 
     const [options, setOptions] = useState({
@@ -144,25 +147,33 @@ function MarkDetails() {
         }
 
         const getOptions = async () => {
+            setError(null)
             const optionsArray = Object.keys(options);
             const fetchedOptions = await Promise.all(
                 optionsArray.map((option) => services.fetchFromMaster(option))
             );
-
+            if (!fetchedOptions[0]) {
+                setError("Error fetching options!")
+            }
             const newOptions = {};
             optionsArray.forEach((option, index) => {
                 newOptions[option] = fetchedOptions[index];
-            });
-
+            })
             setOptions(newOptions);
         };
 
         const init = async () => {
+            setIsLoading(true)
             await getOptions();
             await getDefaultValues();
+            setIsLoading(false)
         };
 
-        init();
+        if(applicationNo){
+            init();
+        } else {
+            navigate('/')
+        }
     }, [])
 
 
@@ -176,7 +187,7 @@ function MarkDetails() {
         }
     };
 
-    const physicsSecured = watch('physics_secured');
+    const physicsSecured = parseInt(watch('physics_secured'));
     const physicsMax = watch('physics_max');
 
     const chemistrySecured = watch('chemistry_secured');
@@ -277,13 +288,24 @@ function MarkDetails() {
 
 
     const onSubmit = async (data) => {
-        services.updateData(applicationNo, data)
-        navigate('/additional_details')
+        setIsLoading(true)
+        setError(null)
+        const response = await services.updateData(applicationNo, data)
+
+        if (response) {
+            navigate('/additional_details')
+        } else {
+            setError("Error submitting form!")
+
+        }
+        setIsLoading(false)
     }
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Mark Details" handleBack={() => { navigate(-1) }} >
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
+            <Form handleNext={handleSubmit(onSubmit)} heading="Mark Details" handleBack={() => { navigate('/scholarship_details') }} >
                 <Row>
                     <InputField
                         label='School Name'
@@ -327,7 +349,7 @@ function MarkDetails() {
                         label="School Year of Passing"
                         options={options['sch_yr_pass']}
                         registerProps={register("sch_yr_pass")}
-                        sorted = {false}
+                        sorted={false}
                     />
                     <DropDown
                         label="Study state"

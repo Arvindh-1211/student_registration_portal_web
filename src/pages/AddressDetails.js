@@ -13,12 +13,16 @@ import DropDown from '../Components/DropDown';
 import CheckBox from '../Components/CheckBox'
 import Form from '../Components/Form';
 import Row from "../Components/Row";
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 
 function AddressDetails() {
     const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isAddressSame, setIsAddressSame] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const [formData, setFormData] = useState({
         comm_add_street: '',
@@ -56,25 +60,33 @@ function AddressDetails() {
         }
 
         const getOptions = async () => {
+            setError(null)
             const optionsArray = Object.keys(options);
             const fetchedOptions = await Promise.all(
                 optionsArray.map((option) => services.fetchFromMaster(option))
             );
-
+            if (!fetchedOptions[0]) {
+                setError("Error fetching options!")
+            }
             const newOptions = {};
             optionsArray.forEach((option, index) => {
                 newOptions[option] = fetchedOptions[index];
-            });
-
+            })
             setOptions(newOptions);
         };
 
         const init = async () => {
+            setIsLoading(true)
             await getOptions();
             await getDefaultValues();
+            setIsLoading(false)
         };
 
-        init();
+        if(applicationNo){
+            init();
+        } else {
+            navigate('/')
+        }
     }, [])
 
 
@@ -93,13 +105,24 @@ function AddressDetails() {
 
 
     const onSubmit = async (data) => {
-        services.updateData(applicationNo, data)
-        navigate('/contact_details')
+        setIsLoading(true)
+        setError(null)
+        const response = await services.updateData(applicationNo, data)
+
+        if (response) {
+            navigate('/contact_details')
+        } else {
+            setError("Error submitting form!")
+
+        }
+        setIsLoading(false)
     }
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Address Details" handleBack={() => { navigate(-1) }} >
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
+            <Form handleNext={handleSubmit(onSubmit)} heading="Address Details" handleBack={() => { navigate('/parent_details') }} >
                 <div className="form-sub-header">Communication Address</div>
                 <Row>
                     <InputField
@@ -119,7 +142,7 @@ function AddressDetails() {
                         label="City"
                         options={options['city']}
                         registerProps={register("comm_add_city")}
-                        value = "value"
+                        value="value"
                     />
                 </Row>
 
@@ -128,19 +151,19 @@ function AddressDetails() {
                         label="District"
                         options={options['district']}
                         registerProps={register("comm_add_district")}
-                        value = "value"
+                        value="value"
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("comm_add_state")}
-                        value = "value"
+                        value="value"
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("comm_add_country")}
-                        value = "value"
+                        value="value"
                     />
                 </Row>
 
@@ -187,7 +210,7 @@ function AddressDetails() {
                         label="City"
                         options={options['city']}
                         registerProps={register("perm_add_city")}
-                        value = "value"
+                        value="value"
                     />
                 </Row>
 
@@ -196,19 +219,19 @@ function AddressDetails() {
                         label="District"
                         options={options['district']}
                         registerProps={register("perm_add_district")}
-                        value = "value"
+                        value="value"
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("perm_add_state")}
-                        value = "value"
+                        value="value"
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("perm_add_country")}
-                        value = "value"
+                        value="value"
                     />
                 </Row>
 

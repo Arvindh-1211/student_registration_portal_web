@@ -5,6 +5,8 @@ import "../css/BranchDetails.css";
 
 import services from '../services/services';
 import { setApplicationNo } from '../store/applicationNoSlice';
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 function BranchCard(props) {
     return (
@@ -30,9 +32,13 @@ function BranchDetails() {
     const dispatch = useDispatch();
     const [courses, setCourses] = useState([]); // Initialize as an empty array
     const [branchDet, setBranchDet] = useState();
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         const fetchCourses = async () => {
+            setIsLoading(true)
+            setError(null)
             const result = await services.fetchFromMaster('branch');
             if (result && typeof result === 'object') {
                 const coursesArray = Object.values(result).map(course => ({
@@ -45,7 +51,11 @@ function BranchDetails() {
                 const sortedCourses = sortedBranches.sort((a, b) => a.course_id - b.course_id)
 
                 setCourses(sortedCourses);
+            } else {
+                setError("Error fetching branch details!")
             }
+            setIsLoading(false)
+
         };
 
         fetchCourses();
@@ -70,13 +80,22 @@ function BranchDetails() {
     };
 
     const handleSubmit = async () => {
+        setIsLoading(true)
+        setError(null)
         const response = await services.createNewApplication(branchDet);
-        dispatch(setApplicationNo(response.application_no));
-        navigate('/personal_details');
+        if (response) {
+            dispatch(setApplicationNo(response.application_no));
+            navigate('/personal_details');
+        } else {
+            setError("Error generating application number!")
+        }
+        setIsLoading(false)
     };
 
     return (
         <div className='BranchDetails'>
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
             <div className='course-card'>
                 <div className="form-header">DEPARTMENTS</div>
                 <div className='course-list'>

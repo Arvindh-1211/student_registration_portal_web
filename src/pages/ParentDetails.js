@@ -12,10 +12,14 @@ import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
 import Row from "../Components/Row";
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 function ParentDetails() {
     const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const [formData, setFormData] = useState({
         father_name: '',
@@ -46,36 +50,55 @@ function ParentDetails() {
         }
 
         const getOptions = async () => {
+            setError(null)
             const optionsArray = Object.keys(options);
             const fetchedOptions = await Promise.all(
                 optionsArray.map((option) => services.fetchFromMaster(option))
             );
-
+            if (!fetchedOptions[0]) {
+                setError("Error fetching options!")
+            }
             const newOptions = {};
             optionsArray.forEach((option, index) => {
                 newOptions[option] = fetchedOptions[index];
-            });
-
+            })
             setOptions(newOptions);
         };
 
         const init = async () => {
+            setIsLoading(true)
             await getOptions();
             await getDefaultValues();
+            setIsLoading(false)
         };
 
-        init();
+        if(applicationNo){
+            init();
+        } else {
+            navigate('/')
+        }
     }, [])
 
 
     const onSubmit = async (data) => {
-        services.updateData(applicationNo, data)
-        navigate('/address_details')
+        setIsLoading(true)
+        setError(null)
+        const response = await services.updateData(applicationNo, data)
+
+        if (response) {
+            navigate('/address_details')
+        } else {
+            setError("Error submitting form!")
+
+        }
+        setIsLoading(false)
     }
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Parent Details" handleBack={() => { navigate(-1) }}>
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
+            <Form handleNext={handleSubmit(onSubmit)} heading="Parent Details" handleBack={() => { navigate('/personal_details') }}>
                 <Row>
                     <InputField
                         label="Father's Name"

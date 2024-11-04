@@ -12,10 +12,14 @@ import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
 import Row from "../Components/Row";
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 function ScholarshipDetails() {
     const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     const [formData, setFormData] = useState({
         adm_sch_name1: '',
@@ -28,23 +32,41 @@ function ScholarshipDetails() {
 
     useEffect(() => {
         const getDefaultValues = async () => {
+            setIsLoading(true)
             const queryParams = Object.keys(formData).join(',')
             const fetchedData = await services.fetchData(applicationNo, queryParams)
             setFormData(fetchedData)
             reset(fetchedData)
+            setIsLoading(false)
         }
 
-        getDefaultValues();
+        setIsLoading(false)
+        if(applicationNo){
+            getDefaultValues();
+        } else {
+            navigate('/')
+        }
     }, [])
 
     const onSubmit = async (data) => {
-        services.updateData(applicationNo, data)
-        navigate('/mark_details')
+        setIsLoading(true)
+        setError(null)
+        const response = await services.updateData(applicationNo, data)
+
+        if (response) {
+            navigate('/mark_details')
+        } else {
+            setError("Error submitting form!")
+
+        }
+        setIsLoading(false)
     }
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Scholarship Details" handleBack={() => { navigate(-1) }} >
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
+            <Form handleNext={handleSubmit(onSubmit)} heading="Scholarship Details" handleBack={() => { navigate('/tnea_details') }} >
                 <Row>
                     <DropDown
                         label="Scholarship-1"

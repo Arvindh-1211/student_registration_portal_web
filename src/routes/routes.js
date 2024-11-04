@@ -39,12 +39,12 @@ const routes = [
         element: <ScholarshipDetails />
     },
     {
-        path: '/additional_details',
-        element: <AdditionalDetails />
-    },
-    {
         path: '/mark_details',
         element: <MarkDetails />
+    },
+    {
+        path: '/additional_details',
+        element: <AdditionalDetails />
     },
     {
         path: '/final_review',
