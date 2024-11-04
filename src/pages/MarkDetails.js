@@ -245,34 +245,34 @@ function MarkDetails() {
     calculatePercentage(ugMarkSec, ugMarkMax, 'ug_mark_per');
     calculatePercentage(entranceSecured, entranceMax, 'entrance_percenteage');
 
-    const pcmSec = physicsSecured + chemistrySecured + mathsSecured === 0? null : physicsSecured + chemistrySecured + mathsSecured;
-    const pcmMax = physicsMax + chemistryMax + mathsMax === 0? null : physicsMax + chemistryMax + mathsMax;
+    const pcmSec = physicsSecured + chemistrySecured + mathsSecured === 0? null : parseFloat(physicsSecured) + parseFloat(chemistrySecured) + parseFloat(mathsSecured);
+    const pcmMax = physicsMax + chemistryMax + mathsMax === 0? null : parseFloat(physicsMax) + parseFloat(chemistryMax) + parseFloat(mathsMax);
     setValue('pcm_sec', pcmSec);
     setValue('pcm_max', pcmMax);
     calculatePercentage(pcmSec, pcmMax, 'pcm_per');
 
-    const phyChe = physicsSecured + chemistrySecured === 0? null : physicsSecured + chemistrySecured
+    const phyChe = physicsSecured + chemistrySecured === 0? null : parseFloat(physicsSecured) + parseFloat(chemistrySecured)
     setValue('phy_che', phyChe);
-    const phyChePer = phyPer + chePer;
+    const phyChePer = parseFloat(phyPer) + parseFloat(chePer);
     setValue('phy_che', phyChe === null? null : (phyChePer/2).toFixed(2));
     setValue('maths', mathPer);
 
-    const cutOff = phyChe / 2 + mathsSecured === 0? null : phyChe / 2 + mathsSecured;
+    const cutOff = phyChe / 2 + mathsSecured === 0? null : parseFloat(phyChe) / 2 + parseFloat(mathsSecured);
     setValue('cut_off', cutOff);
 
-    const I_II_per = I_per == null || II_per == null? null : (I_per + II_per / 2).toFixed(2);
+    const I_II_per = I_per == null || II_per == null? null : (I_per/2 + II_per / 2).toFixed(2);
     setValue('I_II', I_II_per);
 
-    const III_IV_per = III_per == null || IV_per == null? null : (III_per + IV_per / 2).toFixed(2);
+    const III_IV_per = III_per == null || IV_per == null? null : (III_per/2 + IV_per / 2).toFixed(2);
     setValue('III_IV', III_IV_per);
 
-    const V_VI_per = V_per == null || VI_per == null? null : (V_per + VI_per / 2).toFixed(2);
+    const V_VI_per = V_per == null || VI_per == null? null : (V_per/2 + VI_per / 2).toFixed(2);
     setValue('V_VI', V_VI_per);
 
-    const VII_VIII_per = VII_per == null || VIII_per == null? null : (VII_per + VIII_per / 2).toFixed(2);
+    const VII_VIII_per = VII_per == null || VIII_per == null? null : (VII_per/2 + VIII_per / 2).toFixed(2);
     setValue('VII_VIII', VII_VIII_per);
 
-    const IX_X_per = IX_per ==null || X_per == null? null : (IX_per + X_per / 2).toFixed(2);
+    const IX_X_per = IX_per ==null || X_per == null? null : (IX_per/2 + X_per / 2).toFixed(2);
     setValue('IX_X', IX_X_per);
 
 

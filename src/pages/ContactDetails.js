@@ -74,13 +74,13 @@ function ContactDetails() {
                 <div className="form-sub-header">Contact Details</div>
                 <Row>
                     <InputField
-                        label='Student&apos;s Phone Number'
+                        label="Student's Phone Number"
                         registerProps={register("stu_mobile_no")}
                         type='number'
                         error={errors.stu_mobile_no && errors.stu_mobile_no.message}
                     />
                     <InputField
-                        label='Student&apos;s Email ID'
+                        label="Student's Email ID"
                         registerProps={register("stu_email_id")}
                         type='text'
                         error={errors.stu_email_id && errors.stu_email_id.message}
@@ -89,13 +89,13 @@ function ContactDetails() {
 
                 <Row>
                     <InputField
-                        label='Parent&apos;s Phone Number'
+                        label="Parent's Phone Number"
                         registerProps={register("parent_mobile_no")}
                         type='number'
                         error={errors.parent_mobile_no && errors.parent_mobile_no.message}
                     />
                     <InputField
-                        label='Parent&apos;s Email ID'
+                        label="Parent's Email ID"
                         registerProps={register("parent_email_id")}
                         type='text'
                         error={errors.parent_email_id && errors.parent_email_id.message}
@@ -105,18 +105,18 @@ function ContactDetails() {
                 <div className="form-sub-header">Insurance Details</div>
                 <Row>
                     <DropDown
-                        label="Nominee&apos;s Relation"
+                        label="Nominee's Relation"
                         options={options['nominee_relation']}
                         registerProps={register("nominee_relation")}
                     />
                     <InputField
-                        label='Nominee&apos;s Name'
+                        label="Nominee's Name"
                         registerProps={register("nominee_name")}
                         type='text'
                         error={errors.nominee_name && errors.nominee_name.message}
                     />
                     <InputField
-                        label='Nomimee&apos;s Age'
+                        label="Nominee's Age"
                         registerProps={register("nominee_age")}
                         type='number'
                         error={errors.nominee_age && errors.nominee_age.message}
