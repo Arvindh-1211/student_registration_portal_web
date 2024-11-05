@@ -31,10 +31,6 @@ function ContactDetails() {
         nominee_relation: '',
     })
 
-    const [options, setOptions] = useState({
-        'nominee_relation': {},
-    })
-
     const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ContactDetails) });
 
     useEffect(() => {
@@ -45,25 +41,9 @@ function ContactDetails() {
             reset(fetchedData)
         }
 
-        const getOptions = async () => {
-            setError(null)
-            const optionsArray = Object.keys(options);
-            const fetchedOptions = await Promise.all(
-                optionsArray.map((option) => services.fetchFromMaster(option))
-            );
-            if (!fetchedOptions[0]) {
-                setError("Error fetching options!")
-            }
-            const newOptions = {};
-            optionsArray.forEach((option, index) => {
-                newOptions[option] = fetchedOptions[index];
-            })
-            setOptions(newOptions);
-        };
 
         const init = async () => {
             setIsLoading(true)
-            await getOptions();
             await getDefaultValues();
             setIsLoading(false)
         };
@@ -129,8 +109,9 @@ function ContactDetails() {
                 <Row>
                     <DropDown
                         label="Nominee's Relation"
-                        options={options['nominee_relation']}
+                        options={{ FATHER: 'FATHER', MOTHER:'MOTHER', GUARDIAN:'GUARDIAN', BROTHER:'BROTHER', SISTER:'SISTER', SPOUSE:'SPOUSE' }}
                         registerProps={register("nominee_relation")}
+                        sorted={false}
                     />
                     <InputField
                         label="Nominee's Name"

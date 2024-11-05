@@ -30,7 +30,8 @@ const ParentDetails = Yup.object().shape({
         .min(0, "Income should be positive")
         .nullable(true),
 
-    work_area: Yup.string(),
+    work_area: Yup.string()
+        .nullable(true),
 
     mother_name: Yup.string()
         .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces")
@@ -40,7 +41,8 @@ const ParentDetails = Yup.object().shape({
         .min(0, "Income should be positive")
         .nullable(true),
 
-    work_area_mother: Yup.string(),
+    work_area_mother: Yup.string()
+        .nullable(true),
 
     gaurdian_name: Yup.string()
         .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces"),
@@ -206,12 +208,10 @@ const MarkDetails = Yup.object().shape({
 
     pcm_sec: Yup.number()
         .min(0, "Mark cannot be negative")
-        .max(200, "The mark is larger than the accepted standards")
         .nullable(true),
 
     pcm_max: Yup.number()
         .min(0, "Mark cannot be negative")
-        .max(200, "The mark is larger than the accepted standards")
         .nullable(true),
 
     pcm_per: Yup.number()

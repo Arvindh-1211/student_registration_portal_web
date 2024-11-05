@@ -169,122 +169,245 @@ function MarkDetails() {
             setIsLoading(false)
         };
 
-        if(applicationNo){
+        if (applicationNo) {
             init();
         } else {
             navigate('/')
         }
     }, [])
 
+    const calculatePercentage = (sec, max) => {
+        return (sec && max) ? ((sec / max) * 100).toFixed(2) : null
+    }
 
-    const calculatePercentage = (securedMarks, maxMarks, setFieldName) => {
-        if (securedMarks && maxMarks) {
-            const percentage = (securedMarks / maxMarks) * 100;
-            setValue(setFieldName, percentage.toFixed(2));
-            return percentage;
-        } else {
-            setValue(setFieldName, null);
-        }
-    };
+    const calculateAverage = (mark1, mark2) => {
+        return (mark1 && mark2) ? ((mark1 + mark2) / 2).toFixed(2) : null
+    }
 
-    const physicsSecured = parseInt(watch('physics_secured'));
-    const physicsMax = watch('physics_max');
+    const physicsSec = Number(watch('physics_secured'))
+    const physicsMax = Number(watch('physics_max'))
 
-    const chemistrySecured = watch('chemistry_secured');
-    const chemistryMax = watch('chemistry_max');
+    const chemistrySec = Number(watch('chemistry_secured'))
+    const chemistryMax = Number(watch('chemistry_max'))
 
-    const mathsSecured = watch('maths_secured');
-    const mathsMax = watch('maths_max');
+    const mathsSec = Number(watch('maths_secured'))
+    const mathsMax = Number(watch('maths_max'))
 
-    const biologySecured = watch('biology_secured');
-    const biologyMax = watch('biology_max');
+    const biologySec = Number(watch('biology_secured'))
+    const biologyMax = Number(watch('biology_max'))
 
-    const csSecured = watch('cs_secured');
-    const csMax = watch('cs_max');
+    const csSec = Number(watch('cs_secured'))
+    const csMax = Number(watch('cs_max'))
 
-    const diplomaFirstSec = watch('diploma_first_sec');
-    const diplomaFirstMax = watch('diploma_first_max');
+    const diplomaFirstSec = Number(watch('diploma_first_sec'))
+    const diplomaFirstMax = Number(watch('diploma_first_max'))
 
-    const diplomaSecondSec = watch('diploma_second_sec');
-    const diplomaSecondMax = watch('diploma_second_max');
+    const diplomaSecondSec = Number(watch('diploma_second_sec'))
+    const diplomaSecondMax = Number(watch('diploma_second_max'))
 
-    const diplomaThirdSec = watch('diploma_third_sec');
-    const diplomaThirdMax = watch('diploma_third_max');
+    const diplomaThirdSec = Number(watch('diploma_third_sec'))
+    const diplomaThirdMax = Number(watch('diploma_third_max'))
 
-    const diplomaFourthSec = watch('diploma_fourth_sec');
-    const diplomaFourthMax = watch('diploma_fourth_max');
+    const diplomaFourthSec = Number(watch('diploma_fourth_sec'))
+    const diplomaFourthMax = Number(watch('diploma_fourth_max'))
 
-    const diplomaFifthSec = watch('diploma_fifth_sec');
-    const diplomaFifthMax = watch('diploma_fifth_max');
+    const diplomaFifthSec = Number(watch('diploma_fifth_sec'))
+    const diplomaFifthMax = Number(watch('diploma_fifth_max'))
 
-    const diplomaSixthSec = watch('diploma_sixth_sec');
-    const diplomaSixthMax = watch('diploma_sixth_max');
+    const diplomaSixthSec = Number(watch('diploma_sixth_sec'))
+    const diplomaSixthMax = Number(watch('diploma_sixth_max'))
 
-    const diplomaSeventhSec = watch('diploma_seventh_sec');
-    const diplomaSeventhMax = watch('diploma_seventh_max');
+    const diplomaSeventhSec = Number(watch('diploma_seventh_sec'))
+    const diplomaSeventhMax = Number(watch('diploma_seventh_max'))
 
-    const diplomaEighthSec = watch('diploma_eighth_sec');
-    const diplomaEighthMax = watch('diploma_eighth_max');
+    const diplomaEighthSec = Number(watch('diploma_eighth_sec'))
+    const diplomaEighthMax = Number(watch('diploma_eighth_max'))
 
-    const diplomaNinthSec = watch('diploma_ninenth_sec');
-    const diplomaNinthMax = watch('diploma_ninenth_max');
+    const diplomaNinthSec = Number(watch('diploma_ninenth_sec'))
+    const diplomaNinthMax = Number(watch('diploma_ninenth_max'))
 
-    const diplomaTenthSec = watch('diploma_tenth_sec');
-    const diplomaTenthMax = watch('diploma_tenth_max');
+    const diplomaTenthSec = Number(watch('diploma_tenth_sec'))
+    const diplomaTenthMax = Number(watch('diploma_tenth_max'))
 
-    const ugMarkSec = watch('ug_mark_sec');
-    const ugMarkMax = watch('ug_mark_max');
+    const ugMarkSec = Number(watch('ug_mark_sec'))
+    const ugMarkMax = Number(watch('ug_mark_max'))
 
-    const entranceSecured = watch('entrance_secured');
-    const entranceMax = watch('entrance_max');
+    const entranceSec = Number(watch('entrance_secured'))
+    const entranceMax = Number(watch('entrance_max'))
 
-    const phyPer = calculatePercentage(physicsSecured, physicsMax, 'physics_percentage');
-    const chePer = calculatePercentage(chemistrySecured, chemistryMax, 'chemistry_percentage');
-    const mathPer = calculatePercentage(mathsSecured, mathsMax, 'maths_percentage');
-    const I_per = calculatePercentage(diplomaFirstSec, diplomaFirstMax, 'diploma_first_per');
-    const II_per = calculatePercentage(diplomaSecondSec, diplomaSecondMax, 'diploma_second_per');
-    const III_per = calculatePercentage(diplomaThirdSec, diplomaThirdMax, 'diploma_third_per');
-    const IV_per = calculatePercentage(diplomaFourthSec, diplomaFourthMax, 'diploma_fourth_per');
-    const V_per = calculatePercentage(diplomaFifthSec, diplomaFifthMax, 'diploma_fifth_per');
-    const VI_per = calculatePercentage(diplomaSixthSec, diplomaSixthMax, 'diploma_sixth_per');
-    const VII_per = calculatePercentage(diplomaSeventhSec, diplomaSeventhMax, 'diploma_seventh_per');
-    const VIII_per = calculatePercentage(diplomaEighthSec, diplomaEighthMax, 'diploma_eighth_per');
-    const IX_per = calculatePercentage(diplomaNinthSec, diplomaNinthMax, 'diploma_ninenth_per');
-    const X_per = calculatePercentage(diplomaTenthSec, diplomaTenthMax, 'diploma_tenth_per');
-    calculatePercentage(biologySecured, biologyMax, 'biology_percentage');
-    calculatePercentage(csSecured, csMax, 'cs_percentage');
-    calculatePercentage(ugMarkSec, ugMarkMax, 'ug_mark_per');
-    calculatePercentage(entranceSecured, entranceMax, 'entrance_percenteage');
+    const physicsPer = Number(calculatePercentage(physicsSec, physicsMax))
+    setValue('physics_percentage', physicsPer)
 
-    const pcmSec = physicsSecured + chemistrySecured + mathsSecured === 0? null : parseFloat(physicsSecured) + parseFloat(chemistrySecured) + parseFloat(mathsSecured);
-    const pcmMax = physicsMax + chemistryMax + mathsMax === 0? null : parseFloat(physicsMax) + parseFloat(chemistryMax) + parseFloat(mathsMax);
-    setValue('pcm_sec', pcmSec);
-    setValue('pcm_max', pcmMax);
-    calculatePercentage(pcmSec, pcmMax, 'pcm_per');
+    const chemistryPer = Number(calculatePercentage(chemistrySec, chemistryMax))
+    setValue('chemistry_percentage', chemistryPer)
 
-    const phyChe = physicsSecured + chemistrySecured === 0? null : parseFloat(physicsSecured) + parseFloat(chemistrySecured)
-    setValue('phy_che', phyChe);
-    const phyChePer = parseFloat(phyPer) + parseFloat(chePer);
-    setValue('phy_che', phyChe === null? null : (phyChePer/2).toFixed(2));
-    setValue('maths', mathPer);
+    const mathsPer = Number(calculatePercentage(mathsSec, mathsMax))
+    setValue('maths_percentage', mathsPer)
 
-    const cutOff = phyChe / 2 + mathsSecured === 0? null : parseFloat(phyChe) / 2 + parseFloat(mathsSecured);
-    setValue('cut_off', cutOff);
+    setValue('biology_percentage', calculatePercentage(biologySec, biologyMax))
+    setValue('cs_percentage', calculatePercentage(csSec, csMax))
 
-    const I_II_per = I_per == null || II_per == null? null : (I_per/2 + II_per / 2).toFixed(2);
-    setValue('I_II', I_II_per);
+    const pcmSec = Number(physicsSec + chemistrySec + mathsSec)
+    setValue('pcm_sec', pcmSec)
 
-    const III_IV_per = III_per == null || IV_per == null? null : (III_per/2 + IV_per / 2).toFixed(2);
-    setValue('III_IV', III_IV_per);
+    const pcmMax = Number(physicsMax + chemistryMax + mathsMax)
+    setValue('pcm_max', pcmMax)
 
-    const V_VI_per = V_per == null || VI_per == null? null : (V_per/2 + VI_per / 2).toFixed(2);
-    setValue('V_VI', V_VI_per);
+    setValue('pcm_per', calculatePercentage(pcmSec, pcmMax))
 
-    const VII_VIII_per = VII_per == null || VIII_per == null? null : (VII_per/2 + VIII_per / 2).toFixed(2);
-    setValue('VII_VIII', VII_VIII_per);
+    const phy_che = Number(calculateAverage(physicsPer, chemistryPer))
+    setValue('phy_che', phy_che)
+    setValue('maths', mathsPer)
+    setValue('cut_off', phy_che+ mathsPer)
 
-    const IX_X_per = IX_per ==null || X_per == null? null : (IX_per/2 + X_per / 2).toFixed(2);
-    setValue('IX_X', IX_X_per);
+    const diplomaFirstPer = Number(calculatePercentage(diplomaFirstSec, diplomaFirstMax))
+    setValue('diploma_first_per', diplomaFirstPer)
+
+    const diplomaSecondPer = Number(calculatePercentage(diplomaSecondSec, diplomaSecondMax))
+    setValue('diploma_second_per', diplomaSecondPer)
+
+    const diplomaThirdPer = Number(calculatePercentage(diplomaThirdSec, diplomaThirdMax))
+    setValue('diploma_third_per', diplomaThirdPer)
+    
+    const diplomaFourthPer = Number(calculatePercentage(diplomaFourthSec, diplomaFourthMax))
+    setValue('diploma_fourth_per', diplomaFourthPer)
+
+    const diplomaFifthPer = Number(calculatePercentage(diplomaFifthSec, diplomaFifthMax))
+    setValue('diploma_fifth_per', diplomaFifthPer)
+
+    const diplomaSixthPer = Number(calculatePercentage(diplomaSixthSec, diplomaSixthMax))
+    setValue('diploma_sixth_per', diplomaSixthPer)
+
+    const diplomaSeventhPer = Number(calculatePercentage(diplomaSeventhSec, diplomaSeventhMax))
+    setValue('diploma_seventh_per', diplomaSeventhPer)
+
+    const diplomaEighthPer = Number(calculatePercentage(diplomaEighthSec, diplomaEighthMax))
+    setValue('diploma_eighth_per', diplomaEighthPer)
+
+    const diplomaNinthPer = Number(calculatePercentage(diplomaNinthSec, diplomaNinthMax))
+    setValue('diploma_ninenth_per', diplomaNinthPer)
+
+    const diplomaTenthPer = Number(calculatePercentage(diplomaTenthSec, diplomaTenthMax))
+    setValue('diploma_tenth_per', diplomaTenthPer)
+
+    setValue('ug_mark_per', calculatePercentage(ugMarkSec, ugMarkMax))
+
+    setValue('I_II', calculateAverage(diplomaFirstPer, diplomaSecondPer))
+    setValue('III_IV', calculateAverage(diplomaThirdPer, diplomaFourthPer))
+    setValue('V_VI', calculateAverage(diplomaFifthPer, diplomaSixthPer))
+    setValue('VII_VIII', calculateAverage(diplomaSeventhPer, diplomaEighthPer))
+    setValue('IX_X', calculateAverage(diplomaNinthPer, diplomaTenthPer))
+
+    setValue('entrance_percenteage', calculatePercentage(entranceSec, entranceMax))
+
+    // const calculatePercentage = (securedMarks, maxMarks, setFieldName) => {
+    //     if (securedMarks && maxMarks) {
+    //         const percentage = (securedMarks / maxMarks) * 100;
+    //         setValue(setFieldName, percentage.toFixed(2));
+    //         return percentage;
+    //     } else {
+    //         setValue(setFieldName, null);
+    //     }
+    // };
+
+    // const physicsSecured = parseInt(watch('physics_secured'));
+    // const physicsMax = watch('physics_max');
+
+    // const chemistrySecured = watch('chemistry_secured');
+    // const chemistryMax = watch('chemistry_max');
+
+    // const mathsSecured = watch('maths_secured');
+    // const mathsMax = watch('maths_max');
+
+    // const biologySecured = watch('biology_secured');
+    // const biologyMax = watch('biology_max');
+
+    // const csSecured = watch('cs_secured');
+    // const csMax = watch('cs_max');
+
+    // const diplomaFirstSec = watch('diploma_first_sec');
+    // const diplomaFirstMax = watch('diploma_first_max');
+
+    // const diplomaSecondSec = watch('diploma_second_sec');
+    // const diplomaSecondMax = watch('diploma_second_max');
+
+    // const diplomaThirdSec = watch('diploma_third_sec');
+    // const diplomaThirdMax = watch('diploma_third_max');
+
+    // const diplomaFourthSec = watch('diploma_fourth_sec');
+    // const diplomaFourthMax = watch('diploma_fourth_max');
+
+    // const diplomaFifthSec = watch('diploma_fifth_sec');
+    // const diplomaFifthMax = watch('diploma_fifth_max');
+
+    // const diplomaSixthSec = watch('diploma_sixth_sec');
+    // const diplomaSixthMax = watch('diploma_sixth_max');
+
+    // const diplomaSeventhSec = watch('diploma_seventh_sec');
+    // const diplomaSeventhMax = watch('diploma_seventh_max');
+
+    // const diplomaEighthSec = watch('diploma_eighth_sec');
+    // const diplomaEighthMax = watch('diploma_eighth_max');
+
+    // const diplomaNinthSec = watch('diploma_ninenth_sec');
+    // const diplomaNinthMax = watch('diploma_ninenth_max');
+
+    // const diplomaTenthSec = watch('diploma_tenth_sec');
+    // const diplomaTenthMax = watch('diploma_tenth_max');
+
+    // const ugMarkSec = watch('ug_mark_sec');
+    // const ugMarkMax = watch('ug_mark_max');
+
+    // const entranceSecured = watch('entrance_secured');
+    // const entranceMax = watch('entrance_max');
+
+    // const phyPer = calculatePercentage(physicsSecured, physicsMax, 'physics_percentage');
+    // const chePer = calculatePercentage(chemistrySecured, chemistryMax, 'chemistry_percentage');
+    // const mathPer = calculatePercentage(mathsSecured, mathsMax, 'maths_percentage');
+    // const I_per = calculatePercentage(diplomaFirstSec, diplomaFirstMax, 'diploma_first_per');
+    // const II_per = calculatePercentage(diplomaSecondSec, diplomaSecondMax, 'diploma_second_per');
+    // const III_per = calculatePercentage(diplomaThirdSec, diplomaThirdMax, 'diploma_third_per');
+    // const IV_per = calculatePercentage(diplomaFourthSec, diplomaFourthMax, 'diploma_fourth_per');
+    // const V_per = calculatePercentage(diplomaFifthSec, diplomaFifthMax, 'diploma_fifth_per');
+    // const VI_per = calculatePercentage(diplomaSixthSec, diplomaSixthMax, 'diploma_sixth_per');
+    // const VII_per = calculatePercentage(diplomaSeventhSec, diplomaSeventhMax, 'diploma_seventh_per');
+    // const VIII_per = calculatePercentage(diplomaEighthSec, diplomaEighthMax, 'diploma_eighth_per');
+    // const IX_per = calculatePercentage(diplomaNinthSec, diplomaNinthMax, 'diploma_ninenth_per');
+    // const X_per = calculatePercentage(diplomaTenthSec, diplomaTenthMax, 'diploma_tenth_per');
+    // calculatePercentage(biologySecured, biologyMax, 'biology_percentage');
+    // calculatePercentage(csSecured, csMax, 'cs_percentage');
+    // calculatePercentage(ugMarkSec, ugMarkMax, 'ug_mark_per');
+    // calculatePercentage(entranceSecured, entranceMax, 'entrance_percenteage');
+
+    // const pcmSec = physicsSecured + chemistrySecured + mathsSecured === 0? null : parseFloat(physicsSecured) + parseFloat(chemistrySecured) + parseFloat(mathsSecured);
+    // const pcmMax = physicsMax + chemistryMax + mathsMax === 0? null : parseFloat(physicsMax) + parseFloat(chemistryMax) + parseFloat(mathsMax);
+    // setValue('pcm_sec', pcmSec);
+    // setValue('pcm_max', pcmMax);
+    // calculatePercentage(pcmSec, pcmMax, 'pcm_per');
+
+    // const phyChe = physicsSecured + chemistrySecured === 0? null : parseFloat(physicsSecured) + parseFloat(chemistrySecured)
+    // setValue('phy_che', phyChe);
+    // const phyChePer = parseFloat(phyPer) + parseFloat(chePer);
+    // setValue('phy_che', phyChe === null? null : (phyChePer/2).toFixed(2));
+    // setValue('maths', mathPer);
+
+    // const cutOff = phyChe / 2 + mathsSecured === 0? null : parseFloat(phyChe) / 2 + parseFloat(mathsSecured);
+    // setValue('cut_off', cutOff);
+
+    // const I_II_per = I_per == null || II_per == null? null : (I_per/2 + II_per / 2).toFixed(2);
+    // setValue('I_II', I_II_per);
+
+    // const III_IV_per = III_per == null || IV_per == null? null : (III_per/2 + IV_per / 2).toFixed(2);
+    // setValue('III_IV', III_IV_per);
+
+    // const V_VI_per = V_per == null || VI_per == null? null : (V_per/2 + VI_per / 2).toFixed(2);
+    // setValue('V_VI', V_VI_per);
+
+    // const VII_VIII_per = VII_per == null || VIII_per == null? null : (VII_per/2 + VIII_per / 2).toFixed(2);
+    // setValue('VII_VIII', VII_VIII_per);
+
+    // const IX_X_per = IX_per ==null || X_per == null? null : (IX_per/2 + X_per / 2).toFixed(2);
+    // setValue('IX_X', IX_X_per);
 
 
     const onSubmit = async (data) => {

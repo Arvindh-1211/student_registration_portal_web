@@ -1,15 +1,22 @@
+.InputField{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .inputfield-label {
     font-size: 20px;
     font-weight: 400;
     margin: 4px;
     text-align: left;
-    padding-left: 2.2vw;
+    width: 18vw;
+    min-width: 240px;
 }
 
 .inputfield {
     height: 40px;
-    min-width: 200px;
-    max-width: 18vw;
+    min-width: 240px;
+    max-width: 19vw;
     width: 100%;
     border-style: none;
     border: 2px solid #9c9c9c;

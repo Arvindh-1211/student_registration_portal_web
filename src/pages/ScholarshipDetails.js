@@ -28,7 +28,10 @@ function ScholarshipDetails() {
         adm_sch_amt2: '',
     })
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ScholarshipDetails) });
+    const [options, setOptions] = useState({});
+    const [scholarship_data, setScholarshipData] = useState({});
+
+    const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ScholarshipDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -40,24 +43,52 @@ function ScholarshipDetails() {
             setIsLoading(false)
         }
 
-        setIsLoading(false)
-        if(applicationNo){
-            getDefaultValues();
+        const getOptions = async () => {
+            setError(null)
+            const result = await services.fetchFromMaster('scholarship')
+            setScholarshipData(result);
+            
+            let temp = {}
+            for (const key in result) {
+                temp[result[key].discount_id] = result[key].discount_name;
+            }
+            setOptions(temp);
+        };
+
+        const init = async () => {
+            setIsLoading(true)
+            await getOptions();
+            await getDefaultValues();
+            setIsLoading(false)
+        };
+
+        if (applicationNo) {
+            init();
         } else {
             navigate('/')
         }
     }, [])
 
+    const scholarship1 = watch('adm_sch_name1')
+    const scholarship2 = watch('adm_sch_name2')
+
+    if(scholarship1){
+        setValue('adm_sch_amt1', scholarship_data[scholarship1].discount_amount)
+    }
+    if(scholarship2){
+        setValue('adm_sch_amt2', scholarship_data[scholarship2].discount_amount)
+    }
+
     const onSubmit = async (data) => {
         setIsLoading(true)
         setError(null)
+        
         const response = await services.updateData(applicationNo, data)
 
         if (response) {
             navigate('/mark_details')
         } else {
             setError("Error submitting form!")
-
         }
         setIsLoading(false)
     }
@@ -70,8 +101,9 @@ function ScholarshipDetails() {
                 <Row>
                     <DropDown
                         label="Scholarship-1"
-                        options={{ "1": "1", "2": "2", "3": "3" }}
+                        options={options}
                         registerProps={register("adm_sch_name1")}
+                        sorted={false}
                     />
                     <InputField
                         label="Amount-1"
@@ -83,8 +115,9 @@ function ScholarshipDetails() {
                 <Row>
                     <DropDown
                         label="Scholarship-2"
-                        options={{ "1": "1", "2": "2", "3": "3" }}
+                        options={options}
                         registerProps={register("adm_sch_name2")}
+                        sorted={false}
                     />
                     <InputField
                         label="Amount-2"

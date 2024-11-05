@@ -24,7 +24,7 @@ function Detail({ label, value }) {
 function FinalReview() {
     const applicationNo = useSelector((state) => state.applicationNo.value)
     const dispatch = useDispatch();
-    dispatch(setApplicationNo(1087));
+    dispatch(setApplicationNo(1395));
 
     const [formData, setFormData] = useState({
         // Personal Details
@@ -250,11 +250,11 @@ function FinalReview() {
                 setFormData((prevFormData) => ({ ...prevFormData, designation: designation }))
             }
             if (fetchedData.occupation_mother) {
-                const occupation_mother = await services.getValueFromMaster('occupation_mother', fetchedData.occupation_mother)
+                const occupation_mother = await services.getValueFromMaster('occupation', fetchedData.occupation_mother)
                 setFormData((prevFormData) => ({ ...prevFormData, occupation_mother: occupation_mother }))
             }
             if (fetchedData.designation_mother) {
-                const designation_mother = await services.getValueFromMaster('designation_mother', fetchedData.designation_mother)
+                const designation_mother = await services.getValueFromMaster('designation', fetchedData.designation_mother)
                 setFormData((prevFormData) => ({ ...prevFormData, designation_mother: designation_mother }))
             }
             if (fetchedData.batch_id) {
@@ -575,9 +575,9 @@ function FinalReview() {
                     <div className='detail-row'>
                         <Detail label="Father Qualification" value={formData.father_qual} />
                         <Detail label="Mother Qualification" value={formData.mother_qual} />
-                        <Detail label="School Type" value={formData.school_type} />
                         <Detail label="College bus needed?" value={formData.college_bus} />
                         <Detail label="Boarding Point" value={formData.boarding_point} />
+                        <Detail label="School Type" value={formData.school_type} />
                         <Detail label="Sports Interested" value={formData.sports_int} />
                         <Detail label="First Graduate Application No." value={formData.first_gr_appno} />
                         <Detail label="How did you choose this college?" value={formData.choose_college} />

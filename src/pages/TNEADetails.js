@@ -29,7 +29,7 @@ function TNEADetails() {
         general_rank: '',
         comm_rank: '',
         tnea_pay_rec_no: '',
-        tnea_pay_rec_date: '',
+        tnea_pay_rec_date: null,
         tnea_pay_rec_amt: '',
         tnea_pay_bank: '',
     })
