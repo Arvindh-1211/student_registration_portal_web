@@ -19,6 +19,15 @@ const PersonalDetails = Yup.object().shape({
     aadhar_no: Yup.string()
         .length(12, "Must be 12 digits")
         .required('Aadhar Number is required'),
+
+    legend: Yup.string()
+        .required("Title is required"),
+
+    gender: Yup.string()
+        .required("Gender is required"),
+
+    blood_group: Yup.string()
+        .required("Blood Group is required"),
 })
 
 const ParentDetails = Yup.object().shape({
@@ -99,9 +108,6 @@ const AddressDetails = Yup.object().shape({
 const MarkDetails = Yup.object().shape({
     school_name: Yup.string()
         .required("School name is reuquired"),
-
-    school_class: Yup.string()
-        .required("School class is required"),
 
     school_tc_no: Yup.string()
         .matches(/^[A-Za-z0-9-]+$/, "Invalid TC number")
@@ -441,6 +447,9 @@ const TNEADetails = Yup.object().shape({
 
     tnea_pay_bank: Yup.string()
         .nullable(true),
+
+    seat_cat: Yup.string()
+        .required("Seat Category is required"),
 })
 
 const ScholarshipDetails = Yup.object().shape({

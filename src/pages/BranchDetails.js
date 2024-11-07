@@ -49,7 +49,7 @@ function BranchDetails() {
 
                 const sortedBranches = coursesArray.sort((a, b) => a.branch_name.localeCompare(b.branch_name))
                 const sortedCourses = sortedBranches.sort((a, b) => a.course_id - b.course_id)
-
+                
                 setCourses(sortedCourses);
             } else {
                 setError("Error fetching branch details!")

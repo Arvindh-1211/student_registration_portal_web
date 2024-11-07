@@ -1,30 +1,37 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux'
+import "../css/FinalReview.css"
+
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 import { setApplicationNo } from '../store/applicationNoSlice';
 import services from "../services/services";
 
-import { useNavigate } from 'react-router-dom';
-import "../css/FinalReview.css"
 
 
-function Detail({ label, value }) {
+function Detail({ label, value, marks }) {
     return (
         <div className='detail'>
             <span className='detail-label'>
                 <div>{label}</div><div>:</div>
             </span>
             {value}
+            {marks && marks.sec && marks.max && `${parseFloat(marks.sec)} / ${parseFloat(marks.max)}`}
         </div>
     )
 
 }
 
 function FinalReview() {
+    const navigate = useNavigate();
     const applicationNo = useSelector((state) => state.applicationNo.value)
-    const dispatch = useDispatch();
-    dispatch(setApplicationNo(1395));
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
+    // const dispatch = useDispatch();
+    // dispatch(setApplicationNo(1015));
 
     const [formData, setFormData] = useState({
         // Personal Details
@@ -94,6 +101,7 @@ function FinalReview() {
         stu_email_id: '',
         parent_mobile_no: '',
         parent_email_id: '',
+        nominee_relation: '',
         nominee_name: '',
         nominee_age: '',
 
@@ -119,6 +127,12 @@ function FinalReview() {
         school_name: '',
         school_tc_no: '',
         school_tc_date: '',
+        school_board: '',
+        school_class: '',
+        sch_qual_id: '',
+        sch_yr_pass: '',
+        sch_study_state: '',
+        study_medium: '',
         sch_attempt: '',
         sch_reg1: '',
         sch_cer1: '',
@@ -188,23 +202,29 @@ function FinalReview() {
         entrance_secured: '',
         entrance_max: '',
         entrance_percenteage: '',
+    })
 
+    const [additionalDet, setAdditionalDet] = useState({
         // Additional Details
-        // father_qual: '',
-        // mother_qual: '',
-        // school_type: '',
-        // college_bus: '',
-        // boarding_point: '',
-        // sports_int: '',
-        // first_gr_appno: '',
-        // choose_college: '',
+        father_qual: '',
+        mother_qual: '',
+        school_type: '',
+        college_bus: '',
+        boarding_point: '',
+        sports_int: '',
+        first_gr_appno: '',
+        choose_college: '',
     })
 
     useEffect(() => {
         let fetchedData
         const getDefaultValues = async () => {
+            setError(null)
             const queryParams = Object.keys(formData).join(',')
             fetchedData = await services.fetchData(applicationNo, queryParams)
+            if (!fetchedData) {
+                setError("Error fetching data!")
+            }
             setFormData(fetchedData)
             if (fetchedData.dob) {
                 let dob = new Date(fetchedData.dob).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
@@ -220,101 +240,192 @@ function FinalReview() {
             }
         }
 
+        const getAdditionalDet = async () => {
+            const queryParams = Object.keys(additionalDet).join(',')
+            const response = await services.getStudentAdditionalDet(applicationNo, queryParams)
+            setAdditionalDet(response)
+        }
+
         const getValue = async () => {
             if (fetchedData.blood_group) {
                 const blood_group = await services.getValueFromMaster('blood_group', fetchedData.blood_group)
+                if (!blood_group) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, blood_group: blood_group }))
             }
             if (fetchedData.community_id) {
                 const community = await services.getValueFromMaster('community', fetchedData.community_id)
+                if (!community) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, community_id: community }))
             }
             if (fetchedData.caste_id) {
                 const caste = await services.getValueFromMaster('caste', fetchedData.caste_id)
+                if (!caste) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, caste_id: caste }))
             }
             if (fetchedData.religion_id) {
                 const religion = await services.getValueFromMaster('religion', fetchedData.religion_id)
+                if (!religion) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, religion_id: religion }))
             }
             if (fetchedData.nationality_id) {
                 const nationality = await services.getValueFromMaster('nationality', fetchedData.nationality_id)
+                if (!nationality) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, nationality_id: nationality }))
             }
             if (fetchedData.occupation) {
                 const occupation = await services.getValueFromMaster('occupation', fetchedData.occupation)
+                if (!occupation) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, occupation: occupation }))
             }
             if (fetchedData.designation) {
                 const designation = await services.getValueFromMaster('designation', fetchedData.designation)
+                if (!designation) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, designation: designation }))
             }
             if (fetchedData.occupation_mother) {
                 const occupation_mother = await services.getValueFromMaster('occupation', fetchedData.occupation_mother)
+                if (!occupation_mother) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, occupation_mother: occupation_mother }))
             }
             if (fetchedData.designation_mother) {
                 const designation_mother = await services.getValueFromMaster('designation', fetchedData.designation_mother)
+                if (!designation_mother) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, designation_mother: designation_mother }))
             }
             if (fetchedData.batch_id) {
                 const batch_id = await services.getValueFromMaster('batch_id', fetchedData.batch_id)
+                if (!batch_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, batch_id: batch_id }))
             }
             if (fetchedData.acad_yr_id) {
                 const acad_yr_id = await services.getValueFromMaster('acad_yr_id', fetchedData.acad_yr_id)
+                if (!acad_yr_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, acad_yr_id: acad_yr_id }))
             }
             if (fetchedData.branch_id) {
                 const branch_id = await services.getValueFromMaster('branch_id', fetchedData.branch_id)
+                if (!branch_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, branch_id: branch_id }))
+            }
+            if (fetchedData.branch_type) {
+                const branch_type = await services.getValueFromMaster('branch_type', fetchedData.branch_type)
+                if (!branch_type) {
+                    setError("Error fetching some values!")
+                }
+                setFormData((prevFormData) => ({ ...prevFormData, branch_type: branch_type }))
             }
             if (fetchedData.course_id) {
                 const course_id = await services.getValueFromMaster('course_id', fetchedData.course_id)
+                if (!course_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, course_id: course_id }))
             }
             if (fetchedData.dept_id) {
                 const dept_id = await services.getValueFromMaster('dept_id', fetchedData.dept_id)
+                if (!dept_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, dept_id: dept_id }))
             }
             if (fetchedData.regulation_id) {
                 const regulation_id = await services.getValueFromMaster('regulation_id', fetchedData.regulation_id)
+                if (!regulation_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, regulation_id: regulation_id }))
             }
             if (fetchedData.university_id) {
                 const university_id = await services.getValueFromMaster('university_id', fetchedData.university_id)
+                if (!university_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, university_id: university_id }))
             }
             if (fetchedData.student_cat_id) {
                 const student_cat_id = await services.getValueFromMaster('student_cat_id', fetchedData.student_cat_id)
+                if (!student_cat_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, student_cat_id: student_cat_id }))
             }
             if (fetchedData.quota_id) {
-                const quota_id = await services.getValueFromMaster('quota_id', fetchedData.quota_id)
+                const quota_id = await services.getValueFromMaster('quota', fetchedData.quota_id)
+                if (!quota_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, quota_id: quota_id }))
             }
             if (fetchedData.sch_qual_id) {
                 const sch_qual_id = await services.getValueFromMaster('sch_qual_id', fetchedData.sch_qual_id)
+                if (!sch_qual_id) {
+                    setError("Error fetching some values!")
+                }
                 setFormData((prevFormData) => ({ ...prevFormData, sch_qual_id: sch_qual_id }))
             }
         }
 
         const init = async () => {
-            await getDefaultValues();
+            setIsLoading(true)
+            await getDefaultValues()
             await getValue()
+            await getAdditionalDet()
+            setIsLoading(false)
         };
 
         init();
     }, [])
 
+    const handleSubmit = async () => {
+        setIsLoading(true)
+        setError(null)
 
+        const response = await services.inserIntoCAMPS(applicationNo)
+
+        if (response) {
+            navigate('/success')
+        } else {
+            setError("Error submitting form!")
+
+        }
+
+        setIsLoading(false)
+    }
 
     return (
         <div className='form-container'>
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
             <div className='details-card'>
-                <div className="detail-header">PERSONAL DETAILS
-                    <hr></hr>
+                <div className="detail-header">
+                    <div>PERSONAL DETAILS</div>
+                    <div><input className='button' type='button' value="Edit" onClick={() => { navigate('/personal_details', { state: { fromFinal: true } }) }} /></div>
                 </div>
+                <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
                         <Detail label="Name" value={formData.legend + ' ' + formData.student_name + ' ' + formData.initial} />
@@ -332,9 +443,11 @@ function FinalReview() {
                 </div>
             </div>
             <div className='details-card'>
-                <div className="detail-header">PARENT DETAILS
-                    <hr></hr>
+                <div className="detail-header">
+                    <div>PARENT DETAILS</div>
+                    <div><input className='button' type='button' value="Edit" onClick={() => { navigate('/parent_details', { state: { fromFinal: true } }) }} /></div>
                 </div>
+                <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
                         <Detail label="Father Name" value={formData.father_name} />
@@ -352,9 +465,8 @@ function FinalReview() {
                 </div>
             </div>
             <div className='details-card'>
-                <div className="detail-header">BRANCH DETAILS
-                    <hr></hr>
-                </div>
+                <div className="detail-header">BRANCH DETAILS</div>
+                <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
                         <Detail label="Batch" value={formData.batch_id} />
@@ -376,9 +488,11 @@ function FinalReview() {
                 </div>
             </div>
             <div className='details-card'>
-                <div className="detail-header">ADDRESS DETAILS
-                    <hr></hr>
+                <div className="detail-header">
+                    <div>ADDRESS DETAILS</div>
+                    <div><input className='button' type='button' value="Edit" onClick={() => { navigate('/address_details', { state: { fromFinal: true } }) }} /></div>
                 </div>
+                <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
                         <div className='details-sub-header'>Communication Address</div>
@@ -402,9 +516,11 @@ function FinalReview() {
                 </div>
             </div>
             <div className='details-card'>
-                <div className="detail-header">CONTACT DETAILS
-                    <hr></hr>
+                <div className="detail-header">
+                    <div>CONTACT DETAILS</div>
+                    <div><input className='button' type='button' value="Edit" onClick={() => { navigate('/contact_details', { state: { fromFinal: true } }) }} /></div>
                 </div>
+                <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
                         <Detail label="Student's Phone Number" value={formData.stu_mobile_no} />
@@ -418,30 +534,35 @@ function FinalReview() {
                 </div>
             </div>
             <div className='details-card'>
-                <div className="detail-header">TNEA DETAILS
-                    <hr></hr>
+                <div className="detail-header">
+                    <div>TNEA DETAILS</div>
+                    <div><input className='button' type='button' value="Edit" onClick={() => { navigate('/tnea_details', { state: { fromFinal: true } }) }} /></div>
                 </div>
+                <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
                         <Detail label="Seat Category" value={formData.seat_cat} />
-                        <div className='details-sub-header'>TNEA Payment Details</div>
                         <Detail label="Quota" value={formData.quota_id} />
-                        <Detail label="Receipt No." value={formData.tnea_pay_rec_no} />
                         <Detail label="TNEA Application No." value={formData.tnea_app_no} />
-                        <Detail label="Receipt Date" value={formData.tnea_pay_rec_date} />
                         <Detail label="TNEA Admission No." value={formData.tnea_adm_no} />
-                        <Detail label="Receipt Amount" value={formData.tnea_pay_rec_amt} />
                         <Detail label="General Rank" value={formData.general_rank} />
-                        <Detail label="Payment Bank" value={formData.tnea_pay_bank} />
                         <Detail label="Community Rank" value={formData.comm_rank} />
+                        <div className='details-sub-header'>TNEA Payment Details</div>
+                        <div></div>
+                        <Detail label="Receipt No." value={formData.tnea_pay_rec_no} />
+                        <Detail label="Receipt Date" value={formData.tnea_pay_rec_date} />
+                        <Detail label="Receipt Amount" value={formData.tnea_pay_rec_amt} />
+                        <Detail label="Payment Bank" value={formData.tnea_pay_bank} />
 
                     </div>
                 </div>
             </div>
             <div className='details-card'>
-                <div className="detail-header">SCHOLARSHIP DETAILS
-                    <hr></hr>
+                <div className="detail-header">
+                    <div>SCHOLARSHIP DETAILS</div>
+                    <div><input className='button' type='button' value="Edit" onClick={() => { navigate('/scholarship_details', { state: { fromFinal: true } }) }} /></div>
                 </div>
+                <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
                         <Detail label="Scholarship-1" value={formData.adm_sch_name1} />
@@ -452,9 +573,11 @@ function FinalReview() {
                 </div>
             </div>
             <div className='details-card'>
-                <div className="detail-header">MARK DETAILS
-                    <hr></hr>
+                <div className="detail-header">
+                    <div>MARK DETAILS</div>
+                    <div><input className='button' type='button' value="Edit" onClick={() => { navigate('/mark_details', { state: { fromFinal: true } }) }} /></div>
                 </div>
+                <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
                         <Detail label="School Name" value={formData.school_name} />
@@ -479,78 +602,60 @@ function FinalReview() {
 
                         <div className='details-sub-header'>HSC Details</div>
                         <div></div>
-                        {/* <Detail label="Physics Marks" value={formData.physics_secured + '/'+ formData.physics_max} /> */}
 
-                        <Detail label="Physics Marks Secured" value={formData.physics_secured} />
-                        <Detail label="Chemistry Marks Secured" value={formData.chemistry_secured} />
-                        <Detail label="Physics Max Marks" value={formData.physics_max} />
-                        <Detail label="Chemistry Max Marks" value={formData.chemistry_max} />
+                        <Detail label="Physics Marks" marks={{ sec: formData.physics_secured, max: formData.physics_max }} />
                         <Detail label="Physics Percentage" value={formData.physics_percentage} />
+
+                        <Detail label="Chemistry Marks" marks={{ sec: formData.chemistry_secured, max: formData.chemistry_max }} />
                         <Detail label="Chemistry Percentage" value={formData.chemistry_percentage} />
 
-
-                        <Detail label="Maths Marks Secured" value={formData.maths_secured} />
-                        <Detail label="Biology Marks Secured" value={formData.biology_secured} />
-                        <Detail label="Maths Max Marks" value={formData.maths_max} />
-                        <Detail label="Biology Max Marks" value={formData.biology_max} />
+                        <Detail label="Maths Marks" marks={{ sec: formData.maths_secured, max: formData.maths_max }} />
                         <Detail label="Maths Percentage" value={formData.maths_percentage} />
+
+                        <Detail label="Biology Marks" marks={{ sec: formData.biology_secured, max: formData.biology_max }} />
                         <Detail label="Biology Percentage" value={formData.biology_percentage} />
 
-
-                        <Detail label="CS Marks Secured" value={formData.cs_secured} />
-                        <Detail label="Physics + Chemistry Secured" value={formData.phy_che} />
-                        <Detail label="CS Max Marks" value={formData.cs_max} />
-                        <Detail label="Mathematics Secured" value={formData.maths} />
+                        <Detail label="CS Marks" marks={{ sec: formData.cs_secured, max: formData.cs_max }} />
                         <Detail label="CS Percentage" value={formData.cs_percentage} />
-                        <Detail label="Cut Off" value={formData.cut_off} />
-                        <Detail label="PCM Secured" value={formData.pcm_sec} />
-                        <div></div>
-                        <Detail label="PCM Max Marks" value={formData.pcm_max} />
-                        <div></div>
-                        <Detail label="PCM Percentage" value={formData.pcm_per} />
+
+                        <Detail label="Phy+Che+Mat Marks" marks={{ sec: formData.pcm_sec, max: formData.pcm_max }} />
+                        <Detail label="Phy+Che+Mat Percentage" value={formData.pcm_per} />
+
+                        <Detail label="Cut Off" marks={{ sec: formData.cut_off, max: "200" }} />
                         <div></div>
 
                         <div className='details-sub-header'>Diploma/UG/PG Details</div>
                         <div></div>
-                        <Detail label="I sem Marks Secured" value={formData.diploma_first_sec} />
-                        <Detail label="II sem Marks Secured" value={formData.diploma_second_sec} />
-                        <Detail label='I sem Max Marks' value={formData.diploma_first_max} />
-                        <Detail label="II sem Max Marks" value={formData.diploma_second_max} />
-                        <Detail label='I sem percentage' value={formData.diploma_first_per} />
-                        <Detail label="II sem percentage" value={formData.diploma_second_per} />
 
+                        <Detail label="I sem Marks" marks={{ sec: formData.diploma_first_sec, max: formData.diploma_first_max }} />
+                        <Detail label="I sem Percentage" value={formData.diploma_first_per} />
 
-                        <Detail label="III sem Marks Secured" value={formData.diploma_third_sec} />
-                        <Detail label="IV sem Marks Secured" value={formData.diploma_fourth_sec} />
-                        <Detail label="III sem Max Marks" value={formData.diploma_third_max} />
-                        <Detail label="IV sem Max Marks" value={formData.diploma_fourth_max} />
-                        <Detail label="III sem percentage" value={formData.diploma_third_per} />
-                        <Detail label="IV sem percentage" value={formData.diploma_fourth_per} />
+                        <Detail label="II sem Marks" marks={{ sec: formData.diploma_second_sec, max: formData.diploma_second_max }} />
+                        <Detail label="II sem Percentage" value={formData.diploma_second_per} />
 
+                        <Detail label="III sem Marks" marks={{ sec: formData.diploma_third_sec, max: formData.diploma_third_max }} />
+                        <Detail label="III sem Percentage" value={formData.diploma_third_per} />
 
-                        <Detail label="V sem Marks Secured" value={formData.diploma_fifth_sec} />
-                        <Detail label="VI sem Marks Secured" value={formData.diploma_sixth_sec} />
-                        <Detail label="V sem Max Marks" value={formData.diploma_fifth_max} />
-                        <Detail label="VI sem Max Marks" value={formData.diploma_sixth_max} />
-                        <Detail label="V sem percentage" value={formData.diploma_fifth_per} />
-                        <Detail label="VI sem percentage" value={formData.diploma_sixth_per} />
+                        <Detail label="IV sem Marks" marks={{ sec: formData.diploma_fourth_sec, max: formData.diploma_fourth_max }} />
+                        <Detail label="IV sem Percentage" value={formData.diploma_fourth_per} />
 
+                        <Detail label="V sem Marks" marks={{ sec: formData.diploma_fifth_sec, max: formData.diploma_fifth_max }} />
+                        <Detail label="V sem Percentage" value={formData.diploma_fifth_per} />
 
-                        <Detail label="VII sem Marks Secured" value={formData.diploma_seventh_sec} />
-                        <Detail label="VIII sem Marks Secured" value={formData.diploma_eighth_sec} />
-                        <Detail label="VII sem Max Marks" value={formData.diploma_seventh_max} />
-                        <Detail label="VIII sem Max Marks" value={formData.diploma_eighth_max} />
-                        <Detail label="VII sem percentage" value={formData.diploma_seventh_per} />
-                        <Detail label="VIII sem percentagee" value={formData.diploma_eighth_per} />
+                        <Detail label="VI sem Marks" marks={{ sec: formData.diploma_sixth_sec, max: formData.diploma_sixth_max }} />
+                        <Detail label="VI sem Percentage" value={formData.diploma_sixth_per} />
 
+                        <Detail label="VII sem Marks" marks={{ sec: formData.diploma_seventh_sec, max: formData.diploma_seventh_max }} />
+                        <Detail label="VII sem Percentage" value={formData.diploma_seventh_per} />
 
-                        <Detail label="IX sem Marks Secured" value={formData.diploma_ninenth_sec} />
-                        <Detail label="X sem Marks Secured" value={formData.diploma_tenth_sec} />
-                        <Detail label="IX sem Max Marks" value={formData.diploma_ninenth_max} />
-                        <Detail label="X sem Max Markss" value={formData.diploma_tenth_max} />
-                        <Detail label="IX sem percentage" value={formData.diploma_ninenth_per} />
-                        <Detail label="X sem percentage" value={formData.diploma_tenth_per} />
+                        <Detail label="VIII sem Marks" marks={{ sec: formData.diploma_eighth_sec, max: formData.diploma_eighth_max }} />
+                        <Detail label="VIII sem Percentage" value={formData.diploma_eighth_per} />
 
+                        <Detail label="IX sem Marks" marks={{ sec: formData.diploma_ninenth_sec, max: formData.diploma_ninenth_max }} />
+                        <Detail label="IX sem Percentage" value={formData.diploma_ninenth_per} />
+
+                        <Detail label="X sem Marks" marks={{ sec: formData.diploma_tenth_sec, max: formData.diploma_tenth_max }} />
+                        <Detail label="X sem Percentage" value={formData.diploma_tenth_per} />
 
                         <Detail label="I + II Marks" value={formData.I_II} />
                         <Detail label="III + IV Marks" value={formData.III_IV} />
@@ -558,31 +663,37 @@ function FinalReview() {
                         <Detail label="VII + VIII Marks" value={formData.VII_VIII} />
                         <Detail label="IX + X Marks" value={formData.IX_X} />
                         <div></div>
-                        <Detail label="Entrance Secured" value={formData.entrance_secured} />
-                        <Detail label="UG Marks Secured" value={formData.ug_mark_sec} />
-                        <Detail label="Entrance Max Marks" value={formData.entrance_max} />
-                        <Detail label="UG Max Marks" value={formData.ug_mark_max} />
+
+                        <Detail label="Entrance Marks" marks={{ sec: formData.entrance_secured, max: formData.entrance_max }} />
                         <Detail label="Entrance Percentage" value={formData.entrance_percenteage} />
+
+                        <Detail label="UG Marks" marks={{ sec: formData.ug_mark_sec, max: formData.ug_mark_max }} />
                         <Detail label="UG Percentage" value={formData.ug_mark_per} />
+                        
                     </div>
                 </div>
             </div>
             <div className='details-card'>
-                <div className="detail-header">ADDITIONAL DETAILS
-                    <hr></hr>
+                <div className="detail-header">
+                    <div>ADDITIONAL DETAILS</div>
+                    <div><input className='button' type='button' value="Edit" onClick={() => { navigate('/additional_details', { state: { fromFinal: true } }) }} /></div>
                 </div>
+                <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
-                        <Detail label="Father Qualification" value={formData.father_qual} />
-                        <Detail label="Mother Qualification" value={formData.mother_qual} />
-                        <Detail label="College bus needed?" value={formData.college_bus} />
-                        <Detail label="Boarding Point" value={formData.boarding_point} />
-                        <Detail label="School Type" value={formData.school_type} />
-                        <Detail label="Sports Interested" value={formData.sports_int} />
-                        <Detail label="First Graduate Application No." value={formData.first_gr_appno} />
-                        <Detail label="How did you choose this college?" value={formData.choose_college} />
+                        <Detail label="Father Qualification" value={additionalDet.father_qual} />
+                        <Detail label="Mother Qualification" value={additionalDet.mother_qual} />
+                        <Detail label="College bus needed?" value={additionalDet.college_bus} />
+                        <Detail label="Boarding Point" value={additionalDet.boarding_point} />
+                        <Detail label="School Type" value={additionalDet.school_type} />
+                        <Detail label="Sports Interested" value={additionalDet.sports_int} />
+                        <Detail label="First Graduate Application No." value={additionalDet.first_gr_appno} />
+                        <Detail label="How did you choose this college?" value={additionalDet.choose_college} />
                     </div>
                 </div>
+            </div>
+            <div>
+                <input className='submit-btn' type='submit' value="Submit" onClick={handleSubmit} />
             </div>
         </div>
     )

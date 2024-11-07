@@ -1,7 +1,7 @@
 // Form-1
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -17,7 +17,8 @@ import Error from "../Components/Error";
 
 
 function PersonalDetails() {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const location = useLocation()
     const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -36,6 +37,7 @@ function PersonalDetails() {
         caste_id: '',
         religion_id: '',
         nationality_id: '',
+        scholar: '',
     })
 
     const [options, setOptions] = useState({
@@ -83,7 +85,7 @@ function PersonalDetails() {
             setIsLoading(false)
         };
 
-        if(applicationNo){
+        if (applicationNo) {
             init();
         } else {
             navigate('/')
@@ -94,10 +96,15 @@ function PersonalDetails() {
     const onSubmit = async (data) => {
         setIsLoading(true)
         setError(null)
+
         const response = await services.updateData(applicationNo, data)
 
         if (response) {
-            navigate('/parent_details')
+            if (location.state && location.state.fromFinal) {
+                navigate('/final_review')
+            } else {
+                navigate('/parent_details')
+            }
         } else {
             setError("Error submitting form!")
 
@@ -115,6 +122,7 @@ function PersonalDetails() {
                         label="Title"
                         options={{ "Mr.": "Mr", "Ms.": "Ms" }}
                         registerProps={register("legend")}
+                        error={errors.legend && errors.legend.message}
                     />
                     <InputField
                         label="Student Name"
@@ -136,6 +144,7 @@ function PersonalDetails() {
                         options={{ "Male": "Male", "Female": "Female" }}
                         registerProps={register("gender")}
                         sorted={false}
+                        error={errors.gender && errors.gender.message}
                     />
                     <InputField
                         label="Date of Birth"
@@ -156,6 +165,7 @@ function PersonalDetails() {
                         label="Blood Group"
                         options={options['blood_group']}
                         registerProps={register("blood_group")}
+                        error={errors.blood_group && errors.blood_group.message}
                     />
                     <DropDown
                         label="Mother Tongue"
@@ -194,6 +204,12 @@ function PersonalDetails() {
                         label="Nationality"
                         options={options['nationality']}
                         registerProps={register("nationality_id")}
+                    />
+                    <DropDown
+                        label="Scholar"
+                        options={{ DAYSCHOLAR: 'DAYSCHOLAR', HOSTELLER: 'HOSTELLER' }}
+                        registerProps={register("scholar")}
+                        sorted={false}
                     />
                 </Row>
             </Form>

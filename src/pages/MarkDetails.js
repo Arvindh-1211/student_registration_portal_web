@@ -1,7 +1,7 @@
 // Form-5
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -18,6 +18,7 @@ import Error from "../Components/Error";
 
 function MarkDetails() {
     const navigate = useNavigate();
+    const location = useLocation()
     const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -122,6 +123,7 @@ function MarkDetails() {
         sch_yr_pass: null,
         sch_study_state: null,
         study_medium: null,
+        school_class: null,
     })
 
     const [options, setOptions] = useState({
@@ -300,115 +302,6 @@ function MarkDetails() {
 
     setValue('entrance_percenteage', calculatePercentage(entranceSec, entranceMax))
 
-    // const calculatePercentage = (securedMarks, maxMarks, setFieldName) => {
-    //     if (securedMarks && maxMarks) {
-    //         const percentage = (securedMarks / maxMarks) * 100;
-    //         setValue(setFieldName, percentage.toFixed(2));
-    //         return percentage;
-    //     } else {
-    //         setValue(setFieldName, null);
-    //     }
-    // };
-
-    // const physicsSecured = parseInt(watch('physics_secured'));
-    // const physicsMax = watch('physics_max');
-
-    // const chemistrySecured = watch('chemistry_secured');
-    // const chemistryMax = watch('chemistry_max');
-
-    // const mathsSecured = watch('maths_secured');
-    // const mathsMax = watch('maths_max');
-
-    // const biologySecured = watch('biology_secured');
-    // const biologyMax = watch('biology_max');
-
-    // const csSecured = watch('cs_secured');
-    // const csMax = watch('cs_max');
-
-    // const diplomaFirstSec = watch('diploma_first_sec');
-    // const diplomaFirstMax = watch('diploma_first_max');
-
-    // const diplomaSecondSec = watch('diploma_second_sec');
-    // const diplomaSecondMax = watch('diploma_second_max');
-
-    // const diplomaThirdSec = watch('diploma_third_sec');
-    // const diplomaThirdMax = watch('diploma_third_max');
-
-    // const diplomaFourthSec = watch('diploma_fourth_sec');
-    // const diplomaFourthMax = watch('diploma_fourth_max');
-
-    // const diplomaFifthSec = watch('diploma_fifth_sec');
-    // const diplomaFifthMax = watch('diploma_fifth_max');
-
-    // const diplomaSixthSec = watch('diploma_sixth_sec');
-    // const diplomaSixthMax = watch('diploma_sixth_max');
-
-    // const diplomaSeventhSec = watch('diploma_seventh_sec');
-    // const diplomaSeventhMax = watch('diploma_seventh_max');
-
-    // const diplomaEighthSec = watch('diploma_eighth_sec');
-    // const diplomaEighthMax = watch('diploma_eighth_max');
-
-    // const diplomaNinthSec = watch('diploma_ninenth_sec');
-    // const diplomaNinthMax = watch('diploma_ninenth_max');
-
-    // const diplomaTenthSec = watch('diploma_tenth_sec');
-    // const diplomaTenthMax = watch('diploma_tenth_max');
-
-    // const ugMarkSec = watch('ug_mark_sec');
-    // const ugMarkMax = watch('ug_mark_max');
-
-    // const entranceSecured = watch('entrance_secured');
-    // const entranceMax = watch('entrance_max');
-
-    // const phyPer = calculatePercentage(physicsSecured, physicsMax, 'physics_percentage');
-    // const chePer = calculatePercentage(chemistrySecured, chemistryMax, 'chemistry_percentage');
-    // const mathPer = calculatePercentage(mathsSecured, mathsMax, 'maths_percentage');
-    // const I_per = calculatePercentage(diplomaFirstSec, diplomaFirstMax, 'diploma_first_per');
-    // const II_per = calculatePercentage(diplomaSecondSec, diplomaSecondMax, 'diploma_second_per');
-    // const III_per = calculatePercentage(diplomaThirdSec, diplomaThirdMax, 'diploma_third_per');
-    // const IV_per = calculatePercentage(diplomaFourthSec, diplomaFourthMax, 'diploma_fourth_per');
-    // const V_per = calculatePercentage(diplomaFifthSec, diplomaFifthMax, 'diploma_fifth_per');
-    // const VI_per = calculatePercentage(diplomaSixthSec, diplomaSixthMax, 'diploma_sixth_per');
-    // const VII_per = calculatePercentage(diplomaSeventhSec, diplomaSeventhMax, 'diploma_seventh_per');
-    // const VIII_per = calculatePercentage(diplomaEighthSec, diplomaEighthMax, 'diploma_eighth_per');
-    // const IX_per = calculatePercentage(diplomaNinthSec, diplomaNinthMax, 'diploma_ninenth_per');
-    // const X_per = calculatePercentage(diplomaTenthSec, diplomaTenthMax, 'diploma_tenth_per');
-    // calculatePercentage(biologySecured, biologyMax, 'biology_percentage');
-    // calculatePercentage(csSecured, csMax, 'cs_percentage');
-    // calculatePercentage(ugMarkSec, ugMarkMax, 'ug_mark_per');
-    // calculatePercentage(entranceSecured, entranceMax, 'entrance_percenteage');
-
-    // const pcmSec = physicsSecured + chemistrySecured + mathsSecured === 0? null : parseFloat(physicsSecured) + parseFloat(chemistrySecured) + parseFloat(mathsSecured);
-    // const pcmMax = physicsMax + chemistryMax + mathsMax === 0? null : parseFloat(physicsMax) + parseFloat(chemistryMax) + parseFloat(mathsMax);
-    // setValue('pcm_sec', pcmSec);
-    // setValue('pcm_max', pcmMax);
-    // calculatePercentage(pcmSec, pcmMax, 'pcm_per');
-
-    // const phyChe = physicsSecured + chemistrySecured === 0? null : parseFloat(physicsSecured) + parseFloat(chemistrySecured)
-    // setValue('phy_che', phyChe);
-    // const phyChePer = parseFloat(phyPer) + parseFloat(chePer);
-    // setValue('phy_che', phyChe === null? null : (phyChePer/2).toFixed(2));
-    // setValue('maths', mathPer);
-
-    // const cutOff = phyChe / 2 + mathsSecured === 0? null : parseFloat(phyChe) / 2 + parseFloat(mathsSecured);
-    // setValue('cut_off', cutOff);
-
-    // const I_II_per = I_per == null || II_per == null? null : (I_per/2 + II_per / 2).toFixed(2);
-    // setValue('I_II', I_II_per);
-
-    // const III_IV_per = III_per == null || IV_per == null? null : (III_per/2 + IV_per / 2).toFixed(2);
-    // setValue('III_IV', III_IV_per);
-
-    // const V_VI_per = V_per == null || VI_per == null? null : (V_per/2 + VI_per / 2).toFixed(2);
-    // setValue('V_VI', V_VI_per);
-
-    // const VII_VIII_per = VII_per == null || VIII_per == null? null : (VII_per/2 + VIII_per / 2).toFixed(2);
-    // setValue('VII_VIII', VII_VIII_per);
-
-    // const IX_X_per = IX_per ==null || X_per == null? null : (IX_per/2 + X_per / 2).toFixed(2);
-    // setValue('IX_X', IX_X_per);
-
 
     const onSubmit = async (data) => {
         setIsLoading(true)
@@ -416,7 +309,11 @@ function MarkDetails() {
         const response = await services.updateData(applicationNo, data)
 
         if (response) {
-            navigate('/additional_details')
+            if (location.state && location.state.fromFinal) {
+                navigate('/final_review')
+            } else {
+                navigate('/additional_details')
+            }
         } else {
             setError("Error submitting form!")
 

@@ -1,18 +1,26 @@
 import '../css/Header.css'
 import bitlogo from '../assets/bitlogo.png'
+import { useSelector } from 'react-redux';
+import Logout from './Logout';
 
 
 function Header() {
-  return (
-    <div>
-      <img className='bit-logo' src={bitlogo} alt='Bannari Amman Institute of Technology' />
+	const applicationNo = useSelector((state) => state.applicationNo.value)
 
-      <div className='header-data'>
-        <div>User</div>
-      </div>
-      <hr></hr>
-    </div>
-  )
+	return (
+		<div className='Header'>
+			<div className='header'>
+				<img className='bit-logo' src={bitlogo} alt='Bannari Amman Institute of Technology' />
+				<div className='header-data'>
+					<Logout />
+					{applicationNo &&
+						<div className='application-no'>Application No. : {applicationNo}</div>
+					}
+				</div>
+			</div>
+			<hr></hr>
+		</div>
+	)
 }
 
 export default Header
