@@ -49,12 +49,34 @@ const getValueFromMaster = async (option, id) => {
     }
 }
 
+const getStudentAdditionalDet = async (applicationNo, queryParams) => {
+    try {
+        const response = await apiInstance.get(`/student_add_det/${applicationNo}`, {
+            params: {
+                fields: queryParams
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.log("Cannot fetch details from student_additional_det table")
+    }
+}
+
 const insertStudentAdditionalDet = async (data) => {
     try {
         const response = await apiInstance.post(`student_add_det`, data)
         return response
     } catch (error) {
-        console.log("Cannot create a new application in student_register table")
+        console.log("Cannot insert into student_additional_det table")
+    }
+}
+
+const inserIntoCAMPS = async (applicationNo) => {
+    try {
+        const response = await apiInstance.post(`/insert_into_camps/${applicationNo}`)
+        return response
+    } catch (error) {
+        console.log("Cannot insert into CAMPS")
     }
 }
 
@@ -64,7 +86,9 @@ const services = {
     updateData,
     fetchFromMaster,
     getValueFromMaster,
+    getStudentAdditionalDet,
     insertStudentAdditionalDet,
+    inserIntoCAMPS
 };
 
 export default services;

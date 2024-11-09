@@ -1,3 +1,5 @@
+import '../css/Logout.css'
+
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,7 +18,7 @@ function Logout() {
 
     return (
         <div>
-            <input type='submit' value='Logout' onClick={handleLogout} />
+            <input className='logout-btn' type='submit' value='Logout' onClick={handleLogout} />
         </div>
     )
 }

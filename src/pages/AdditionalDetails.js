@@ -36,11 +36,16 @@ function AdditionalDetails() {
         'boarding_point': {},
     })
 
-    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.AdditionalDetails) });
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.AdditionalDetails) });
 
     useEffect(() => {
+        const getAdditionalDet = async () => {
+            const queryParams = Object.keys(formData).join(',')
+            const response = await services.getStudentAdditionalDet(applicationNo, queryParams)
+            reset(response)
+        }
+
         const getOptions = async () => {
-            setIsLoading(true)
             setError(null)
             const optionsArray = Object.keys(options);
             const fetchedOptions = await Promise.all(
@@ -54,11 +59,17 @@ function AdditionalDetails() {
                 newOptions[option] = fetchedOptions[index];
             })
             setOptions(newOptions);
-            setIsLoading(false)
         }
-        setIsLoading(false)
+
+        const init = async () => {
+            setIsLoading(true)
+            await getOptions();
+            await getAdditionalDet();
+            setIsLoading(false)
+        };
+
         if (applicationNo) {
-            getOptions()
+            init()
         } else {
             navigate('/')
         }
@@ -129,10 +140,11 @@ function AdditionalDetails() {
                         type="text"
                         error={errors.first_gr_appno && errors.first_gr_appno.message}
                     />
-                    <DropDown
+                    <InputField
                         label="How did you choose this college?"
-                        options={{ "Yes": "Yes", "No": "No" }}
                         registerProps={register("choose_college")}
+                        type="text"
+                        error={errors.choose_college && errors.choose_college.message}
                     />
                 </Row>
             </Form>

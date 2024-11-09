@@ -1,5 +1,5 @@
 // Form-2
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -17,6 +17,7 @@ import Error from "../Components/Error";
 
 function ParentDetails() {
     const navigate = useNavigate();
+    const location = useLocation()
     const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -72,7 +73,7 @@ function ParentDetails() {
             setIsLoading(false)
         };
 
-        if(applicationNo){
+        if (applicationNo) {
             init();
         } else {
             navigate('/')
@@ -86,7 +87,11 @@ function ParentDetails() {
         const response = await services.updateData(applicationNo, data)
 
         if (response) {
-            navigate('/address_details')
+            if (location.state && location.state.fromFinal) {
+                navigate('/final_review')
+            } else {
+                navigate('/address_details')
+            }
         } else {
             setError("Error submitting form!")
 

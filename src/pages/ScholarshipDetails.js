@@ -1,7 +1,7 @@
 // Form - 6
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -17,6 +17,7 @@ import Error from "../Components/Error";
 
 function ScholarshipDetails() {
     const navigate = useNavigate();
+    const location = useLocation()
     const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -86,7 +87,11 @@ function ScholarshipDetails() {
         const response = await services.updateData(applicationNo, data)
 
         if (response) {
-            navigate('/mark_details')
+            if (location.state && location.state.fromFinal) {
+                navigate('/final_review')
+            } else {
+                navigate('/mark_details')
+            }
         } else {
             setError("Error submitting form!")
         }

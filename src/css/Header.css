@@ -1,5 +1,21 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+
 .bit-logo{
-    min-width: 300px;
+    min-width: 350px;
     width: 30vw;
     height: auto;
+}
+
+.header-data{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin: 2vh 2vw 0 0;
+}
+
+.header-data > .application-no{
+    font-size: 18px;
 }

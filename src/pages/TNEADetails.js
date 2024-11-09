@@ -1,7 +1,7 @@
 // Form - 5
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -17,6 +17,7 @@ import Error from "../Components/Error";
 
 function TNEADetails() {
     const navigate = useNavigate();
+    const location = useLocation()
     const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -88,7 +89,11 @@ function TNEADetails() {
         const response = await services.updateData(applicationNo, data)
 
         if (response) {
-            navigate('/scholarship_details')
+            if (location.state && location.state.fromFinal) {
+                navigate('/final_review')
+            } else {
+                navigate('/scholarship_details')
+            }
         } else {
             setError("Error submitting form!")
 
@@ -106,6 +111,7 @@ function TNEADetails() {
                         label="Seat Category"
                         options={{ 'GOVERNMENT': 'GOVERNMENT', 'MANAGEMENT': 'MANAGEMENT' }}
                         registerProps={register("seat_cat")}
+                        error={errors.seat_cat && errors.seat_cat.message}
                     />
                     <DropDown
                         label="Quota"
