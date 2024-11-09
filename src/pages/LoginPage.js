@@ -54,6 +54,7 @@ function LoginPage() {
                                 className='input-field'
                                 type='text'
                                 autoComplete='false'
+                                {...register('username')}
                             />
                         </div>
                         <div>
@@ -61,7 +62,7 @@ function LoginPage() {
                             <input
                                 className='input-field'
                                 type='password'
-                                autoComplete='false'
+                                {...register('password')}
                             />
                         </div>
                         <input className='login-btn' type="submit" onSubmit={handleSubmit(onSubmit)} />

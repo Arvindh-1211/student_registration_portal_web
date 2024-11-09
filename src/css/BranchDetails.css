@@ -71,3 +71,45 @@
     display: flex;
     justify-content: center;
 }
+
+.filters-container{
+    /* border: 2px solid; */
+    padding: 5px;
+}
+
+.filters-container > * {
+    margin: 4px;
+    position: relative;
+}
+
+.filters-container > .search-icon {
+    position: absolute;
+    color: #2e2e2e3a;
+    font-size: 22px;
+    transform: translate(-240px, 4px);
+}
+
+.filter-search{
+    height: 30px;
+    width: 200px;
+    border-style: none;
+    border: 1px solid #2e2e2e9e;
+    border-radius: 7px;
+    padding: 0px 4px 0px 30px;
+    background-color: #0000;
+    z-index: 1;
+    font-size: 14px;
+}
+
+.filter-search::placeholder{
+    color: #00000040;
+}
+
+.filter-dropdown{
+    height: 30px;
+    border-style: none;
+    border-style: none;
+    border: 1px solid #2e2e2e9e;
+    border-radius: 5px;
+
+}

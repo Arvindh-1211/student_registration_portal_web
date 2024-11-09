@@ -13,11 +13,6 @@ function DropDown({ label, options, registerProps, value, error, sorted = true }
                 <div className='dropdown-label'>{label}</div>
                 <select className='dropdown' {...registerProps}>
                     {sorted_options &&
-                        // Object.keys(sorted_options).map((key) => (
-                        //     <option key={key} value={value === "value" ? sorted_options[key] : key}>
-                        //         {sorted_options[key]}
-                        //     </option>
-                        // ))
                         sorted_options.map(element => (
                             <option key={element[0]} value={value === "value" ? element[1] : element[0]}>
                                 {element[1]}

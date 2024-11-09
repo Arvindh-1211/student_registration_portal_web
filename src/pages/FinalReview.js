@@ -397,7 +397,11 @@ function FinalReview() {
             setIsLoading(false)
         };
 
-        init();
+        if (applicationNo) {
+            init();
+        } else {
+            navigate('/')
+        }
     }, [])
 
     const handleSubmit = async () => {
