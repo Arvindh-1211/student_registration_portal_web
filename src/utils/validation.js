@@ -22,17 +22,17 @@ const PersonalDetails = Yup.object().shape({
     gender: Yup.string()
         .required("Gender is required"),
 
-    community: Yup.string()
+    community_id: Yup.string()
         .required("Community is required"),
 
-    religion: Yup.string()
+    religion_id: Yup.string()
         .required("Religion is required"),
 
-    nationality: Yup.string()
+    nationality_id: Yup.string()
         .required("Nationality is required"),
 
-    // aadhar_no: Yup.string()
-    //     .required("Aadhar Number is required"),
+    aadhar_no: Yup.string()
+        .required("Aadhar Number is required"),
 })
 
 const ParentDetails = Yup.object().shape({
