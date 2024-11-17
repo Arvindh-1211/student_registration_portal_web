@@ -141,6 +141,9 @@ const TNEADetails = Yup.object().shape({
     seat_cat: Yup.string()
         .required("Seat Category is required"),
 
+    quota_id: Yup.string()
+        .required("Quota is required"),
+
     tnea_app_no: Yup.number("Must be a number")
         .nullable(true),
 

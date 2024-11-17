@@ -118,6 +118,8 @@ function TNEADetails() {
                         label="Quota"
                         options={options['quota']}
                         registerProps={register("quota_id")}
+                        error={errors.quota_id && errors.quota_id.message}
+                        required
                     />
                     <InputField
                         label="TNEA Application No."
