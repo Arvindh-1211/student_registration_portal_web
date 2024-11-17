@@ -1,21 +1,31 @@
+// Form-4
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import services from "../services/services";
+import schema from "../utils/validation";
 
 import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import CheckBox from '../Components/CheckBox'
 import Form from '../Components/Form';
 import Row from "../Components/Row";
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 
 function AddressDetails() {
     const navigate = useNavigate();
+    const location = useLocation()
+    const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isAddressSame, setIsAddressSame] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
-    let formData = {
+    const [formData, setFormData] = useState({
         comm_add_street: '',
         comm_add_town: '',
         comm_add_city: '',
@@ -31,27 +41,56 @@ function AddressDetails() {
         perm_add_country: '',
         perm_add_pincode: '',
         area_location: '',
-    }
+    })
 
-    const options = {
+    const [options, setOptions] = useState({
         'city': {},
         'district': {},
         'state': {},
         'country': {},
-    }
+    })
+
+    const { register, getValues, setValue, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.AddressDetails) });
 
     useEffect(() => {
-        const queryParams = Object.keys(formData).join(',')
-        formData = services.fetchData(queryParams)
+        const getDefaultValues = async () => {
+            const queryParams = Object.keys(formData).join(',')
+            const fetchedData = await services.fetchData(applicationNo, queryParams)
+            setFormData(fetchedData)
+            reset(fetchedData)
+        }
 
-        const optionsArray = Object.keys(options)
-        optionsArray.forEach(async (option) => {
-            options[option] = services.fetchOption(option)
-        })
+        const getOptions = async () => {
+            setError(null)
+            const optionsArray = Object.keys(options);
+            const fetchedOptions = await Promise.all(
+                optionsArray.map((option) => services.fetchFromMaster(option))
+            );
+            if (!fetchedOptions[0]) {
+                setError("Error fetching options!")
+            }
+            const newOptions = {};
+            optionsArray.forEach((option, index) => {
+                newOptions[option] = fetchedOptions[index];
+            })
+            setOptions(newOptions);
+        };
+
+        const init = async () => {
+            setIsLoading(true)
+            await getOptions();
+            await getDefaultValues();
+            setIsLoading(false)
+        };
+
+        if(applicationNo){
+            init();
+        } else {
+            navigate('/')
+        }
     }, [])
 
 
-    const { register, getValues, setValue, handleSubmit } = useForm({ defaultValues: formData });
 
     useEffect(() => {
         if (isAddressSame) {
@@ -67,29 +106,50 @@ function AddressDetails() {
 
 
     const onSubmit = async (data) => {
-        services.updateData(data)
-        navigate('/contact_details')
+        setIsLoading(true)
+        setError(null)
+        const response = await services.updateData(applicationNo, data)
+
+        if (response) {
+            if (location.state && location.state.fromFinal) {
+                navigate('/final_review')
+            } else {
+                navigate('/contact_details')
+            }
+        } else {
+            setError("Error submitting form!")
+
+        }
+        setIsLoading(false)
     }
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Address Details" >
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
+            <Form handleNext={handleSubmit(onSubmit)} heading="Address Details" handleBack={() => { navigate('/parent_details') }} >
                 <div className="form-sub-header">Communication Address</div>
                 <Row>
                     <InputField
                         label='Street'
                         registerProps={register("comm_add_street")}
                         type='text'
+                        error={errors.comm_add_street && errors.comm_add_street.message}
+                        required
                     />
                     <InputField
                         label='Town'
                         registerProps={register("comm_add_town")}
                         type='text'
+                        error={errors.comm_add_town && errors.comm_add_town.message}
+                        required
                     />
                     <DropDown
                         label="City"
                         options={options['city']}
                         registerProps={register("comm_add_city")}
+                        value="value"
+                        required
                     />
                 </Row>
 
@@ -98,16 +158,22 @@ function AddressDetails() {
                         label="District"
                         options={options['district']}
                         registerProps={register("comm_add_district")}
+                        value="value"
+                        required
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("comm_add_state")}
+                        value="value"
+                        required
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("comm_add_country")}
+                        value="value"
+                        required
                     />
                 </Row>
 
@@ -116,36 +182,48 @@ function AddressDetails() {
                         label='Pincode'
                         registerProps={register("comm_add_pincode")}
                         type='number'
+                        error={errors.comm_add_pincode && errors.comm_add_pincode.message}
+                        required
+                    />
+                    <DropDown
+                        label="Area Location"
+                        options={{ "Rural": "Rural", "Urban": "Urban" }}
+                        registerProps={register("area_location")}
                     />
                 </Row>
 
-                <CheckBox
-                    label='Same as Communication Address'
-                    onClick={() => {
-                        setIsAddressSame(!isAddressSame)
-                    }} />
-
                 <div className="form-sub-header">Permanent Address</div>
+                <Row>
+                    <CheckBox
+                        label='Same as Communication Address'
+                        onClick={() => {
+                            setIsAddressSame(!isAddressSame)
+                        }} />
+                </Row>
+
                 <Row>
                     <InputField
                         label='Street'
                         registerProps={register("perm_add_street")}
                         type='text'
-                        // value={permAddress.street}
                         readOnly={isAddressSame}
+                        error={errors.perm_add_street && errors.perm_add_street.message}
+                        required
                     />
                     <InputField
                         label='Town'
                         registerProps={register("perm_add_town")}
                         type='text'
-                        // value={permAddress.town}
                         readOnly={isAddressSame}
+                        error={errors.perm_add_town && errors.perm_add_town.message}
+                        required
                     />
                     <DropDown
                         label="City"
                         options={options['city']}
                         registerProps={register("perm_add_city")}
-                    // value={permAddress.city}
+                        value="value"
+                        required
                     />
                 </Row>
 
@@ -154,19 +232,22 @@ function AddressDetails() {
                         label="District"
                         options={options['district']}
                         registerProps={register("perm_add_district")}
-                    // value={permAddress.district}
+                        value="value"
+                        required
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("perm_add_state")}
-                    // value={permAddress.state}
+                        value="value"
+                        required
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("perm_add_country")}
-                    // value={permAddress.country}
+                        value="value"
+                        required
                     />
                 </Row>
 
@@ -175,15 +256,9 @@ function AddressDetails() {
                         label='Pincode'
                         registerProps={register("perm_add_pincode")}
                         type='number'
-                        // value={permAddress.pincode}
                         readOnly={isAddressSame}
-                    />
-                </Row>
-                <Row>
-                    <DropDown
-                        label="Area Location"
-                        options={{ "Rural": "Rural", "Urban": "Urban" }}
-                        registerProps={register("area_location")}
+                        error={errors.perm_add_pincode && errors.perm_add_pincode.message}
+                        required
                     />
                 </Row>
             </Form>

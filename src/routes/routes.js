@@ -1,12 +1,19 @@
-import LandingPage from "../pages/LandingPage";
+import BranchDetails from "../pages/BranchDetails";
 import PersonalDetails from "../pages/PersonalDetails";
 import ParentDetails from "../pages/ParentDetails";
 import AddressDetails from "../pages/AddressDetails";
+import ContactDetails from "../pages/ContactDetails";
+import TNEADetails from "../pages/TNEADetails";
+import ScholarshipDetails from "../pages/ScholarshipDetails";
+import AdditionalDetails from "../pages/AdditionalDetails";
+import MarkDetails from "../pages/MarkDetails";
+import FinalReview from "../pages/FinalReview";
+import Success from "../pages/Success";
 
 const routes = [
     {
-        path: '/new',
-        element: <LandingPage />
+        path: '/',
+        element: <BranchDetails />
     },
     {
         path: '/personal_details',
@@ -19,6 +26,34 @@ const routes = [
     {
         path: '/address_details',
         element: <AddressDetails />
+    },
+    {
+        path: '/contact_details',
+        element: <ContactDetails />
+    },
+    {
+        path: '/tnea_details',
+        element: <TNEADetails />
+    },
+    {
+        path: '/scholarship_details',
+        element: <ScholarshipDetails />
+    },
+    {
+        path: '/mark_details',
+        element: <MarkDetails />
+    },
+    {
+        path: '/additional_details',
+        element: <AdditionalDetails />
+    },
+    {
+        path: '/final_review',
+        element: <FinalReview />
+    },
+    {
+        path: '/success',
+        element: <Success />
     },
 ]
 

@@ -1,41 +1,95 @@
 import apiInstance from "./apiService";
 import { useSelector } from 'react-redux'
 
-const applicationNo = useSelector((state) => state.applicationNo.value)
-const fetchData = async (queryParams) => {
+const createNewApplication = async (data) => {
     try {
-        const response = await apiInstance.get(`/student_reg/${applicationNo}?`, {
+        const response = await apiInstance.post(`student_reg/new`, data)
+        return response.data
+    } catch (error) {
+        console.log("Cannot create a new application in student_register table")
+    }
+}
+
+const fetchData = async (applicationNo, queryParams) => {
+    try {
+        const response = await apiInstance.get(`/student_reg/${applicationNo}`, {
             params: {
                 fields: queryParams
             }
         })
-        return response.data[0]
+        return response.data
     } catch (error) {
-        console.log("Error fetching details from stundent_register table")
+        console.log("Error fetching details from student_register table")
     }
 }
 
-const updateData = (data) => {
+const updateData = async (applicationNo, data) => {
     try {
-        apiInstance.put(`student_reg/${applicationNo}`, data)
+        const response = await apiInstance.put(`student_reg/${applicationNo}`, data)
+        return response
     } catch (error) {
         console.log("Cannot update details in student_register table")
     }
 }
 
-const fetchOption = async (option) => {
+const fetchFromMaster = async (option) => {
     try {
         const response = await apiInstance.get(`/master/${option}`)
-        return response.data[0]
+        return response.data
     } catch (error) {
-        console.log(`Cannont fetch options for ${option} from master table`)
+        console.log(`Cannont fetch ${option} from master table`)
+    }
+}
+
+const getValueFromMaster = async (option, id) => {
+    try {
+        const response = await apiInstance.get(`/master/${option}/${id}`)
+        return response.data.value
+    } catch (error) {
+        console.log(`Error fetching value for ${option} from master table`)
+    }
+}
+
+const getStudentAdditionalDet = async (applicationNo, queryParams) => {
+    try {
+        const response = await apiInstance.get(`/student_add_det/${applicationNo}`, {
+            params: {
+                fields: queryParams
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.log("Cannot fetch details from student_additional_det table")
+    }
+}
+
+const insertStudentAdditionalDet = async (data) => {
+    try {
+        const response = await apiInstance.post(`student_add_det`, data)
+        return response
+    } catch (error) {
+        console.log("Cannot insert into student_additional_det table")
+    }
+}
+
+const inserIntoCAMPS = async (applicationNo) => {
+    try {
+        const response = await apiInstance.post(`/insert_into_camps/${applicationNo}`)
+        return response.data
+    } catch (error) {
+        console.log("Cannot insert into CAMPS")
     }
 }
 
 const services = {
+    createNewApplication,
     fetchData,
     updateData,
-    fetchOption,
+    fetchFromMaster,
+    getValueFromMaster,
+    getStudentAdditionalDet,
+    insertStudentAdditionalDet,
+    inserIntoCAMPS
 };
 
 export default services;

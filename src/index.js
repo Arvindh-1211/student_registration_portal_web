@@ -1,30 +1,45 @@
 import './index.css';
 
-import React, { Children } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from 'react-redux';
+import { PersistGate } from "redux-persist/integration/react";
 
 import App from './App';
+import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from './Components/ProtectedRoute'
 import routes from './routes/routes';
-import store from './store/store';
-import { Provider } from 'react-redux';
+import { store, persistor } from './store/store';
+import RegisterPage from './pages/RegisterPage';
 
 const router = createBrowserRouter([
 	{
+		path: "/login",
+		element: <LoginPage />
+	},
+	{
+		path: "/register",
+		element: <ProtectedRoute users={["admin"]}> <RegisterPage /> </ProtectedRoute>
+	},
+	{
 		path: "/",
-		element: <App />,
+		element: <ProtectedRoute> <App /> </ProtectedRoute>,
 		children: routes
 	},
 ]);
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<RouterProvider router={router} >
-				<App />
-			</RouterProvider>
+			<PersistGate persistor={persistor}>
+				<RouterProvider router={router} >
+					<App />
+				</RouterProvider>
+			</PersistGate>
 		</Provider>
 	</React.StrictMode>
 );

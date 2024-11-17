@@ -2,7 +2,7 @@ import '../css/Form.css'
 
 function Form({ children, handleNext, handleBack, heading }) {
     return (
-        <div>
+        <div className='form-container'>
             <form className='form' onSubmit={handleNext}>
                 <div className='form-header'>{heading}</div>
                 <div className='form-fields'>

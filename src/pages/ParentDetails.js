@@ -1,17 +1,28 @@
+// Form-2
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import services from "../services/services";
+import schema from "../utils/validation";
+
 import InputField from '../Components/InputField'
 import DropDown from '../Components/DropDown';
 import Form from '../Components/Form';
-import Header from '../Components/Header';
-
-import {  useForm } from "react-hook-form";
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import axios from "axios";
+import Row from "../Components/Row";
+import Loading from "../Components/Loading";
+import Error from "../Components/Error";
 
 function ParentDetails() {
+    const navigate = useNavigate();
+    const location = useLocation()
     const applicationNo = useSelector((state) => state.applicationNo.value)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
-    const formData = {
+    const [formData, setFormData] = useState({
         father_name: '',
         mother_name: '',
         guardian_name: '',
@@ -23,119 +34,154 @@ function ParentDetails() {
         parent_income_mother: '',
         work_area_mother: '',
         designation_mother: '',
-    }
-    const options = {
+    })
+    const [options, setOptions] = useState({
         'occupation': {},
         'designation': {},
-        'occupation_mother': {},
-        'designation_mother': {},
-    }
+    })
+
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ParentDetails) });
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8000/parent_details/${applicationNo}`)
-                formData = response.body[0]
-            } catch (error) {
-                console.log("Error fetching details from stundent_register table")
+        const getDefaultValues = async () => {
+            const queryParams = Object.keys(formData).join(',')
+            const fetchedData = await services.fetchData(applicationNo, queryParams)
+            setFormData(fetchedData)
+            reset(fetchedData)
+        }
+
+        const getOptions = async () => {
+            setError(null)
+            const optionsArray = Object.keys(options);
+            const fetchedOptions = await Promise.all(
+                optionsArray.map((option) => services.fetchFromMaster(option))
+            );
+            if (!fetchedOptions[0]) {
+                setError("Error fetching options!")
             }
-        }
-        const fetchOptions = async () => {
-            const optionsArray = Object.keys(options)
-            optionsArray.forEach(async (option) => {
-                try {
-                    const response = await axios.get(`http://localhost:8000/master/${option}`)
-                    options[option] = response.data[0]
-                } catch (error) {
-                    console.log(`Cannont fetch options for ${option} from master table`)
-                }
+            const newOptions = {};
+            optionsArray.forEach((option, index) => {
+                newOptions[option] = fetchedOptions[index];
             })
+            setOptions(newOptions);
+        };
+
+        const init = async () => {
+            setIsLoading(true)
+            await getOptions();
+            await getDefaultValues();
+            setIsLoading(false)
+        };
+
+        if (applicationNo) {
+            init();
+        } else {
+            navigate('/')
         }
-
-        fetchData()
-        fetchOptions()
     }, [])
-
-    const { register, handleSubmit } = useForm({ defaultValues: formData });
 
 
     const onSubmit = async (data) => {
-        try {
-            const response = await axios.put(`http://localhost:8000/parent_details/${applicationNo}`, data)
-            console.log(response)
-        } catch (error) {
-            console.log("Failed to update fields in table");
+        setIsLoading(true)
+        setError(null)
+        const response = await services.updateData(applicationNo, data)
+
+        if (response) {
+            if (location.state && location.state.fromFinal) {
+                navigate('/final_review')
+            } else {
+                navigate('/address_details')
+            }
+        } else {
+            setError("Error submitting form!")
+
         }
+        setIsLoading(false)
     }
 
     return (
         <div>
-            <Form handleNext={handleSubmit(onSubmit)} heading="Parent Details" >
-                <InputField
-                    label="Father Name"
-                    registerProps={register("father_name")}
-                    type="text"
-                />
-                
-                <InputField
-                    label="Mother Name"
-                    registerProps={register("mother_name")}
-                    type="text"
-                />
-                
-                <InputField
-                    label="Gaurdian Name"
-                    registerProps={register("gaurdian_name")}
-                    type="text"
-                />
-                
-                <DropDown
-                    label="Father Occupation"
-                    options={options['occupation']}
-                    registerProps={register("occupation")}
-                />
+            {isLoading && <Loading />}
+            {error && <Error message={error} />}
+            <Form handleNext={handleSubmit(onSubmit)} heading="Parent Details" handleBack={() => { navigate('/personal_details') }}>
+                <Row>
+                    <InputField
+                        label="Father's Name"
+                        registerProps={register("father_name")}
+                        type="text"
+                        error={errors.father_name && errors.father_name.message}
+                        required
+                    />
+                    <DropDown
+                        label="Father's Occupation"
+                        options={options['occupation']}
+                        registerProps={register("occupation")}
+                    />
+                    <InputField
+                        label="Father's Income"
+                        registerProps={register("parent_income")}
+                        type="number"
+                        error={errors.parent_income && errors.parent_income.message}
+                    />
+                </Row>
 
-                <InputField
-                    label="Father Income"
-                    registerProps={register("parent_income")}
-                    type="number"
-                />
+                <Row>
+                    <InputField
+                        label="Organisation/Company"
+                        registerProps={register("work_area")}
+                        type="text"
+                        error={errors.work_area && errors.work_area.message}
+                    />
+                    <DropDown
+                        label="Designation"
+                        options={options['designation']}
+                        registerProps={register("designation")}
+                    />
+                </Row>
+                <Row>
 
-                <InputField
-                    label="Organisation/Company"
-                    registerProps={register("work_area")}
-                    type="text"
-                />
+                    <InputField
+                        label="Mother's Name"
+                        registerProps={register("mother_name")}
+                        type="text"
+                        error={errors.mother_name && errors.mother_name.message}
+                    />
 
-                <DropDown
-                    label="Designation"
-                    options={options['designation']}
-                    registerProps={register("designation")}
-                />
-                
-                <DropDown
-                    label="Mother Occupation"
-                    options={options['occupation_mother']}
-                    registerProps={register("occupation_mother")}
-                />
+                    <DropDown
+                        label="Mother's Occupation"
+                        options={options['occupation']}
+                        registerProps={register("occupation_mother")}
+                    />
 
-                <InputField
-                    label="Mother's Income"
-                    registerProps={register("parent_income_mother")}
-                    type="number"
-                />
-                
-                <InputField
-                    label="Organisation/Company"
-                    registerProps={register("work_area_mother")}
-                    type="text"
-                />
-                
-                <DropDown
-                    label="Designation"
-                    options={options['designation_mother']}
-                    registerProps={register("designation_mother")}
-                />
+                    <InputField
+                        label="Mother's Income"
+                        registerProps={register("parent_income_mother")}
+                        type="number"
+                        error={errors.parent_income_mother && errors.parent_income_mother.message}
+                    />
+                </Row>
+
+                <Row>
+                    <InputField
+                        label="Organisation/Company"
+                        registerProps={register("work_area_mother")}
+                        type="text"
+                    />
+                    <DropDown
+                        label="Designation"
+                        options={options['designation']}
+                        registerProps={register("designation_mother")}
+                    />
+
+                </Row>
+
+                <Row>
+                    <InputField
+                        label="Guardian Name"
+                        registerProps={register("guardian_name")}
+                        type="text"
+                    />
+                </Row>
 
             </Form>
         </div>

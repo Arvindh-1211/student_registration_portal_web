@@ -1,4 +1,44 @@
-.bit-logo{
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bit-logo {
+    min-width: 350px;
     width: 30vw;
     height: auto;
+}
+
+.header-data {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin: 2vh 2vw 0 0;
+}
+
+.header-btn-container {
+    display: flex;
+}
+
+.header-btn-container>a {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3px 5px;
+    padding: 0px 5px;
+    height: 35px;
+    font-size: 16px !important;
+    border-radius: 7px;
+    box-shadow: 2px 2px 5px 0.5px #0009;
+    color: #000;
+}
+
+.header-btn-container>a:active {
+    color: #000;
+    box-shadow: 2px 2px 2px 0.5px #0005;
+}
+
+.header-data>.application-no {
+    font-size: 16px;
 }
