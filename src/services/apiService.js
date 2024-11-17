@@ -1,9 +1,14 @@
 import axios from "axios";
 
-import {store} from "../store/store";
+import { store } from "../store/store";
+
+const server = {
+    HOST: 'localhost',
+    PORT: 8000,
+}
 
 const apiInstance = axios.create({
-    baseURL: "http://localhost:8000/api",
+    baseURL: `http://${server.HOST}:${server.PORT}/api`,
 });
 
 apiInstance.interceptors.request.use(

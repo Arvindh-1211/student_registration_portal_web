@@ -432,7 +432,7 @@ function FinalReview() {
                 <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
-                        <Detail label="Name" value={formData.legend + ' ' + formData.student_name + ' ' + formData.initial} />
+                        <Detail label="Name" value={formData.legend + ' ' + formData.student_name + (formData.initial ? (' ' + formData.initial) : '')} />
                         <Detail label="Dob" value={formData.dob} />
                         <Detail label="Age" value={formData.age} />
                         <Detail label="Gender" value={formData.gender} />
