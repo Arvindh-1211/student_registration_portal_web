@@ -183,7 +183,7 @@ function PersonalDetails() {
                         registerProps={register("aadhar_no")}
                         type="number"
                         error={errors.aadhar_no && errors.aadhar_no.message}
-                        // required
+                        required
                     />
                 </Row>
 
