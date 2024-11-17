@@ -149,6 +149,7 @@ function AddressDetails() {
                         options={options['city']}
                         registerProps={register("comm_add_city")}
                         value="value"
+                        error={errors.comm_add_city && errors.comm_add_city.message}
                         required
                     />
                 </Row>
@@ -159,6 +160,7 @@ function AddressDetails() {
                         options={options['district']}
                         registerProps={register("comm_add_district")}
                         value="value"
+                        error={errors.comm_add_district && errors.comm_add_district.message}
                         required
                     />
                     <DropDown
@@ -166,6 +168,7 @@ function AddressDetails() {
                         options={options['state']}
                         registerProps={register("comm_add_state")}
                         value="value"
+                        error={errors.comm_add_state && errors.comm_add_state.message}
                         required
                     />
                     <DropDown
@@ -173,6 +176,7 @@ function AddressDetails() {
                         options={options['country']}
                         registerProps={register("comm_add_country")}
                         value="value"
+                        error={errors.comm_add_country && errors.comm_add_country.message}
                         required
                     />
                 </Row>
@@ -223,6 +227,7 @@ function AddressDetails() {
                         options={options['city']}
                         registerProps={register("perm_add_city")}
                         value="value"
+                        error={errors.perm_add_city && errors.perm_add_city.message}
                         required
                     />
                 </Row>
@@ -233,6 +238,7 @@ function AddressDetails() {
                         options={options['district']}
                         registerProps={register("perm_add_district")}
                         value="value"
+                        error={errors.perm_add_district && errors.perm_add_district.message}
                         required
                     />
                     <DropDown
@@ -247,6 +253,7 @@ function AddressDetails() {
                         options={options['country']}
                         registerProps={register("perm_add_country")}
                         value="value"
+                        error={errors.perm_add_country && errors.perm_add_country.message}
                         required
                     />
                 </Row>

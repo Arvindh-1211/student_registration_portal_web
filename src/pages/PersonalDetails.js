@@ -192,6 +192,7 @@ function PersonalDetails() {
                         label="Community"
                         options={options['community']}
                         registerProps={register("community_id")}
+                        error={errors.community_id && errors.community_id.message}
                         required
                     />
                     <DropDown
@@ -203,6 +204,7 @@ function PersonalDetails() {
                         label="Religion"
                         options={options['religion']}
                         registerProps={register("religion_id")}
+                        error={errors.religion_id && errors.religion_id.message}
                         required
                     />
                 </Row>
@@ -212,6 +214,7 @@ function PersonalDetails() {
                         label="Nationality"
                         options={options['nationality']}
                         registerProps={register("nationality_id")}
+                        error={errors.nationality_id && errors.nationality_id.message}
                         required
                     />
                     <DropDown
