@@ -23,22 +23,22 @@ function PersonalDetails() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    const [formData, setFormData] = useState({
-        legend: '',
-        student_name: '',
-        initial: '',
-        dob: '',
-        age: '',
-        gender: '',
-        mother_tongue: '',
-        blood_group: '',
-        aadhar_no: '',
-        community_id: '',
-        caste_id: '',
-        religion_id: '',
-        nationality_id: '',
-        scholar: '',
-    })
+    const formData = {
+        legend: null,
+        student_name: null,
+        initial: null,
+        dob: null,
+        age: null,
+        gender: null,
+        mother_tongue: null,
+        blood_group: null,
+        aadhar_no: null,
+        community_id: null,
+        caste_id: null,
+        religion_id: null,
+        nationality_id: null,
+        scholar: null,
+    }
 
     const [options, setOptions] = useState({
         mother_tongue: {},
@@ -123,12 +123,14 @@ function PersonalDetails() {
                         options={{ "Mr.": "Mr", "Ms.": "Ms" }}
                         registerProps={register("legend")}
                         error={errors.legend && errors.legend.message}
+                        required
                     />
                     <InputField
                         label="Student Name"
                         registerProps={register("student_name")}
                         type="text"
                         error={errors.student_name && errors.student_name.message}
+                        required
                     />
                     <InputField
                         label="Initial"
@@ -145,18 +147,21 @@ function PersonalDetails() {
                         registerProps={register("gender")}
                         sorted={false}
                         error={errors.gender && errors.gender.message}
+                        required
                     />
                     <InputField
                         label="Date of Birth"
                         registerProps={register("dob")}
                         type="date"
                         error={errors.dob && errors.dob.message}
+                        required
                     />
                     <InputField
                         label="Age"
                         registerProps={register("age")}
                         type="number"
                         error={errors.age && errors.age.message}
+                        required
                     />
                 </Row>
 
@@ -178,6 +183,7 @@ function PersonalDetails() {
                         registerProps={register("aadhar_no")}
                         type="number"
                         error={errors.aadhar_no && errors.aadhar_no.message}
+                        // required
                     />
                 </Row>
 
@@ -186,6 +192,7 @@ function PersonalDetails() {
                         label="Community"
                         options={options['community']}
                         registerProps={register("community_id")}
+                        required
                     />
                     <DropDown
                         label="Caste"
@@ -196,6 +203,7 @@ function PersonalDetails() {
                         label="Religion"
                         options={options['religion']}
                         registerProps={register("religion_id")}
+                        required
                     />
                 </Row>
 
@@ -204,6 +212,7 @@ function PersonalDetails() {
                         label="Nationality"
                         options={options['nationality']}
                         registerProps={register("nationality_id")}
+                        required
                     />
                     <DropDown
                         label="Scholar"

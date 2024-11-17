@@ -1,6 +1,6 @@
 import '../css/DropDown.css'
 
-function DropDown({ label, options, registerProps, value, error, sorted = true }) {
+function DropDown({ label, options, registerProps, value, error, required, sorted = true }) {
 
     let sorted_options = options ? Object.entries(options) : undefined;
 
@@ -10,7 +10,10 @@ function DropDown({ label, options, registerProps, value, error, sorted = true }
     return (
         <div>
             <div className='dropDown'>
-                <div className='dropdown-label'>{label}</div>
+                <div className='dropdown-label'>
+                    {label}
+                    {required && <span className='required'>*</span>}
+                </div>
                 <select className='dropdown' {...registerProps}>
                     {sorted_options &&
                         sorted_options.map(element => (

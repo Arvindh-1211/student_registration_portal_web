@@ -74,7 +74,7 @@ const insertStudentAdditionalDet = async (data) => {
 const inserIntoCAMPS = async (applicationNo) => {
     try {
         const response = await apiInstance.post(`/insert_into_camps/${applicationNo}`)
-        return response
+        return response.data
     } catch (error) {
         console.log("Cannot insert into CAMPS")
     }

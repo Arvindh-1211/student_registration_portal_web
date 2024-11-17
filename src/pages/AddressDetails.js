@@ -135,19 +135,21 @@ function AddressDetails() {
                         registerProps={register("comm_add_street")}
                         type='text'
                         error={errors.comm_add_street && errors.comm_add_street.message}
-
+                        required
                     />
                     <InputField
                         label='Town'
                         registerProps={register("comm_add_town")}
                         type='text'
                         error={errors.comm_add_town && errors.comm_add_town.message}
+                        required
                     />
                     <DropDown
                         label="City"
                         options={options['city']}
                         registerProps={register("comm_add_city")}
                         value="value"
+                        required
                     />
                 </Row>
 
@@ -157,18 +159,21 @@ function AddressDetails() {
                         options={options['district']}
                         registerProps={register("comm_add_district")}
                         value="value"
+                        required
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("comm_add_state")}
                         value="value"
+                        required
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("comm_add_country")}
                         value="value"
+                        required
                     />
                 </Row>
 
@@ -178,6 +183,7 @@ function AddressDetails() {
                         registerProps={register("comm_add_pincode")}
                         type='number'
                         error={errors.comm_add_pincode && errors.comm_add_pincode.message}
+                        required
                     />
                     <DropDown
                         label="Area Location"
@@ -202,7 +208,7 @@ function AddressDetails() {
                         type='text'
                         readOnly={isAddressSame}
                         error={errors.perm_add_street && errors.perm_add_street.message}
-
+                        required
                     />
                     <InputField
                         label='Town'
@@ -210,12 +216,14 @@ function AddressDetails() {
                         type='text'
                         readOnly={isAddressSame}
                         error={errors.perm_add_town && errors.perm_add_town.message}
+                        required
                     />
                     <DropDown
                         label="City"
                         options={options['city']}
                         registerProps={register("perm_add_city")}
                         value="value"
+                        required
                     />
                 </Row>
 
@@ -225,18 +233,21 @@ function AddressDetails() {
                         options={options['district']}
                         registerProps={register("perm_add_district")}
                         value="value"
+                        required
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
                         registerProps={register("perm_add_state")}
                         value="value"
+                        required
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
                         registerProps={register("perm_add_country")}
                         value="value"
+                        required
                     />
                 </Row>
 
@@ -247,12 +258,8 @@ function AddressDetails() {
                         type='number'
                         readOnly={isAddressSame}
                         error={errors.perm_add_pincode && errors.perm_add_pincode.message}
+                        required
                     />
-                    {/* <DropDown
-                        label="Area Location"
-                        options={{ "Rural": "Rural", "Urban": "Urban" }}
-                        registerProps={register("area_location")}
-                    /> */}
                 </Row>
             </Form>
         </div>

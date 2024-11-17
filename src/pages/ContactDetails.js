@@ -78,7 +78,7 @@ function ContactDetails() {
         <div>
             {isLoading && <Loading />}
             {error && <Error message={error} />}
-            <Form handleNext={handleSubmit(onSubmit)} heading="Contact & Insurance Details" handleBack={() => { navigate('/parent_details') }} >
+            <Form handleNext={handleSubmit(onSubmit)} heading="Contact & Insurance Details" handleBack={() => { navigate('/address_details') }} >
                 <div className="form-sub-header">Contact Details</div>
                 <Row>
                     <InputField
@@ -86,12 +86,14 @@ function ContactDetails() {
                         registerProps={register("stu_mobile_no")}
                         type='number'
                         error={errors.stu_mobile_no && errors.stu_mobile_no.message}
+                        required
                     />
                     <InputField
                         label="Student's Email ID"
                         registerProps={register("stu_email_id")}
                         type='text'
                         error={errors.stu_email_id && errors.stu_email_id.message}
+                        required
                     />
                 </Row>
 
@@ -101,6 +103,7 @@ function ContactDetails() {
                         registerProps={register("parent_mobile_no")}
                         type='number'
                         error={errors.parent_mobile_no && errors.parent_mobile_no.message}
+                        required
                     />
                     <InputField
                         label="Parent's Email ID"
@@ -117,18 +120,22 @@ function ContactDetails() {
                         options={{ FATHER: 'FATHER', MOTHER:'MOTHER', GUARDIAN:'GUARDIAN', BROTHER:'BROTHER', SISTER:'SISTER', SPOUSE:'SPOUSE' }}
                         registerProps={register("nominee_relation")}
                         sorted={false}
+                        error={errors.nominee_relation && errors.nominee_relation.message}
+                        required
                     />
                     <InputField
                         label="Nominee's Name"
                         registerProps={register("nominee_name")}
                         type='text'
                         error={errors.nominee_name && errors.nominee_name.message}
+                        required
                     />
                     <InputField
                         label="Nominee's Age"
                         registerProps={register("nominee_age")}
                         type='number'
                         error={errors.nominee_age && errors.nominee_age.message}
+                        required
                     />
                 </Row>
             </Form>

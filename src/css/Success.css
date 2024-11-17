@@ -1,24 +1,14 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-}
-
 .success{
     background-color: #f1edf5;
-    height: 100vh;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.h1{
+.success-msg{
     font-size: 35px;
-    font-weight: bold;
+    font-weight: 600;
     margin-bottom: 20px;
 }
 
@@ -35,14 +25,13 @@ body {
     width: 500px;
 }
 
-.icon {
+.tick-icon {
     font-size: 40px;
     color: white;
     margin-bottom: 40px;
     background-color: #64b264;
     width: 80px;
     height: 80px;
-    /* border: 3px solid #48246e; */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -50,7 +39,7 @@ body {
     z-index: 1;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transform: scale(0);
-    animation: icon-pop 0.6s ease forwards;
+    animation: icon-pop 0.5s ease-out forwards;
     animation-delay: 0.3s;
 }
 
@@ -58,12 +47,20 @@ body {
     0% {
         transform: scale(0);
     }
+    70% {
+        transform: scale(1.1);
+    }
     100% {
         transform: scale(1);
     }
 }
 
-.btn{
+.appl-no{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.create-btn{
     background-color: #64b264;
     color: white;
     padding: 10px 20px;
@@ -74,12 +71,6 @@ body {
     font-size: 16px;
     margin-top: 20px;
     transition: background-color 0.3s;
-}
-
-.btns{
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
 }
 
 .particles {
@@ -99,7 +90,6 @@ body {
     border-radius: 50px;
     opacity: 0;
     animation: popper 1s ease-out;
-    /* animation-delay: 1s; */
 }
 
 .particle:nth-child(1) { animation-delay: 0.4s; }
@@ -113,7 +103,6 @@ body {
 .particle:nth-child(9) { animation-delay: 0.5s; }
 .particle:nth-child(10) { animation-delay: 0.4s; }
 
-/* Popper animation */
 @keyframes popper {
     0% {
         transform: scale(2) translate(0, 0);

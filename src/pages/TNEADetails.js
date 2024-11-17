@@ -112,6 +112,7 @@ function TNEADetails() {
                         options={{ 'GOVERNMENT': 'GOVERNMENT', 'MANAGEMENT': 'MANAGEMENT' }}
                         registerProps={register("seat_cat")}
                         error={errors.seat_cat && errors.seat_cat.message}
+                        required
                     />
                     <DropDown
                         label="Quota"

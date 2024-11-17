@@ -1,21 +1,34 @@
 import '../css/Pagination.css'
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 function Pagination() {
+    const location = useLocation()
+
+    const routes = [
+        '/personal_details',
+        '/parent_details',
+        '/address_details',
+        '/contact_details',
+        '/tnea_details',
+        '/scholarship_details',
+        '/mark_details',
+        '/additional_details',
+    ]
+
     return (
-        <div className='paginationContainer'>
-            <div className='pagination'>
-                <NavLink to='/personal_details'><div>1</div></NavLink>
-                <NavLink to='/parent_details'><div>2</div></NavLink>
-                <NavLink to='/address_details'><div>3</div></NavLink>
-                <NavLink to='/contact_details'><div>4</div></NavLink>
-                <NavLink to='/tnea_details'><div>5</div></NavLink>
-                <NavLink to='/scholarship_details'><div>6</div></NavLink>
-                <NavLink to='/mark_details'><div>7</div></NavLink>
-                <NavLink to='/additional_details'><div>8</div></NavLink>
-            </div>
-        </div>
+        routes.includes(location.pathname) &&
+        (
+            < div className='paginationContainer' >
+                <div className='pagination'>
+                    {routes.map((route, index) => (
+                        <NavLink key={index + 1} to={route}>
+                            <div>{index + 1}</div>
+                        </NavLink>
+                    ))}
+                </div>
+            </div >
+        )
     )
 }
 

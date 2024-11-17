@@ -332,6 +332,7 @@ function MarkDetails() {
                         registerProps={register("school_name")}
                         type='text'
                         error={errors.school_name && errors.school_name.message}
+                        required
                     />
                     <DropDown
                         label="School Board"
@@ -351,12 +352,14 @@ function MarkDetails() {
                         registerProps={register("school_tc_no")}
                         type='number'
                         error={errors.school_tc_no && errors.school_tc_no.message}
+                        required
                     />
                     <InputField
                         label='TC Date'
                         registerProps={register("school_tc_date")}
                         type='date'
                         error={errors.school_tc_date && errors.school_tc_date.message}
+                        required
                     />
                     <DropDown
                         label="Qualification"
@@ -389,6 +392,7 @@ function MarkDetails() {
                         registerProps={register("sch_attempt")}
                         type='number'
                         error={errors.sch_attempt && errors.sch_attempt.message}
+                        required
                     />
                 </Row>
 

@@ -4,7 +4,10 @@ function InputField(props) {
     return (
         <div>
             <div className='InputField'>
-                <div className='inputfield-label'>{props.label}</div>
+                <div className='inputfield-label'>
+                    {props.label}
+                    {props.required && <span className='required'>*</span>}
+                </div>
                 <input
                     className='inputfield'
                     type={props.type}

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import "../css/BranchDetails.css";
 
 import services from '../services/services';
-import { setApplicationNo } from '../store/applicationNoSlice';
+import { setApplicationNo, setCampsApplNo } from '../store/applicationNoSlice';
 import Loading from "../Components/Loading";
 import Error from "../Components/Error";
 import { IoIosSearch } from "react-icons/io"
@@ -59,7 +59,6 @@ function BranchDetails() {
                 setError("Error fetching branch details!")
             }
             setIsLoading(false)
-
         };
 
         fetchCourses();

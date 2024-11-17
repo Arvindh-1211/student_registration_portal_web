@@ -5,10 +5,6 @@ const PersonalDetails = Yup.object().shape({
         .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces")
         .required('Name is required'),
 
-    initial: Yup.string()
-        .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces")
-        .required('Name is required'),
-
     dob: Yup.string()
         .required("Date of birth is required"),
 
@@ -26,14 +22,23 @@ const PersonalDetails = Yup.object().shape({
     gender: Yup.string()
         .required("Gender is required"),
 
-    blood_group: Yup.string()
-        .required("Blood Group is required"),
+    community: Yup.string()
+        .required("Community is required"),
+
+    religion: Yup.string()
+        .required("Religion is required"),
+
+    nationality: Yup.string()
+        .required("Nationality is required"),
+
+    // aadhar_no: Yup.string()
+    //     .required("Aadhar Number is required"),
 })
 
 const ParentDetails = Yup.object().shape({
     father_name: Yup.string()
         .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces")
-        .nullable(true),
+        .required("Father's Name is required"),
 
     parent_income: Yup.number()
         .min(0, "Income should be positive")
@@ -74,6 +79,9 @@ const ContactDetails = Yup.object().shape({
         .email("Invalid email")
         .nullable(true),
 
+    nominee_relation: Yup.string()
+        .required("Nominee relation is required"),
+
     nominee_name: Yup.string()
         .matches(/^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/, "Name should contain only characters and spaces")
         .required("Nominee name is required"),
@@ -90,6 +98,18 @@ const AddressDetails = Yup.object().shape({
     comm_add_town: Yup.string()
         .required("Town is required"),
 
+    comm_add_city: Yup.string()
+        .required("City is required"),
+
+    comm_add_district: Yup.string()
+        .required("District is required"),
+
+    comm_add_state: Yup.string()
+        .required("State is required"),
+
+    comm_add_country: Yup.string()
+        .required("Country is required"),
+
     comm_add_pincode: Yup.string()
         .length(6, "PIN code must be 6 digits")
         .required("PIN code is required"),
@@ -100,10 +120,74 @@ const AddressDetails = Yup.object().shape({
     perm_add_town: Yup.string()
         .required("Town is required"),
 
+    perm_add_city: Yup.string()
+        .required("City is required"),
+
+    perm_add_district: Yup.string()
+        .required("District is required"),
+
+    perm_add_state: Yup.string()
+        .required("State is required"),
+
+    perm_add_country: Yup.string()
+        .required("Country is required"),
+
     perm_add_pincode: Yup.string()
         .length(6, "PIN code must be 6 digits")
         .required("PIN code is required"),
 })
+
+const TNEADetails = Yup.object().shape({
+    seat_cat: Yup.string()
+        .required("Seat Category is required"),
+
+    tnea_app_no: Yup.number("Must be a number")
+        .nullable(true),
+
+    tnea_adm_no: Yup.number("Must be a number")
+        .nullable(true),
+
+    general_rank: Yup.number("Must be a number")
+        .nullable(true),
+
+    comm_rank: Yup.number("Must be a number")
+        .nullable(true),
+
+    tnea_pay_rec_no: Yup.string()
+        .matches(/^[A-Za-z0-9 -]+$/, "Invalid Format")
+        .nullable(true),
+
+    tnea_pay_rec_date: Yup.string()
+        .nullable(true),
+
+    tnea_pay_rec_amt: Yup.string()
+        .matches(/^[0-9 .]+$/, "Invalid amount")
+        .nullable(true),
+
+    tnea_pay_bank: Yup.string()
+        .nullable(true),
+})
+
+const ScholarshipDetails = Yup.object().shape({
+    adm_sch_amt1: Yup.number()
+        .nullable(true),
+
+    adm_sch_amt2: Yup.number()
+        .nullable(true),
+})
+
+const AdditionalDetails = Yup.object().shape({
+    father_qual: Yup.string(),
+
+    mother_qual: Yup.string(),
+
+    sports_int: Yup.string(),
+
+    first_gr_appno: Yup.string()
+        .matches(/^[A-Za-z0-9]*$/, "Invalid Format")
+        .nullable(true),
+});
+
 
 const MarkDetails = Yup.object().shape({
     school_name: Yup.string()
@@ -421,66 +505,15 @@ const MarkDetails = Yup.object().shape({
         .nullable(true),
 })
 
-const TNEADetails = Yup.object().shape({
-    tnea_app_no: Yup.number("Must be a number")
-        .nullable(true),
-
-    tnea_adm_no: Yup.number("Must be a number")
-        .nullable(true),
-
-    general_rank: Yup.number("Must be a number")
-        .nullable(true),
-
-    comm_rank: Yup.number("Must be a number")
-        .nullable(true),
-
-    tnea_pay_rec_no: Yup.string()
-        .matches(/^[A-Za-z0-9 -]+$/, "Invalid Format")
-        .nullable(true),
-
-    tnea_pay_rec_date: Yup.string()
-        .nullable(true),
-
-    tnea_pay_rec_amt: Yup.string()
-        .matches(/^[0-9 .]+$/, "Invalid amount")
-        .nullable(true),
-
-    tnea_pay_bank: Yup.string()
-        .nullable(true),
-
-    seat_cat: Yup.string()
-        .required("Seat Category is required"),
-})
-
-const ScholarshipDetails = Yup.object().shape({
-    adm_sch_amt1: Yup.number()
-        .nullable(true),
-
-    adm_sch_amt2: Yup.number()
-        .nullable(true),
-})
-
-const AdditionalDetails = Yup.object().shape({
-    father_qual: Yup.string(),
-
-    mother_qual: Yup.string(),
-
-    sports_int: Yup.string(),
-
-    first_gr_appno: Yup.string()
-        .matches(/^[A-Za-z0-9]*$/, "Invalid Format")
-        .nullable(true),
-});
-
 const schema = {
     PersonalDetails,
     ParentDetails,
     ContactDetails,
     AddressDetails,
-    MarkDetails,
     TNEADetails,
     ScholarshipDetails,
     AdditionalDetails,
+    MarkDetails,
 }
 
 export default schema
