@@ -1,24 +1,24 @@
 import '../css/InputField.css';
 
-function InputField(props) {
+function InputField({ label, registerProps, type, error, readOnly, placeholder, required, toUpper=true }) {
     return (
         <div>
             <div className='InputField'>
                 <div className='inputfield-label'>
-                    {props.label}
-                    {props.required && <span className='required'>*</span>}
+                    {label}
+                    {required && <span className='required'>*</span>}
                 </div>
                 <input
                     className='inputfield'
-                    type={props.type}
-                    placeholder={props.placeholder}
-                    {...props.registerProps}
-                    readOnly={props.readOnly}
+                    type={type}
+                    placeholder={placeholder}
+                    {...registerProps}
+                    readOnly={readOnly}
                     step='0.01'
-                    autoComplete={props.autoComplete}
+                    style={{ textTransform: toUpper ? 'uppercase' : 'none' }}
                 />
             </div>
-            <div className='inputfield-error'>{props.error}</div>
+            <div className='inputfield-error'>{error}</div>
         </div>
     )
 }

@@ -11,7 +11,6 @@ import { setCampsApplNo } from '../store/applicationNoSlice';
 import services from "../services/services";
 
 
-
 function Detail({ label, value, marks }) {
     return (
         <div className='detail'>

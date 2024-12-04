@@ -62,6 +62,7 @@ function BranchDetails() {
         };
 
         fetchCourses();
+        dispatch(setApplicationNo(null));
     }, []);
 
     useEffect(() => {
@@ -123,7 +124,7 @@ function BranchDetails() {
                 <div className="form-header">DEPARTMENTS</div>
                 <div className='filters-container'>
 
-                    <input className='filter-search' placeholder='Branch Name' type='text' autoComplete='false' onChange={(e) => { setFilter((prevFilter) => ({ ...prevFilter, course: e.target.value })) }} />
+                    <input className='filter-search' placeholder='Branch Name' type='text' onChange={(e) => { setFilter((prevFilter) => ({ ...prevFilter, course: e.target.value })) }} />
                     <IoIosSearch className='search-icon'/>
 
                     <select className='filter-dropdown' onChange={(e) => { setFilter((prevFilter) => ({ ...prevFilter, degree: Number(e.target.value) })) }}>

@@ -56,7 +56,6 @@ function LoginPage() {
                             <input
                                 className='input-field'
                                 type='text'
-                                autoComplete='false'
                                 {...register('username')}
                             />
                         </div>

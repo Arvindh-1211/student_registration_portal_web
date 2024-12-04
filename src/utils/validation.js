@@ -30,9 +30,6 @@ const PersonalDetails = Yup.object().shape({
 
     nationality_id: Yup.string()
         .required("Nationality is required"),
-
-    aadhar_no: Yup.string()
-        .required("Aadhar Number is required"),
 })
 
 const ParentDetails = Yup.object().shape({
