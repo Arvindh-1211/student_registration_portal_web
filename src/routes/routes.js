@@ -8,6 +8,7 @@ import ScholarshipDetails from "../pages/ScholarshipDetails";
 import AdditionalDetails from "../pages/AdditionalDetails";
 import MarkDetails from "../pages/MarkDetails";
 import FinalReview from "../pages/FinalReview";
+import Success from "../pages/Success";
 
 const routes = [
     {
@@ -49,6 +50,10 @@ const routes = [
     {
         path: '/final_review',
         element: <FinalReview />
+    },
+    {
+        path: '/success',
+        element: <Success />
     },
 ]
 

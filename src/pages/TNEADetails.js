@@ -112,11 +112,14 @@ function TNEADetails() {
                         options={{ 'GOVERNMENT': 'GOVERNMENT', 'MANAGEMENT': 'MANAGEMENT' }}
                         registerProps={register("seat_cat")}
                         error={errors.seat_cat && errors.seat_cat.message}
+                        required
                     />
                     <DropDown
                         label="Quota"
                         options={options['quota']}
                         registerProps={register("quota_id")}
+                        error={errors.quota_id && errors.quota_id.message}
+                        required
                     />
                     <InputField
                         label="TNEA Application No."

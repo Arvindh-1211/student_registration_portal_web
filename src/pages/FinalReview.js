@@ -7,9 +7,8 @@ import "../css/FinalReview.css"
 import Loading from "../Components/Loading";
 import Error from "../Components/Error";
 
-import { setApplicationNo } from '../store/applicationNoSlice';
+import { setCampsApplNo } from '../store/applicationNoSlice';
 import services from "../services/services";
-
 
 
 function Detail({ label, value, marks }) {
@@ -30,8 +29,8 @@ function FinalReview() {
     const applicationNo = useSelector((state) => state.applicationNo.value)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
-    // const dispatch = useDispatch();
-    // dispatch(setApplicationNo(1015));
+    const dispatch = useDispatch();
+    // dispatch(setCampsApplNo(1015));
 
     const [formData, setFormData] = useState({
         // Personal Details
@@ -397,7 +396,11 @@ function FinalReview() {
             setIsLoading(false)
         };
 
-        init();
+        if (applicationNo) {
+            init();
+        } else {
+            navigate('/')
+        }
     }, [])
 
     const handleSubmit = async () => {
@@ -406,11 +409,11 @@ function FinalReview() {
 
         const response = await services.inserIntoCAMPS(applicationNo)
 
-        if (response) {
+        if (response.APPLICATION_NO) {
+            dispatch(setCampsApplNo(response.APPLICATION_NO));
             navigate('/success')
         } else {
             setError("Error submitting form!")
-
         }
 
         setIsLoading(false)
@@ -428,7 +431,7 @@ function FinalReview() {
                 <hr className='detail-header-line'></hr>
                 <div className='details-container'>
                     <div className='detail-row'>
-                        <Detail label="Name" value={formData.legend + ' ' + formData.student_name + ' ' + formData.initial} />
+                        <Detail label="Name" value={formData.legend + ' ' + formData.student_name + (formData.initial ? (' ' + formData.initial) : '')} />
                         <Detail label="Dob" value={formData.dob} />
                         <Detail label="Age" value={formData.age} />
                         <Detail label="Gender" value={formData.gender} />
@@ -669,7 +672,7 @@ function FinalReview() {
 
                         <Detail label="UG Marks" marks={{ sec: formData.ug_mark_sec, max: formData.ug_mark_max }} />
                         <Detail label="UG Percentage" value={formData.ug_mark_per} />
-                        
+
                     </div>
                 </div>
             </div>

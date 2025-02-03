@@ -9,6 +9,15 @@ const login = async (data) => {
     }
 }
 
+const register = async (data) => {
+    try {
+        const response = await apiInstance.post('/register', data)
+        return response
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const getUser = async () => {
     try {
         const response = await apiInstance.get('/user')
@@ -20,6 +29,7 @@ const getUser = async () => {
 
 const authServices = {
     login,
+    register,
     getUser
 }
 

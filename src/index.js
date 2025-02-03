@@ -12,11 +12,16 @@ import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from './Components/ProtectedRoute'
 import routes from './routes/routes';
 import { store, persistor } from './store/store';
+import RegisterPage from './pages/RegisterPage';
 
 const router = createBrowserRouter([
 	{
 		path: "/login",
 		element: <LoginPage />
+	},
+	{
+		path: "/register",
+		element: <ProtectedRoute users={["admin"]}> <RegisterPage /> </ProtectedRoute>
 	},
 	{
 		path: "/",

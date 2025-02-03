@@ -1,45 +1,34 @@
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GoPlus } from "react-icons/go";
 
 import authServices from '../services/authService';
-import { setAuth } from '../store/authSlice';
-import { setApplicationNo, setCampsApplNo } from '../store/applicationNoSlice';
 
 import Loading from "../Components/Loading";
 import Error from "../Components/Error";
 import Header from '../Components/Header';
-import '../css/Login.css'
 
-function LoginPage() {
+function RegisterPage() {
     const navigate = useNavigate();
-    const dispatch = useDispatch()
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
 
     const { handleSubmit, register } = useForm();
 
-    useEffect(() => {
-        dispatch(setAuth({}))
-        dispatch(setApplicationNo(null))
-        dispatch(setCampsApplNo(null))
-    }, [dispatch])
-
     const onSubmit = async (data) => {
         setIsLoading(true)
         setError(null)
         data.password = btoa(data.password)
-        
-        const response = await authServices.login(data)
+
+        const response = await authServices.register(data)
+        setIsLoading(false)
         if (response) {
-            dispatch(setAuth(response))
-            navigate('/')
+            alert("User created successfully")
         }
         else {
-            setError("Invalid Credentials!")
+            setError("Unable to create user")
         }
-        setIsLoading(false)
     }
 
     return (
@@ -50,13 +39,21 @@ function LoginPage() {
                     {isLoading && <Loading />}
                     {error && <Error message={error} />}
                     <form className='login-card' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='login-header'>Login</div>
+                        <div className='login-header'>Add User</div>
                         <div>
                             <div className='input-label'>Username</div>
                             <input
                                 className='input-field'
                                 type='text'
                                 {...register('username')}
+                            />
+                        </div>
+                        <div>
+                            <div className='input-label'>Role</div>
+                            <input
+                                className='input-field'
+                                type='text'
+                                {...register('role')}
                             />
                         </div>
                         <div>
@@ -67,7 +64,10 @@ function LoginPage() {
                                 {...register('password')}
                             />
                         </div>
-                        <input className='login-btn' type="submit" onSubmit={handleSubmit(onSubmit)} />
+                        <div className="button-container">
+                            <input className='login-btn' type="button" value="Cancel" onClick={() => {navigate('/')}}/>
+                            <input className='login-btn' type="submit" value="Submit" onSubmit={handleSubmit(onSubmit)} />
+                        </div>
                     </form>
                 </div>
             </div>
@@ -75,4 +75,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage 
+export default RegisterPage

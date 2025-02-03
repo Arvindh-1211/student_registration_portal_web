@@ -110,7 +110,7 @@ function ParentDetails() {
                         registerProps={register("father_name")}
                         type="text"
                         error={errors.father_name && errors.father_name.message}
-
+                        required
                     />
                     <DropDown
                         label="Father's Occupation"
