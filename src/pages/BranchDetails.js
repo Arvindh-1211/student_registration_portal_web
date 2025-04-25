@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import "../css/BranchDetails.css";
 
 import services from '../services/services';
-import { setApplicationNo, setCampsApplNo } from '../store/applicationNoSlice';
+import { setApplicationNo } from '../store/applicationNoSlice';
 import Loading from "../Components/Loading";
 import Error from "../Components/Error";
 import { IoIosSearch } from "react-icons/io"
@@ -42,6 +42,7 @@ function BranchDetails() {
         const fetchCourses = async () => {
             setIsLoading(true)
             setError(null)
+            dispatch(setApplicationNo(null));
             const result = await services.fetchFromMaster('branch');
             if (result && typeof result === 'object') {
                 const coursesArray = Object.values(result).map(course => ({
@@ -62,7 +63,6 @@ function BranchDetails() {
         };
 
         fetchCourses();
-        dispatch(setApplicationNo(null));
     }, []);
 
     useEffect(() => {
@@ -125,7 +125,7 @@ function BranchDetails() {
                 <div className='filters-container'>
 
                     <input className='filter-search' placeholder='Branch Name' type='text' onChange={(e) => { setFilter((prevFilter) => ({ ...prevFilter, course: e.target.value })) }} />
-                    <IoIosSearch className='search-icon'/>
+                    <IoIosSearch className='search-icon' />
 
                     <select className='filter-dropdown' onChange={(e) => { setFilter((prevFilter) => ({ ...prevFilter, degree: Number(e.target.value) })) }}>
                         <option value="null">--</option>

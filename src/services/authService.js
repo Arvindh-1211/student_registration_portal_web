@@ -1,5 +1,6 @@
 import apiInstance from "./apiService";
 
+// data: { email, password, loginType: 'application_number' | 'google' }
 const login = async (data) => {
     try {
         const response = await apiInstance.post('/login', data)
@@ -9,6 +10,7 @@ const login = async (data) => {
     }
 }
 
+// data: { email, password }
 const register = async (data) => {
     try {
         const response = await apiInstance.post('/register', data)

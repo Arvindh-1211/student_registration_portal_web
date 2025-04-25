@@ -407,12 +407,11 @@ function FinalReview() {
         setIsLoading(true)
         setError(null)
 
-        const response = await services.inserIntoCAMPS(applicationNo)
-
-        if (response.APPLICATION_NO) {
+        try {
+            const response = await services.inserIntoCAMPS(applicationNo)
             dispatch(setCampsApplNo(response.APPLICATION_NO));
             navigate('/success')
-        } else {
+        } catch (error) {
             setError("Error submitting form!")
         }
 
