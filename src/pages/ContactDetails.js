@@ -49,7 +49,7 @@ function ContactDetails() {
             setIsLoading(false)
         };
 
-        if(applicationNo){
+        if (applicationNo) {
             init();
         } else {
             navigate('/')
@@ -84,7 +84,7 @@ function ContactDetails() {
                     <InputField
                         label="Student's Phone Number"
                         registerProps={register("stu_mobile_no")}
-                        type='number'
+                        type='number' 
                         error={errors.stu_mobile_no && errors.stu_mobile_no.message}
                         required
                     />
@@ -119,7 +119,7 @@ function ContactDetails() {
                 <Row>
                     <DropDown
                         label="Nominee's Relation"
-                        options={{ FATHER: 'FATHER', MOTHER:'MOTHER', GUARDIAN:'GUARDIAN', BROTHER:'BROTHER', SISTER:'SISTER', SPOUSE:'SPOUSE' }}
+                        options={{ FATHER: 'FATHER', MOTHER: 'MOTHER', GUARDIAN: 'GUARDIAN', BROTHER: 'BROTHER', SISTER: 'SISTER', SPOUSE: 'SPOUSE' }}
                         registerProps={register("nominee_relation")}
                         sorted={false}
                         error={errors.nominee_relation && errors.nominee_relation.message}
