@@ -9,8 +9,14 @@ import AdditionalDetails from "../pages/AdditionalDetails";
 import MarkDetails from "../pages/MarkDetails";
 import FinalReview from "../pages/FinalReview";
 import Success from "../pages/Success";
+import AdminHome from "../pages/AdminHome";
+import ProtectedRoute from "../Components/ProtectedRoute";
 
 const routes = [
+    {
+        path: '/adminhome',
+        element: <ProtectedRoute users={['admin']}><AdminHome /></ProtectedRoute>
+    },
     {
         path: '/',
         element: <BranchDetails />

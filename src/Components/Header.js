@@ -26,8 +26,8 @@ function Header() {
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState(null)
 
-	const handleEdit = async (e=null) => {
-		if(e){
+	const handleEdit = async (e = null) => {
+		if (e) {
 			e.preventDefault()
 		}
 		if (!tempApplNo) {
@@ -65,20 +65,22 @@ function Header() {
 					<div className='header-btn-container'>
 						{
 							location.pathname == '/' &&
-							<form onSubmit={(e) => {handleEdit(e)}}>
+							<form onSubmit={(e) => { handleEdit(e) }}>
 								<input
 									className={showEdit ? 'app-no show' : 'app-no'}
 									placeholder='Application no.'
 									onChange={(e) => { setTempApplNo(e.target.value) }}
 									type='number'
 								/>
-								<div className='edit-btn' onClick={() => {handleEdit()}}> <MdModeEditOutline /> Edit</div>
+								<div className='edit-btn' onClick={() => { handleEdit() }}> <MdModeEditOutline /> Edit</div>
 							</form>
 						}
-						<ProtectedComponent users={["admin"]}>
-							<Link to="/"> <GoPlus /> Application </Link>
-							<Link to="/register"> <GoPlus /> <FaUser /> </Link>
-						</ProtectedComponent>
+						{/* 						
+							<ProtectedComponent users={["admin"]}>
+								<Link to="/"> <GoPlus /> Application </Link>
+								<Link to="/register"> <GoPlus /> <FaUser /> </Link>
+							</ProtectedComponent>
+						 */}
 						<Logout />
 					</div>
 					{applicationNo &&

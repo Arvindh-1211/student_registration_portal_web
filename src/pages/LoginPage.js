@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 import authServices from '../services/authService';
 import { setAuth } from '../store/authSlice';
@@ -13,6 +14,7 @@ import Header from '../Components/Header';
 import '../css/Login.css'
 
 function LoginPage() {
+    const clientId = "628644360090-b1l5p2tsfp03gni5cjo0otssfssm5fcq.apps.googleusercontent.com"
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const [error, setError] = useState(null)
@@ -30,8 +32,8 @@ function LoginPage() {
         setIsLoading(true)
         setError(null)
         data.password = btoa(data.password)
-        
-        const response = await authServices.login(data)
+
+        const response = await authServices.login({ ...data, loginType: 'application_number' })
         if (response) {
             dispatch(setAuth(response))
             navigate('/')
@@ -42,35 +44,75 @@ function LoginPage() {
         setIsLoading(false)
     }
 
+    const handleGoogleLoginSuccess = async (credentialResponse) => {
+        setIsLoading(true)
+        setError(null)
+
+        const base64Url = credentialResponse.credential.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const decodedPayload = JSON.parse(atob(base64));
+        
+        const response = await authServices.login({ email: decodedPayload.email, loginType: 'google' })
+        if (response) {
+            dispatch(setAuth(response))
+            if (response.role === 'admin') {
+                navigate('/adminhome')
+            }
+            else{
+                navigate('/')
+            }
+        }
+        else {
+            setError("Unauthorized User!")
+        }
+        setIsLoading(false)
+    }
+
+    const handleGoogleLoginError = (error) => {
+        setIsLoading(false)
+        setError("Google Login Failed!")
+    }
+
     return (
         <div className='login'>
-            <Header />
-            <div className='login-det'>
-                <div className='login-container'>
-                    {isLoading && <Loading />}
-                    {error && <Error message={error} />}
-                    <form className='login-card' onSubmit={handleSubmit(onSubmit)}>
-                        <div className='login-header'>Login</div>
-                        <div>
-                            <div className='input-label'>Username</div>
-                            <input
-                                className='input-field'
-                                type='text'
-                                {...register('username')}
+            <GoogleOAuthProvider clientId={clientId}>
+                <Header />
+                <div className='login-det'>
+                    <div className='login-container'>
+                        {isLoading && <Loading />}
+                        {error && <Error message={error} />}
+                        <form className='login-card' onSubmit={handleSubmit(onSubmit)}>
+                            <div className='login-header'>Login</div>
+
+                            <GoogleLogin
+                                onSuccess={handleGoogleLoginSuccess}
+                                onError={handleGoogleLoginError}
+                                width='240'
                             />
-                        </div>
-                        <div>
-                            <div className='input-label'>Password</div>
-                            <input
-                                className='input-field'
-                                type='password'
-                                {...register('password')}
-                            />
-                        </div>
-                        <input className='login-btn' type="submit" onSubmit={handleSubmit(onSubmit)} />
-                    </form>
+
+                            <div style={{borderColor:'#27403c55', borderWidth:'1px', borderStyle:'solid', width: '250px'}}></div>
+                            
+                            <div>
+                                <div className='input-label'>Username</div>
+                                <input
+                                    className='input-field'
+                                    type='text'
+                                    {...register('username')}
+                                />
+                            </div>
+                            <div>
+                                <div className='input-label'>Password</div>
+                                <input
+                                    className='input-field'
+                                    type='password'
+                                    {...register('password')}
+                                />
+                            </div>
+                            <input className='login-btn' type="submit" onSubmit={handleSubmit(onSubmit)} />
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </GoogleOAuthProvider>
         </div>
     )
 }
