@@ -17,3 +17,10 @@
 .logout-btn:hover {
     cursor: pointer;
 }
+
+@media (max-width: 360px) {
+    .logout-btn{
+        height: 30px;
+        width: 70px;
+    }
+}

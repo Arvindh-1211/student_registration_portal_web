@@ -27,7 +27,7 @@
 }
 
 .button-container> input{
-    margin: 25px 10px 0 10px;
+    margin: 10px 10px 0 10px;
     height: 35px;
     font-size: 16px;
 }
@@ -112,4 +112,65 @@
     border: 1px solid #2e2e2e9e;
     border-radius: 5px;
 
+}
+
+@media (max-width: 480px) {
+    .branchCard {
+        min-width: 280px;
+        max-width: 300px;
+        height: auto;
+        padding: 15px;
+        margin: 10px;
+        transform: none; /* prevent hover scale overflow */
+    }
+
+    .branchCard:hover {
+        transform: none; /* disable scale on mobile to prevent layout issues */
+    }
+
+    .branchCard > .button-container {
+        height: auto;
+        opacity: 1;
+        gap: 10px;
+    }
+
+    .course-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .course-card {
+        min-width: 340px;
+        width: 90vw;
+        padding: 20px;
+    }
+
+    .filters-container {
+        display: flex;
+        align-items: stretch;
+        padding: 10px;
+    }
+
+    .filters-container > * {
+        margin: 8px 6px;
+    }
+
+    .filters-container > .search-icon {
+        transform: translate(10px, 6px); /* adjusted for smaller input */
+    }
+
+    .filter-search {
+        width: 100%;
+        padding-left: 32px;
+        box-sizing: border-box;
+    }
+
+    .filter-dropdown {
+        width: 100px;
+    }
+
+    .filter-dropdown > option{
+        width: 70px;
+    }
 }

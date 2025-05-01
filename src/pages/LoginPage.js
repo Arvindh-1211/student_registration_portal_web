@@ -41,7 +41,7 @@ function LoginPage() {
         }
         else if (response) {
             dispatch(setAuth(response))
-            navigate('/final_review')
+            navigate('/')
         }
         else {
             setError("Invalid Credentials!")
