@@ -34,9 +34,14 @@ function LoginPage() {
         data.password = btoa(data.password)
 
         const response = await authServices.login({ ...data, loginType: 'application_number' })
-        if (response) {
+        if (response.application_no) {
+            dispatch(setApplicationNo(response.application_no));
             dispatch(setAuth(response))
-            navigate('/')
+            navigate('/personal_details');
+        }
+        else if (response) {
+            dispatch(setAuth(response))
+            navigate('/final_review')
         }
         else {
             setError("Invalid Credentials!")
@@ -51,14 +56,14 @@ function LoginPage() {
         const base64Url = credentialResponse.credential.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const decodedPayload = JSON.parse(atob(base64));
-        
+
         const response = await authServices.login({ email: decodedPayload.email, loginType: 'google' })
         if (response) {
             dispatch(setAuth(response))
             if (response.role === 'admin') {
                 navigate('/adminhome')
             }
-            else{
+            else {
                 navigate('/')
             }
         }
@@ -90,8 +95,8 @@ function LoginPage() {
                                 width='240'
                             />
 
-                            <div style={{borderColor:'#27403c55', borderWidth:'1px', borderStyle:'solid', width: '250px'}}></div>
-                            
+                            <div style={{ borderColor: '#27403c55', borderWidth: '1px', borderStyle: 'solid', width: '250px' }}></div>
+
                             <div>
                                 <div className='input-label'>Username</div>
                                 <input

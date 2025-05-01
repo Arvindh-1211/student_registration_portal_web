@@ -80,6 +80,24 @@ const inserIntoCAMPS = async (applicationNo) => {
     }
 }
 
+const importStudent = async (data) => {
+    try {
+        const response = await apiInstance.post(`/import_students`, data)
+        return response
+    } catch (error) {
+        console.log("Cannot import excel file")
+    }
+}
+
+const addUser = async (data) => {
+    try {
+        const response = await apiInstance.post(`/add_user`, data)
+        return response
+    } catch (error) {
+        console.log("Cannot add user")
+    }
+}
+
 const services = {
     createNewApplication,
     fetchData,
@@ -88,7 +106,9 @@ const services = {
     getValueFromMaster,
     getStudentAdditionalDet,
     insertStudentAdditionalDet,
-    inserIntoCAMPS
+    inserIntoCAMPS,
+    importStudent,
+    addUser
 };
 
 export default services;

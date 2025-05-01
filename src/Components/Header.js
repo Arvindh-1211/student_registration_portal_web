@@ -3,7 +3,7 @@ import '../css/Header.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { GoPlus } from "react-icons/go";
-import { FaUser } from "react-icons/fa";
+import { MdHome } from "react-icons/md";
 import { MdModeEditOutline } from "react-icons/md";
 import { useState } from 'react';
 
@@ -64,7 +64,7 @@ function Header() {
 				<div className='header-data'>
 					<div className='header-btn-container'>
 						{
-							location.pathname == '/' &&
+							location.pathname === '/' &&
 							<form onSubmit={(e) => { handleEdit(e) }}>
 								<input
 									className={showEdit ? 'app-no show' : 'app-no'}
@@ -75,12 +75,10 @@ function Header() {
 								<div className='edit-btn' onClick={() => { handleEdit() }}> <MdModeEditOutline /> Edit</div>
 							</form>
 						}
-						{/* 						
-							<ProtectedComponent users={["admin"]}>
-								<Link to="/"> <GoPlus /> Application </Link>
-								<Link to="/register"> <GoPlus /> <FaUser /> </Link>
-							</ProtectedComponent>
-						 */}
+						<ProtectedComponent users={["admin", "manager"]}>
+							<Link to="/"> <GoPlus /> Application </Link>
+							<Link to="/adminhome"> <MdHome style={{marginRight: '4px'}} /> Home </Link>
+						</ProtectedComponent>
 						<Logout />
 					</div>
 					{applicationNo &&

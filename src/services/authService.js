@@ -3,7 +3,7 @@ import apiInstance from "./apiService";
 // data: { email, password, loginType: 'application_number' | 'google' }
 const login = async (data) => {
     try {
-        const response = await apiInstance.post('/login', data)
+        const response = await apiInstance.post('/login', {...data, loginType: data.loginType || 'application_number'})
         return response.data
     } catch (error) {
         console.log(error)

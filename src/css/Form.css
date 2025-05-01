@@ -1,3 +1,10 @@
+.space-between{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    padding: 0 5%;
+}
+
 .form-container {
     flex-grow: 1;
     display: flex;
@@ -60,6 +67,13 @@
     border-style: none;
     border-radius: 10px;
     padding: 4px;
+}
+
+.centre-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .button:hover {
