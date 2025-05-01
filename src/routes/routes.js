@@ -15,7 +15,8 @@ import ProtectedRoute from "../Components/ProtectedRoute";
 const routes = [
     {
         path: '/adminhome',
-        element: <ProtectedRoute users={['admin']}><AdminHome /></ProtectedRoute>
+        // element: <ProtectedRoute users={['admin']}><AdminHome /></ProtectedRoute>
+        element: <AdminHome />
     },
     {
         path: '/',
