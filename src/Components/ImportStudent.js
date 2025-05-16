@@ -54,14 +54,13 @@ function ImportStudent() {
                 return modifiedRow;
             });
 
-            console.log(modifiedData);
-            
             const response = await services.importStudent(modifiedData)
-            console.log(response);
             
             if (response.status === 200) {
                 const insertedCount = response.data.insertedCount
                 const skippedCount = response.data.skippedCount
+                console.log('Errors inserting:\n', response.data.insertionError);
+                
                 alert(`Excel data imported successfully\nInserted: ${insertedCount}\nSkipped: ${skippedCount}`)
             }
             else {

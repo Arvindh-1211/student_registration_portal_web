@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import '../css/Success.css';
 import { useEffect } from 'react';
+import '../css/Success.css';
 
 function Success() {
     const navigate = useNavigate();

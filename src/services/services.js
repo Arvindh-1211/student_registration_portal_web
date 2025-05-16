@@ -82,19 +82,56 @@ const inserIntoCAMPS = async (applicationNo) => {
 
 const importStudent = async (data) => {
     try {
-        const response = await apiInstance.post(`/import_students`, data)
+        const response = await apiInstance.post(`/student_user_details`, data)
         return response
     } catch (error) {
         console.log("Cannot import excel file")
     }
 }
 
+const getStudentDetails = async () => {
+    try {
+        const response = await apiInstance.get(`/student_user_details`)
+        return response.data
+    } catch (error) {
+        console.log("Cannot fetch student details")
+        throw error
+    }
+}
+
 const addUser = async (data) => {
     try {
-        const response = await apiInstance.post(`/add_user`, data)
+        const response = await apiInstance.post(`/user`, data)
         return response
     } catch (error) {
         console.log("Cannot add user")
+    }
+}
+
+const getUserDetails = async () => {
+    try {
+        const response = await apiInstance.get(`/user`)
+        return response.data
+    } catch (error) {
+        console.log("Cannot fetch user details")
+    }
+}
+
+const editUser = async (id, data) => {
+    try {
+        const response = await apiInstance.put(`/user/${id}`, data)
+        return response
+    } catch (error) {
+        console.log("Cannot edit user details")
+    }
+}
+
+const deleteUser = async (id) => {
+    try {
+        const response = await apiInstance.delete(`/user/${id}`)
+        return response
+    } catch (error) {
+        console.log("Cannot delete user")
     }
 }
 
@@ -108,7 +145,11 @@ const services = {
     insertStudentAdditionalDet,
     inserIntoCAMPS,
     importStudent,
-    addUser
+    getStudentDetails,
+    addUser,
+    getUserDetails,
+    editUser,
+    deleteUser
 };
 
 export default services;

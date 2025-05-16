@@ -63,3 +63,9 @@
 .hidden-input {
     display: none;
 }
+
+.centre-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
