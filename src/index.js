@@ -19,10 +19,10 @@ const router = createBrowserRouter([
 		path: "/login",
 		element: <LoginPage />
 	},
-	{
-		path: "/register",
-		element: <ProtectedRoute users={["admin"]}> <RegisterPage /> </ProtectedRoute>
-	},
+	// {
+	// 	path: "/register",
+	// 	element: <ProtectedRoute users={["admin"]}> <RegisterPage /> </ProtectedRoute>
+	// },
 	{
 		path: "/",
 		element: <ProtectedRoute> <App /> </ProtectedRoute>,

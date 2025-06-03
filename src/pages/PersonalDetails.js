@@ -49,7 +49,7 @@ function PersonalDetails() {
         nationality: {}
     });
 
-    const { register, getValues, setValue, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.PersonalDetails) });
+    const { register, getValues, setValue, watch, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.PersonalDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -91,6 +91,21 @@ function PersonalDetails() {
             navigate('/')
         }
     }, [])
+
+    // Calculate age based on date of birth
+    const dob = watch('dob')
+    useEffect(() => {
+        if (dob) {
+            const today = new Date();
+            const birthDate = new Date(dob);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            setValue('age', age);
+        }
+    }, [dob, setValue]);
 
 
     const onSubmit = async (data) => {

@@ -15,7 +15,6 @@ import Row from "../Components/Row";
 import Loading from "../Components/Loading";
 import Error from "../Components/Error";
 
-
 function MarkDetails() {
     const navigate = useNavigate();
     const location = useLocation()
@@ -37,27 +36,27 @@ function MarkDetails() {
         sch_tot_mark2: null,
 
         physics_secured: null,
-        physics_max: null,
+        physics_max: 100,
         physics_percentage: null,
 
         chemistry_secured: null,
-        chemistry_max: null,
+        chemistry_max: 100,
         chemistry_percentage: null,
 
         maths_secured: null,
-        maths_max: null,
+        maths_max: 100,
         maths_percentage: null,
 
         biology_secured: null,
-        biology_max: null,
+        biology_max: 100,
         biology_percentage: null,
 
         cs_secured: null,
-        cs_max: null,
+        cs_max: 100,
         cs_percentage: null,
 
         pcm_sec: null,
-        pcm_max: null,
+        pcm_max: 300,
         pcm_per: null,
 
         phy_che: null,
@@ -65,47 +64,47 @@ function MarkDetails() {
         cut_off: null,
 
         diploma_first_sec: null,
-        diploma_first_max: null,
+        diploma_first_max: 100,
         diploma_first_per: null,
 
         diploma_second_sec: null,
-        diploma_second_max: null,
+        diploma_second_max: 100,
         diploma_second_per: null,
 
         diploma_third_sec: null,
-        diploma_third_max: null,
+        diploma_third_max: 100,
         diploma_third_per: null,
 
         diploma_fourth_sec: null,
-        diploma_fourth_max: null,
+        diploma_fourth_max: 100,
         diploma_fourth_per: null,
 
         diploma_fifth_sec: null,
-        diploma_fifth_max: null,
+        diploma_fifth_max: 100,
         diploma_fifth_per: null,
 
         diploma_sixth_sec: null,
-        diploma_sixth_max: null,
+        diploma_sixth_max: 100,
         diploma_sixth_per: null,
 
         diploma_seventh_sec: null,
-        diploma_seventh_max: null,
+        diploma_seventh_max: 100,
         diploma_seventh_per: null,
 
         diploma_eighth_sec: null,
-        diploma_eighth_max: null,
+        diploma_eighth_max: 100,
         diploma_eighth_per: null,
 
         diploma_ninenth_sec: null,
-        diploma_ninenth_max: null,
+        diploma_ninenth_max: 100,
         diploma_ninenth_per: null,
 
         diploma_tenth_sec: null,
-        diploma_tenth_max: null,
+        diploma_tenth_max: 100,
         diploma_tenth_per: null,
 
         ug_mark_sec: null,
-        ug_mark_max: null,
+        ug_mark_max: 100,
         ug_mark_per: null,
 
         I_II: null,
@@ -115,7 +114,7 @@ function MarkDetails() {
         IX_X: null,
 
         entrance_secured: null,
-        entrance_max: null,
+        entrance_max: 100,
         entrance_percenteage: null,
 
         school_board: null,

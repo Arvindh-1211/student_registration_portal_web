@@ -56,11 +56,13 @@ function LoginPage() {
         const base64Url = credentialResponse.credential.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const decodedPayload = JSON.parse(atob(base64));
+        console.log(decodedPayload);
+        
 
         const response = await authServices.login({ email: decodedPayload.email, loginType: 'google' })
         if (response) {
-            dispatch(setAuth(response))
-            if (response.role === 'admin') {
+            dispatch(setAuth({...response, name: decodedPayload.name}))
+            if (response.role === 'admin'|| response.role === 'manager') {
                 navigate('/adminhome')
             }
             else {

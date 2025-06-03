@@ -3,6 +3,7 @@ import axios from "axios";
 import { store } from "../store/store";
 
 const server = {
+    // HOST: '192.168.137.137',
     HOST: 'localhost',
     PORT: 8000,
 }

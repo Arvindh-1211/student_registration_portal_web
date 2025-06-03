@@ -478,9 +478,9 @@ function FinalReview() {
                         <Detail label="Department" value={formData.dept_id} />
                         <Detail label="Branch Type" value={formData.branch_type} />
                         <Detail label="Degree Level" value={formData.degree_level} />
+                        <Detail label="Regulation" value={formData.regulation_id} />
                         <Detail label="Year of Admission" value={formData.year_of_admission} />
                         <Detail label="Year of Completion" value={formData.year_of_completion} />
-                        <Detail label="Regulation" value={formData.regulation_id} />
                         <Detail label="University" value={formData.university_id} />
                         <Detail label="Student Catagory" value={formData.student_cat_id} />
                         <Detail label="Year of Study" value={formData.year_of_study} />

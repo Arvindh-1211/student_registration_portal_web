@@ -8,6 +8,7 @@ const authSlice = createSlice({
         username: null,
         role: null,
         exp: null,
+        name: null,
     },
     reducers: {
         setAuth : (state, action) => {
@@ -16,6 +17,7 @@ const authSlice = createSlice({
             state.username = action.payload.username
             state.role = action.payload.role
             state.exp = action.payload.exp
+            state.name = action.payload.name || null
         }
     }
 })
