@@ -24,6 +24,7 @@ function TNEADetails() {
 
     const [formData, setFormData] = useState({
         seat_cat: '',
+
         quota_id: '',
         tnea_app_no: '',
         tnea_adm_no: '',
@@ -39,12 +40,15 @@ function TNEADetails() {
         quota: {}
     });
 
-    const { register, getValues, setValue, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.TNEADetails) });
+    const { register, control, getValues, setValue, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.TNEADetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
             const queryParams = Object.keys(formData).join(',')
             const fetchedData = await services.fetchData(applicationNo, queryParams)
+            if (fetchedData.seat_cat === 'MANAGEMENT') {
+                navigate('/scholarship_details', { state: { isManagement: true } })
+            }
             setFormData(fetchedData)
             reset(fetchedData)
             if (getValues('tnea_pay_rec_date')) {
@@ -79,7 +83,7 @@ function TNEADetails() {
         if (applicationNo) {
             init();
         } else {
-            navigate('/')
+            navigate('/login')
         }
     }, [])
 
@@ -96,7 +100,6 @@ function TNEADetails() {
             }
         } else {
             setError("Error submitting form!")
-
         }
         setIsLoading(false)
     }
@@ -107,34 +110,28 @@ function TNEADetails() {
             {error && <Error message={error} />}
             <Form handleNext={handleSubmit(onSubmit)} heading="TNEA Details" handleBack={() => { navigate('/contact_details') }} >
                 <Row>
-                    <DropDown
-                        label="Seat Category"
-                        options={{ 'GOVERNMENT': 'GOVERNMENT', 'MANAGEMENT': 'MANAGEMENT' }}
-                        registerProps={register("seat_cat")}
-                        error={errors.seat_cat && errors.seat_cat.message}
-                        required
+                    <InputField
+                        label="TNEA Application No."
+                        registerProps={register("tnea_app_no")}
+                        type="text"
+                        error={errors.tnea_app_no && errors.tnea_app_no.message}
                     />
                     <DropDown
                         label="Quota"
                         options={options['quota']}
-                        registerProps={register("quota_id")}
+                        fieldname={"quota_id"}
+                        formcontrol={control}
                         error={errors.quota_id && errors.quota_id.message}
                         required
                     />
-                    <InputField
-                        label="TNEA Application No."
-                        registerProps={register("tnea_app_no")}
-                        type="number"
-                        error={errors.tnea_app_no && errors.tnea_app_no.message}
-                    />
-                </Row>
-                <Row>
                     <InputField
                         label="TNEA Admission No."
                         registerProps={register("tnea_adm_no")}
                         type="number"
                         error={errors.tnea_adm_no && errors.tnea_adm_no.message}
                     />
+                </Row>
+                <Row>
                     <InputField
                         label="General Rank"
                         registerProps={register("general_rank")}

@@ -7,6 +7,11 @@ const login = async (data) => {
         return response.data
     } catch (error) {
         console.log(error)
+        if (error?.response?.status === 401 || error?.response?.status === 400) {
+            throw new Error("Invalid credentials")
+        } else {
+            throw new Error("Error in creating user")
+        }
     }
 }
 

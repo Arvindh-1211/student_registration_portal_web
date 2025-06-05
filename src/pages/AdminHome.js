@@ -16,6 +16,7 @@ function AdminHome() {
 
     // State for EditUserModal
     const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false)
+    const [isAddStudentDetailsOpen, setIsAddStudentDetailsOpen] = useState(false)
     const [userData, setUserData] = useState(null)
 
     useEffect(() => {

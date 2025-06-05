@@ -84,7 +84,7 @@ function EditUserModal({ userData, isOpen, setIsOpen }) {
             label="Role"
             options={['admin', 'manager']}
             registerProps={register("role")}
-            value="value"
+            storeLabel={true}
           />
           <div className='button-container'>
             <input className='delete-btn btn' type="button" value='Delete' onClick={onDelete} />

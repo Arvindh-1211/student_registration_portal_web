@@ -31,20 +31,20 @@ function LoginPage() {
     const onSubmit = async (data) => {
         setIsLoading(true)
         setError(null)
-        data.password = btoa(data.password)
+        try {
+            data.password = btoa(data.password)
 
-        const response = await authServices.login({ ...data, loginType: 'application_number' })
-        if (response.application_no) {
-            dispatch(setApplicationNo(response.application_no));
-            dispatch(setAuth(response))
-            navigate('/personal_details');
-        }
-        else if (response) {
-            dispatch(setAuth(response))
-            navigate('/')
-        }
-        else {
-            setError("Invalid Credentials!")
+            const response = await authServices.login({ ...data, loginType: 'application_number' })
+            if (response.application_no) {
+                dispatch(setApplicationNo(response.application_no));
+                dispatch(setAuth(response))
+                navigate('/personal_details');
+            }
+            else {
+                setError("Invalid Credentials!")
+            }
+        } catch (error) {
+            setError(error.message || "Login Failed!")
         }
         setIsLoading(false)
     }
@@ -57,12 +57,12 @@ function LoginPage() {
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const decodedPayload = JSON.parse(atob(base64));
         console.log(decodedPayload);
-        
+
 
         const response = await authServices.login({ email: decodedPayload.email, loginType: 'google' })
         if (response) {
-            dispatch(setAuth({...response, name: decodedPayload.name}))
-            if (response.role === 'admin'|| response.role === 'manager') {
+            dispatch(setAuth({ ...response, name: decodedPayload.name }))
+            if (response.role === 'admin' || response.role === 'manager') {
                 navigate('/adminhome')
             }
             else {

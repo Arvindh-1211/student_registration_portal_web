@@ -11,6 +11,7 @@ import FinalReview from "../pages/FinalReview";
 import Success from "../pages/Success";
 import AdminHome from "../pages/AdminHome";
 import ProtectedRoute from "../Components/ProtectedRoute";
+import IncompleteApplication from "../pages/IncompleteApplication";
 
 const routes = [
     {
@@ -20,6 +21,10 @@ const routes = [
     {
         path: '/',
         element: <BranchDetails />
+    },
+    {
+        path: '/incomplete_application',
+        element: <ProtectedRoute users={['admin', 'manager']}><IncompleteApplication /></ProtectedRoute>
     },
     {
         path: '/personal_details',

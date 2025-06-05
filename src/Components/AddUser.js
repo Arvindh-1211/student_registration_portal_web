@@ -12,7 +12,7 @@ function AddUser() {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
 
-    const { register, handleSubmit } = useForm();
+    const { register, control, handleSubmit } = useForm();
 
     const onSubmit = async (data) => {
         setIsLoading(true)
@@ -24,6 +24,7 @@ function AddUser() {
         } else {
             setError("Error adding user!")
         }
+        window.location.reload();
         setIsLoading(false)
     }
 
@@ -45,8 +46,9 @@ function AddUser() {
                         <DropDown
                             label="Role"
                             options={{ 0: 'manager', 1: 'admin' }}
-                            registerProps={register("role")}
-                            value="value"
+                            fieldname={"role"}
+                            formcontrol={control}
+                            storeLabel={true}
                             sorted={false}
                             required
                         />

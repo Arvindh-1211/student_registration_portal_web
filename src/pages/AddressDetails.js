@@ -50,7 +50,7 @@ function AddressDetails() {
         'country': {},
     })
 
-    const { register, getValues, setValue, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.AddressDetails) });
+    const { register, control, getValues, setValue, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.AddressDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -86,7 +86,7 @@ function AddressDetails() {
         if(applicationNo){
             init();
         } else {
-            navigate('/')
+            navigate('/login')
         }
     }, [])
 
@@ -147,8 +147,9 @@ function AddressDetails() {
                     <DropDown
                         label="City"
                         options={options['city']}
-                        registerProps={register("comm_add_city")}
-                        value="value"
+                        fieldname={"comm_add_city"}
+                        formcontrol={control}
+                        storeLabel={true}
                         error={errors.comm_add_city && errors.comm_add_city.message}
                         required
                     />
@@ -158,24 +159,27 @@ function AddressDetails() {
                     <DropDown
                         label="District"
                         options={options['district']}
-                        registerProps={register("comm_add_district")}
-                        value="value"
+                        fieldname={"comm_add_district"}
+                        formcontrol={control}
+                        storeLabel={true}
                         error={errors.comm_add_district && errors.comm_add_district.message}
                         required
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
-                        registerProps={register("comm_add_state")}
-                        value="value"
+                        fieldname={"comm_add_state"}
+                        formcontrol={control}
+                        storeLabel={true}
                         error={errors.comm_add_state && errors.comm_add_state.message}
                         required
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
-                        registerProps={register("comm_add_country")}
-                        value="value"
+                        fieldname={"comm_add_country"}
+                        formcontrol={control}
+                        storeLabel={true}
                         error={errors.comm_add_country && errors.comm_add_country.message}
                         required
                     />
@@ -192,7 +196,8 @@ function AddressDetails() {
                     <DropDown
                         label="Area Location"
                         options={{ "Rural": "Rural", "Urban": "Urban" }}
-                        registerProps={register("area_location")}
+                        fieldname={"area_location"}
+                        formcontrol={control}
                     />
                 </Row>
 
@@ -225,8 +230,9 @@ function AddressDetails() {
                     <DropDown
                         label="City"
                         options={options['city']}
-                        registerProps={register("perm_add_city")}
-                        value="value"
+                        fieldname={"perm_add_city"}
+                        formcontrol={control}
+                        storeLabel={true}
                         error={errors.perm_add_city && errors.perm_add_city.message}
                         required
                     />
@@ -236,23 +242,26 @@ function AddressDetails() {
                     <DropDown
                         label="District"
                         options={options['district']}
-                        registerProps={register("perm_add_district")}
-                        value="value"
+                        fieldname={"perm_add_district"}
+                        formcontrol={control}
+                        storeLabel={true}
                         error={errors.perm_add_district && errors.perm_add_district.message}
                         required
                     />
                     <DropDown
                         label="State"
                         options={options['state']}
-                        registerProps={register("perm_add_state")}
-                        value="value"
+                        fieldname={"perm_add_state"}
+                        formcontrol={control}
+                        storeLabel={true}
                         required
                     />
                     <DropDown
                         label="Country"
                         options={options['country']}
-                        registerProps={register("perm_add_country")}
-                        value="value"
+                        fieldname={"perm_add_country"}
+                        formcontrol={control}
+                        storeLabel={true}
                         error={errors.perm_add_country && errors.perm_add_country.message}
                         required
                     />

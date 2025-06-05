@@ -133,7 +133,7 @@ function MarkDetails() {
         'study_medium': {},
     })
 
-    const { handleSubmit, reset, register, watch, getValues, setValue, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.MarkDetails) });
+    const { handleSubmit, reset, register, control, watch, getValues, setValue, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.MarkDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -173,7 +173,7 @@ function MarkDetails() {
         if (applicationNo) {
             init();
         } else {
-            navigate('/')
+            navigate('/login')
         }
     }, [])
 
@@ -336,7 +336,9 @@ function MarkDetails() {
                     <DropDown
                         label="School Board"
                         options={options['school_board']}
-                        registerProps={register("school_board")}
+                        fieldname={"school_board"}
+                        formcontrol={control}
+                        sorted={false}
                     />
                     <InputField
                         label='School class'
@@ -363,26 +365,31 @@ function MarkDetails() {
                     <DropDown
                         label="Qualification"
                         options={options['sch_qual_id']}
-                        registerProps={register("sch_qual_id")}
+                        fieldname={"sch_qual_id"}
+                        formcontrol={control}
+                        sorted={false}
                     />
                 </Row>
                 <Row>
                     <DropDown
                         label="School Year of Passing"
                         options={options['sch_yr_pass']}
-                        registerProps={register("sch_yr_pass")}
+                        fieldname={"sch_yr_pass"}
+                        formcontrol={control}
                         sorted={false}
                     />
                     <DropDown
                         label="Study state"
                         options={options['state']}
-                        registerProps={register("sch_study_state")}
-                        value="value"
+                        fieldname={"sch_study_state"}
+                        formcontrol={control}
+                        storeLabel={true}
                     />
                     <DropDown
                         label="Medium of Instruction"
                         options={options['study_medium']}
-                        registerProps={register("study_medium")}
+                        fieldname={"study_medium"}
+                        formcontrol={control}
                     />
                 </Row>
                 <Row>

@@ -399,7 +399,7 @@ function FinalReview() {
         if (applicationNo) {
             init();
         } else {
-            navigate('/')
+            navigate('/login')
         }
     }, [])
 
@@ -545,7 +545,18 @@ function FinalReview() {
                     <div className='detail-row'>
                         <Detail label="Seat Category" value={formData.seat_cat} />
                         <Detail label="Quota" value={formData.quota_id} />
-                        <Detail label="TNEA Application No." value={formData.tnea_app_no} />
+                        <Detail
+                            label="TNEA Application No."
+                            value={
+                                formData.tnea_app_no[0] === 'M'
+                                    ? null
+                                    : formData.tnea_app_no[0] === 'G'
+                                        ? formData.tnea_app_no[1] === 'L'
+                                            ? formData.tnea_app_no.substring(2)
+                                            : formData.tnea_app_no.substring(1)
+                                        : formData.tnea_app_no.substring(1)
+                            }
+                        />
                         <Detail label="TNEA Admission No." value={formData.tnea_adm_no} />
                         <Detail label="General Rank" value={formData.general_rank} />
                         <Detail label="Community Rank" value={formData.comm_rank} />
@@ -555,7 +566,6 @@ function FinalReview() {
                         <Detail label="Receipt Date" value={formData.tnea_pay_rec_date} />
                         <Detail label="Receipt Amount" value={formData.tnea_pay_rec_amt} />
                         <Detail label="Payment Bank" value={formData.tnea_pay_bank} />
-
                     </div>
                 </div>
             </div>

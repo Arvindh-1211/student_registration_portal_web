@@ -32,7 +32,7 @@ function ScholarshipDetails() {
     const [options, setOptions] = useState({});
     const [scholarship_data, setScholarshipData] = useState({});
 
-    const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ScholarshipDetails) });
+    const { register, control, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ScholarshipDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -48,7 +48,7 @@ function ScholarshipDetails() {
             setError(null)
             const result = await services.fetchFromMaster('scholarship')
             setScholarshipData(result);
-            
+
             let temp = {}
             for (const key in result) {
                 temp[result[key].discount_id] = result[key].discount_name;
@@ -66,24 +66,25 @@ function ScholarshipDetails() {
         if (applicationNo) {
             init();
         } else {
-            navigate('/')
+            navigate('/login')
+
         }
     }, [])
 
     const scholarship1 = watch('adm_sch_name1')
     const scholarship2 = watch('adm_sch_name2')
 
-    if(scholarship1){
+    if (scholarship1) {
         setValue('adm_sch_amt1', scholarship_data[scholarship1].discount_amount)
     }
-    if(scholarship2){
+    if (scholarship2) {
         setValue('adm_sch_amt2', scholarship_data[scholarship2].discount_amount)
     }
 
     const onSubmit = async (data) => {
         setIsLoading(true)
         setError(null)
-        
+
         const response = await services.updateData(applicationNo, data)
 
         if (response) {
@@ -98,16 +99,25 @@ function ScholarshipDetails() {
         setIsLoading(false)
     }
 
+    const handleBack = () => {
+        if (location.state && location.state.isManagement) {
+            navigate('/contact_details')
+        } else {
+            navigate('/tnea_details')
+        }
+    }
+
     return (
         <div>
             {isLoading && <Loading />}
             {error && <Error message={error} />}
-            <Form handleNext={handleSubmit(onSubmit)} heading="Scholarship Details" handleBack={() => { navigate('/tnea_details') }} >
+            <Form handleNext={handleSubmit(onSubmit)} heading="Scholarship Details" handleBack={handleBack} >
                 <Row>
                     <DropDown
                         label="Scholarship-1"
                         options={options}
-                        registerProps={register("adm_sch_name1")}
+                        fieldname={"adm_sch_name1"}
+                        formcontrol={control}
                         sorted={false}
                     />
                     <InputField
@@ -121,7 +131,8 @@ function ScholarshipDetails() {
                     <DropDown
                         label="Scholarship-2"
                         options={options}
-                        registerProps={register("adm_sch_name2")}
+                        fieldname={"adm_sch_name2"}
+                        formcontrol={control}
                         sorted={false}
                     />
                     <InputField

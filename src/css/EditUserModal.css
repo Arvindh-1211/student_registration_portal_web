@@ -12,7 +12,8 @@
 
 .modal-content{
     min-width: 250px;
-    width: 300px;
+    max-width: 500px;
+    width: fit-content;
     color: #48246e;
     padding: 30px;
     background-color: #fff;

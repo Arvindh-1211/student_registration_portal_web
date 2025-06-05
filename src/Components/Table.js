@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaFilter } from "react-icons/fa";
+import { GoPlus } from "react-icons/go";
 
 import '../css/Table.css'
 
-function Table({ tableData=[], title, onRowClick }) {
+function Table({ tableData = [], title, onRowClick, onCreateNew = null }) {
     const fields = tableData && tableData.length > 0 ? Object.keys(tableData[0]) : null
 
     const [filteredData, setFilteredData] = useState(tableData)
@@ -97,13 +98,19 @@ function Table({ tableData=[], title, onRowClick }) {
                                     {fields && fields.map((field, index) => (
                                         <div key={index} className='filter-option'>
                                             <input type='checkbox' id={field} name={field} value={field} checked={selectedFilters.includes(field)} onChange={handleFilterChange} />
-                                            <label htmlFor={field}>{field}</label>
+                                            <label htmlFor={field}>{field.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}</label>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         )}
                     </div>
+                    {onCreateNew &&
+                        <button onClick={onCreateNew} className='add-button' >
+                            <GoPlus className="header-dropdown-menu-icon" />
+                            Add
+                        </button>
+                    }
                 </div>
             </div>
 
@@ -113,7 +120,7 @@ function Table({ tableData=[], title, onRowClick }) {
                     <thead>
                         <tr>
                             {filteredFields && filteredFields.map((field, index) => (
-                                <th key={index}>{field.toUpperCase()}</th>
+                                <th key={index}>{field.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}</th>
                             ))}
                         </tr>
                     </thead>

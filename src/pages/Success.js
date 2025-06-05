@@ -15,7 +15,7 @@ function Success() {
     }, [])
 
     const handleClick= () =>{
-        navigate('/')
+        navigate('/login')
     }
 
     return (

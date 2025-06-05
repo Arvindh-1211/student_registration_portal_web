@@ -21,6 +21,8 @@ function AdditionalDetails() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
 
+    const [isBoardingPointOpen, setIsBoardingPointOpen] = useState(false);
+
     const [formData, setFormData] = useState({
         father_qual: '',
         mother_qual: '',
@@ -36,7 +38,7 @@ function AdditionalDetails() {
         'boarding_point': {},
     })
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.AdditionalDetails) });
+    const { register, control, handleSubmit, watch, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.AdditionalDetails) });
 
     useEffect(() => {
         const getAdditionalDet = async () => {
@@ -71,9 +73,18 @@ function AdditionalDetails() {
         if (applicationNo) {
             init()
         } else {
-            navigate('/')
+            navigate('/login')
         }
     }, [])
+
+    const isBusNeeded = watch("college_bus");
+    useEffect(() => {
+        if (isBusNeeded === "Yes") {
+            setIsBoardingPointOpen(true);
+        } else {
+            setIsBoardingPointOpen(false);
+        }
+    }, [isBusNeeded]);
 
     const onSubmit = async (data) => {
         setIsLoading(true)
@@ -111,21 +122,27 @@ function AdditionalDetails() {
                     <DropDown
                         label="School Type"
                         options={{ "Government": "Government", "Private": "Private", "Government Aided": "Government Aided" }}
-                        registerProps={register("school_type")}
+                        fieldname={"school_type"}
+                        formcontrol={control}
                     />
                 </Row>
                 <Row>
                     <DropDown
                         label="College bus needed?"
                         options={{ "Yes": "Yes", "No": "No" }}
-                        registerProps={register("college_bus")}
+                        fieldname={"college_bus"}
+                        formcontrol={control}
+                        sorted={false}
                     />
-                    <DropDown
-                        label="Boarding Point"
-                        options={options['boarding_point']}
-                        registerProps={register("boarding_point")}
-                        value="value"
-                    />
+                    {isBoardingPointOpen &&
+                        <DropDown
+                            label="Boarding Point"
+                            options={options['boarding_point']}
+                            fieldname={"boarding_point"}
+                            formcontrol={control}
+                            storeLabel={true}
+                        />
+                    }
                     <InputField
                         label="Sports Interested"
                         registerProps={register("sports_int")}

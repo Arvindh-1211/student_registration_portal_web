@@ -136,7 +136,7 @@ function Header() {
 									</button>
 								</div>
 								<div>
-									<button onClick={() => { navigate('/'); toggleDropdown(); }} className='header-dropdown-menu-btn'>
+									<button onClick={() => { navigate('/incomplete_application'); toggleDropdown(); }} className='header-dropdown-menu-btn'>
 										<GoPlus className="header-dropdown-menu-icon" />
 										Application
 									</button>

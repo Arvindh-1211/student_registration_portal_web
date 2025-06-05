@@ -32,7 +32,7 @@ function ContactDetails() {
         nominee_relation: '',
     })
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ContactDetails) });
+    const { register, control, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ContactDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -52,7 +52,7 @@ function ContactDetails() {
         if (applicationNo) {
             init();
         } else {
-            navigate('/')
+            navigate('/login')
         }
     }, [])
 
@@ -120,7 +120,8 @@ function ContactDetails() {
                     <DropDown
                         label="Nominee's Relation"
                         options={{ FATHER: 'FATHER', MOTHER: 'MOTHER', GUARDIAN: 'GUARDIAN', BROTHER: 'BROTHER', SISTER: 'SISTER', SPOUSE: 'SPOUSE' }}
-                        registerProps={register("nominee_relation")}
+                        fieldname={'nominee_relation'}
+                        formcontrol={control}
                         sorted={false}
                         error={errors.nominee_relation && errors.nominee_relation.message}
                         required

@@ -31,6 +31,15 @@
     margin: 10px 20px;
 }
 
+.insertion-error-header {
+    display: flex;
+    justify-content: center;
+    font-size: 26px;
+    background-color: #f00;
+    color: #fff;
+    margin: 10px 20px;
+}
+
 .form-sub-header {
     display: flex;
     justify-content: center;

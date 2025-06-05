@@ -40,7 +40,7 @@ function ParentDetails() {
         'designation': {},
     })
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ParentDetails) });
+    const { register, control, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.ParentDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
@@ -76,7 +76,7 @@ function ParentDetails() {
         if (applicationNo) {
             init();
         } else {
-            navigate('/')
+            navigate('/login')
         }
     }, [])
 
@@ -115,7 +115,8 @@ function ParentDetails() {
                     <DropDown
                         label="Father's Occupation"
                         options={options['occupation']}
-                        registerProps={register("occupation")}
+                        fieldname={"occupation"}
+                        formcontrol={control}
                     />
                     <InputField
                         label="Father's Income"
@@ -135,7 +136,8 @@ function ParentDetails() {
                     <DropDown
                         label="Designation"
                         options={options['designation']}
-                        registerProps={register("designation")}
+                        fieldname={"designation"}
+                        formcontrol={control}
                     />
                 </Row>
                 <Row>
@@ -150,7 +152,8 @@ function ParentDetails() {
                     <DropDown
                         label="Mother's Occupation"
                         options={options['occupation']}
-                        registerProps={register("occupation_mother")}
+                        fieldname={"occupation_mother"}
+                        formcontrol={control}
                     />
 
                     <InputField
@@ -170,7 +173,8 @@ function ParentDetails() {
                     <DropDown
                         label="Designation"
                         options={options['designation']}
-                        registerProps={register("designation_mother")}
+                        fieldname={"designation_mother"}
+                        formcontrol={control}
                     />
 
                 </Row>

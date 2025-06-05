@@ -33,10 +33,11 @@ function PersonalDetails() {
         mother_tongue: null,
         blood_group: null,
         aadhar_no: null,
-        community_id: null,
+        community_id: "",
         caste_id: null,
         religion_id: null,
         nationality_id: null,
+        seat_cat: '',
         scholar: null,
     }
 
@@ -49,13 +50,14 @@ function PersonalDetails() {
         nationality: {}
     });
 
-    const { register, getValues, setValue, watch, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.PersonalDetails) });
+    const { register, control, getValues, setValue, watch, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: formData, resolver: yupResolver(schema.PersonalDetails) });
 
     useEffect(() => {
         const getDefaultValues = async () => {
             const queryParams = Object.keys(formData).join(',')
             const fetchedData = await services.fetchData(applicationNo, queryParams)
             reset(fetchedData)
+            
             if (getValues('dob')) {
                 let dob = new Date(getValues('dob')).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
                 setValue('dob', dob)
@@ -88,7 +90,7 @@ function PersonalDetails() {
         if (applicationNo) {
             init();
         } else {
-            navigate('/')
+            navigate('/login')
         }
     }, [])
 
@@ -136,7 +138,8 @@ function PersonalDetails() {
                     <DropDown
                         label="Title"
                         options={{ "Mr.": "Mr", "Ms.": "Ms" }}
-                        registerProps={register("legend")}
+                        fieldname={"legend"}
+                        formcontrol={control}
                         error={errors.legend && errors.legend.message}
                         required
                     />
@@ -159,7 +162,8 @@ function PersonalDetails() {
                     <DropDown
                         label="Gender"
                         options={{ "Male": "Male", "Female": "Female" }}
-                        registerProps={register("gender")}
+                        fieldname={"gender"}
+                        formcontrol={control}
                         sorted={false}
                         error={errors.gender && errors.gender.message}
                         required
@@ -184,14 +188,17 @@ function PersonalDetails() {
                     <DropDown
                         label="Blood Group"
                         options={options['blood_group']}
-                        registerProps={register("blood_group")}
+                        fieldname={"blood_group"}
+                        formcontrol={control}
+                        value='value'
                         error={errors.blood_group && errors.blood_group.message}
-                    />
+                        />
                     <DropDown
                         label="Mother Tongue"
                         options={options['mother_tongue']}
-                        registerProps={register("mother_tongue")}
-                        value='value'
+                        fieldname={"mother_tongue"}
+                        formcontrol={control}
+                        storeLabel={true}
                     />
                     <InputField
                         label="Aadhar Number"
@@ -206,19 +213,22 @@ function PersonalDetails() {
                     <DropDown
                         label="Community"
                         options={options['community']}
-                        registerProps={register("community_id")}
+                        fieldname={"community_id"}
+                        formcontrol={control}
                         error={errors.community_id && errors.community_id.message}
                         required
                     />
                     <DropDown
                         label="Caste"
                         options={options['caste']}
-                        registerProps={register("caste_id")}
+                        fieldname={"caste_id"}
+                        formcontrol={control}
                     />
                     <DropDown
                         label="Religion"
                         options={options['religion']}
-                        registerProps={register("religion_id")}
+                        fieldname={"religion_id"}
+                        formcontrol={control}
                         error={errors.religion_id && errors.religion_id.message}
                         required
                     />
@@ -228,14 +238,24 @@ function PersonalDetails() {
                     <DropDown
                         label="Nationality"
                         options={options['nationality']}
-                        registerProps={register("nationality_id")}
+                        fieldname={"nationality_id"}
+                        formcontrol={control}
                         error={errors.nationality_id && errors.nationality_id.message}
+                        required
+                    />
+                    <DropDown
+                        label="Seat Category"
+                        options={{ 'GOVERNMENT': 'GOVERNMENT', 'MANAGEMENT': 'MANAGEMENT' }}
+                        fieldname={"seat_cat"}
+                        formcontrol={control}
+                        error={errors.seat_cat && errors.seat_cat.message}
                         required
                     />
                     <DropDown
                         label="Scholar"
                         options={{ DAYSCHOLAR: 'DAYSCHOLAR', HOSTELLER: 'HOSTELLER' }}
-                        registerProps={register("scholar")}
+                        fieldname={"scholar"}
+                        formcontrol={control}
                         sorted={false}
                     />
                 </Row>

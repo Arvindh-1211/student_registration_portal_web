@@ -135,6 +135,25 @@ const deleteUser = async (id) => {
     }
 }
 
+const getIncompleteApplications = async () => {
+    try {
+        const response = await apiInstance.get(`/incomplete_application`)
+        return response.data
+    } catch (error) {
+        console.log("Cannot fetch incomplete applications")
+        throw error
+    }
+}
+
+const deleteApplication = async (applicationNo) => {
+    try {
+        const response = await apiInstance.delete(`/incomplete_application/${applicationNo}`)
+        return response
+    } catch (error) {
+        console.log("Cannot delete application")
+    }
+}
+
 const services = {
     createNewApplication,
     fetchData,
@@ -149,7 +168,9 @@ const services = {
     addUser,
     getUserDetails,
     editUser,
-    deleteUser
+    deleteUser,
+    getIncompleteApplications,
+    deleteApplication
 };
 
 export default services;
